@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — Smash Badminton Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<style>
+  :root{--transition:.35s cubic-bezier(.4,0,.2,1)}
+  [data-theme="dark"]{
+    --bg:#000;--bg2:#0a0a0a;--bg3:#111;--bg4:#1a1a1a;--surface:#141414;
+    --border:rgba(255,255,255,.08);--border-strong:rgba(255,255,255,.18);
+    --text:#fff;--text-muted:rgba(255,255,255,.5);--text-faint:rgba(255,255,255,.25);
+    --promo-bg:#0f0f0f;--promo-text:rgba(255,255,255,.55);
+    --toggle-bg:#222;--toggle-knob:#fff;
+    --nav-shadow:0 1px 0 rgba(255,255,255,.06);
+    --success:#4ade80;--danger:#ef4444;--input-focus:rgba(255,255,255,.18);
+  }
+  [data-theme="light"]{
+    --bg:#fff;--bg2:#fafafa;--bg3:#f4f4f4;--bg4:#ececec;--surface:#f8f8f8;
+    --border:rgba(0,0,0,.07);--border-strong:rgba(0,0,0,.15);
+    --text:#0a0a0a;--text-muted:rgba(0,0,0,.45);--text-faint:rgba(0,0,0,.2);
+    --promo-bg:#f4f4f4;--promo-text:rgba(0,0,0,.5);
+    --toggle-bg:#e0e0e0;--toggle-knob:#0a0a0a;
+    --nav-shadow:0 1px 0 rgba(0,0,0,.07);
+    --success:#16a34a;--danger:#dc2626;--input-focus:rgba(0,0,0,.18);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;
+    transition:background var(--transition),color var(--transition);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+  /* TOPBAR */
+  .topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 32px;height:36px;
+    display:flex;align-items:center;justify-content:space-between}
+  .theme-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+  .toggle-track{width:38px;height:20px;border-radius:10px;background:var(--toggle-bg);position:relative;border:1px solid var(--border-strong);flex-shrink:0}
+  .toggle-knob{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--toggle-knob);transition:transform var(--transition)}
+  [data-theme="light"] .toggle-knob{transform:translateX(18px)}
+  .toggle-label{font-size:11px;color:var(--text-muted);font-weight:400;letter-spacing:.03em}
+  .topbar-right{display:flex;align-items:center;gap:20px}
+  .topbar-right a{font-size:11px;color:var(--text-muted);text-decoration:none;transition:color .2s}
+  .topbar-right a:hover{color:var(--text)}
+  .topbar-sep{color:var(--border-strong);font-size:11px}
+
+  /* NAVBAR */
+  .navbar{background:var(--bg);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:99}
+  .nav-main{max-width:1400px;margin:0 auto;padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between}
+  .nav-logo{display:flex;flex-direction:column;text-decoration:none}
+  .logo-word{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.08em;color:var(--text);line-height:1}
+  .logo-tagline{font-size:9px;color:var(--text-muted);letter-spacing:.14em;text-transform:uppercase;line-height:1;margin-top:3px}
+  .nav-secure{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted)}
+  .nav-secure svg{width:16px;height:16px}
+
+  /* PROMO */
+  .promo-banner{background:var(--promo-bg);border-bottom:1px solid var(--border);text-align:center;padding:10px 20px}
+  .promo-banner p{font-size:13px;color:var(--promo-text);font-weight:300}
+
+  /* BREADCRUMB */
+  .breadcrumb-bar{border-bottom:1px solid var(--border);background:var(--bg2)}
+  .breadcrumb-inner{max-width:1400px;margin:0 auto;padding:12px 32px;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-faint)}
+  .breadcrumb-inner a{color:var(--text-faint);text-decoration:none;transition:color .2s}
+  .breadcrumb-inner a:hover{color:var(--text)}
+
+  /* STEPS */
+  .steps-bar{border-bottom:1px solid var(--border);background:var(--bg)}
+  .steps-inner{max-width:1400px;margin:0 auto;padding:0 32px;height:56px;display:flex;align-items:center;gap:0}
+  .step{display:flex;align-items:center;gap:10px;padding:0 24px 0 0;position:relative}
+  .step:not(:last-child)::after{content:'›';position:absolute;right:8px;color:var(--text-faint);font-size:16px}
+  .step-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;border:1.5px solid var(--border-strong);color:var(--text-faint);flex-shrink:0}
+  .step.active .step-num{background:var(--text);color:var(--bg);border-color:var(--text)}
+  .step.done .step-num{background:var(--success);color:#000;border-color:var(--success)}
+  .step-label{font-size:13px;color:var(--text-faint);font-weight:400;white-space:nowrap}
+  .step.active .step-label{color:var(--text);font-weight:500}
+  .step.done .step-label{color:var(--text-muted)}
+
+  /* MAIN LAYOUT */
+  .checkout-page{max-width:1400px;margin:0 auto;padding:40px 32px 80px;display:grid;grid-template-columns:1fr 400px;gap:40px;align-items:start}
+
+  /* FORM SECTIONS */
+  .form-section{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:28px;margin-bottom:20px;transition:background var(--transition)}
+  .form-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+  .form-section-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.06em;color:var(--text)}
+  .form-section-edit{font-size:12px;color:var(--text-muted);cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;text-decoration:underline;text-underline-offset:3px;transition:color .2s}
+  .form-section-edit:hover{color:var(--text)}
+
+  /* FORM FIELDS */
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .form-grid.full{grid-template-columns:1fr}
+  .form-group{display:flex;flex-direction:column;gap:6px}
+  .form-label{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted)}
+  .form-input{background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:11px 14px;
+    font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;outline:none;
+    transition:border-color .2s,background var(--transition)}
+  .form-input:focus{border-color:var(--border-strong);background:var(--bg4)}
+  .form-input::placeholder{color:var(--text-faint)}
+  .form-select{background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:11px 14px;
+    font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;outline:none;
+    cursor:pointer;transition:border-color .2s;-webkit-appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 12px center;background-size:16px;padding-right:36px}
+  .form-select:focus{border-color:var(--border-strong)}
+  .form-hint{font-size:11px;color:var(--text-faint)}
+
+  /* ADDRESS CARDS */
+  .address-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+  .address-card{border:1.5px solid var(--border);border-radius:4px;padding:16px;cursor:pointer;
+    transition:border-color .2s,background .2s;position:relative}
+  .address-card:hover{border-color:var(--border-strong);background:var(--bg3)}
+  .address-card.selected{border-color:var(--text);background:var(--bg3)}
+  .address-card-radio{position:absolute;top:14px;right:14px;width:18px;height:18px;border-radius:50%;
+    border:1.5px solid var(--border-strong);display:flex;align-items:center;justify-content:center}
+  .address-card.selected .address-card-radio{border-color:var(--text);background:var(--text)}
+  .address-card.selected .address-card-radio::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--bg);display:block}
+  .address-card-tag{font-size:9px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-muted);background:var(--bg4);padding:2px 8px;border-radius:2px;display:inline-block;margin-bottom:8px}
+  .address-card-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px}
+  .address-card-text{font-size:12px;color:var(--text-muted);line-height:1.5}
+
+  .add-address-btn{display:flex;align-items:center;gap:8px;background:none;border:1.5px dashed var(--border-strong);
+    border-radius:4px;padding:14px 20px;width:100%;font-family:'DM Sans',sans-serif;font-size:13px;
+    color:var(--text-muted);cursor:pointer;transition:all .2s;justify-content:center}
+  .add-address-btn:hover{border-color:var(--text);color:var(--text);background:var(--bg3)}
+
+  /* DELIVERY OPTIONS */
+  .delivery-options{display:flex;flex-direction:column;gap:10px}
+  .delivery-option{display:flex;align-items:center;gap:14px;border:1.5px solid var(--border);
+    border-radius:4px;padding:16px;cursor:pointer;transition:all .2s}
+  .delivery-option:hover{border-color:var(--border-strong);background:var(--bg3)}
+  .delivery-option.selected{border-color:var(--text);background:var(--bg3)}
+  .delivery-radio{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--border-strong);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+  .delivery-option.selected .delivery-radio{border-color:var(--text);background:var(--text)}
+  .delivery-option.selected .delivery-radio::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--bg);display:block}
+  .delivery-info{flex:1}
+  .delivery-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px}
+  .delivery-desc{font-size:12px;color:var(--text-muted)}
+  .delivery-price{font-size:13px;font-weight:500;color:var(--text)}
+  .delivery-price.free{color:var(--success)}
+
+  /* PAYMENT */
+  .payment-tabs{display:flex;gap:0;margin-bottom:20px;border:1px solid var(--border);border-radius:4px;overflow:hidden}
+  .payment-tab{flex:1;padding:11px 8px;text-align:center;font-size:12px;font-weight:400;color:var(--text-muted);
+    cursor:pointer;background:none;border:none;border-right:1px solid var(--border);font-family:'DM Sans',sans-serif;
+    transition:background .2s,color .2s;letter-spacing:.02em}
+  .payment-tab:last-child{border-right:none}
+  .payment-tab.active{background:var(--text);color:var(--bg);font-weight:500}
+
+  .payment-panel{display:none}
+  .payment-panel.active{display:block}
+
+  .card-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+  .card-icons{display:flex;gap:6px;margin-bottom:16px}
+  .card-icon{font-size:10px;font-weight:500;color:var(--text-muted);background:var(--bg3);
+    border:1px solid var(--border);border-radius:3px;padding:3px 8px;letter-spacing:.04em}
+
+  .upi-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+  .upi-opt{border:1.5px solid var(--border);border-radius:4px;padding:12px;cursor:pointer;
+    display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-muted);
+    transition:all .2s}
+  .upi-opt:hover,.upi-opt.selected{border-color:var(--text);color:var(--text);background:var(--bg3)}
+  .upi-icon{width:24px;height:24px;border-radius:4px;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0}
+
+  .net-banks{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+  .bank-opt{border:1px solid var(--border);border-radius:4px;padding:10px;cursor:pointer;
+    text-align:center;font-size:11px;color:var(--text-muted);transition:all .2s}
+  .bank-opt:hover{border-color:var(--border-strong);color:var(--text)}
+
+  /* ORDER SUMMARY SIDEBAR */
+  .checkout-summary{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:28px;position:sticky;top:88px}
+  .summary-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.06em;color:var(--text);margin-bottom:20px}
+
+  .order-items{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+  .order-item{display:flex;gap:12px;align-items:center}
+  .order-item-img{width:52px;height:66px;background:var(--bg3);border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;border-radius:2px;flex-shrink:0}
+  .order-item-img svg{width:22px;opacity:.7}
+  .order-item-info{flex:1;min-width:0}
+  .order-item-name{font-size:12px;font-weight:400;color:var(--text);line-height:1.3;margin-bottom:3px}
+  .order-item-meta{font-size:11px;color:var(--text-muted)}
+  .order-item-price{font-size:13px;font-weight:500;color:var(--text);flex-shrink:0}
+
+  .summary-row{display:flex;justify-content:space-between;margin-bottom:12px;font-size:14px}
+  .summary-row .label{color:var(--text-muted)}
+  .summary-row .val{color:var(--text)}
+  .summary-row .val.green{color:var(--success)}
+  .summary-divider{height:1px;background:var(--border);margin:14px 0}
+  .summary-total{display:flex;justify-content:space-between;font-size:18px;font-weight:500;margin-bottom:20px}
+
+  .btn-primary{background:var(--text);color:var(--bg);border:none;border-radius:3px;padding:15px 32px;
+    font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:.06em;
+    text-transform:uppercase;cursor:pointer;width:100%;margin-bottom:12px;transition:opacity .2s,transform .15s}
+  .btn-primary:hover{opacity:.85;transform:translateY(-1px)}
+
+  .secure-badge{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11px;color:var(--text-faint);margin-top:12px}
+  .secure-badge svg{width:13px;height:13px}
+
+  /* TOAST */
+  .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);
+    background:var(--text);color:var(--bg);padding:11px 22px;border-radius:3px;font-size:13px;
+    font-weight:400;z-index:999;pointer-events:none;white-space:nowrap;transition:transform .3s cubic-bezier(.4,0,.2,1)}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+  @media(max-width:1024px){.checkout-page{grid-template-columns:1fr}.checkout-summary{position:static}}
+  @media(max-width:768px){
+    .topbar{padding:0 16px}.nav-main{padding:0 16px}
+    .checkout-page{padding:24px 16px 60px}
+    .form-grid{grid-template-columns:1fr}
+    .address-cards{grid-template-columns:1fr}
+    .upi-options{grid-template-columns:1fr}
+    .breadcrumb-inner{padding:12px 16px}
+    .steps-inner{padding:0 16px}
+    .step-label{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="theme-toggle" onclick="toggleTheme()">
+    <span id="modeIcon">🌙</span>
+    <div class="toggle-track"><div class="toggle-knob"></div></div>
+    <span class="toggle-label" id="modeLabel">Dark mode</span>
+  </div>
+  <div class="topbar-right">
+    <a href="contact.html">Help</a><span class="topbar-sep">|</span>
+    <a href="login.html">Sign in</a>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-main">
+    <a class="nav-logo" href="index.html">
+      <span class="logo-word">Smash</span>
+      <span class="logo-tagline">Badminton Store</span>
+    </a>
+    <div class="nav-secure">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Secure checkout
+    </div>
+  </div>
+</nav>
+
+<!-- PROMO -->
+<div class="promo-banner"><p>🎉 You're saving ₹2,500 on this order!</p></div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar">
+  <div class="breadcrumb-inner">
+    <a href="index.html">Home</a> <span>›</span>
+    <a href="cart.html">Cart</a> <span>›</span>
+    <span style="color:var(--text)">Checkout</span>
+  </div>
+</div>
+
+<!-- STEPS -->
+<div class="steps-bar">
+  <div class="steps-inner">
+    <div class="step done">
+      <div class="step-num">✓</div>
+      <span class="step-label">Cart</span>
+    </div>
+    <div class="step active">
+      <div class="step-num">2</div>
+      <span class="step-label">Checkout</span>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <span class="step-label">Confirmation</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="checkout-page">
+  <!-- LEFT FORMS -->
+  <div>
+
+    <!-- CONTACT INFO -->
+    <div class="form-section" style="animation:fadeUp .4s ease both">
+      <div class="form-section-header">
+        <div class="form-section-title">Contact Information</div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input class="form-input" type="text" placeholder="Arjun">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <input class="form-input" type="text" placeholder="Krishnan">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" placeholder="arjun@email.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone</label>
+          <input class="form-input" type="tel" placeholder="+91 98765 43210">
+        </div>
+      </div>
+    </div>
+
+    <!-- DELIVERY ADDRESS -->
+    <div class="form-section" style="animation:fadeUp .4s ease .08s both">
+      <div class="form-section-header">
+        <div class="form-section-title">Delivery Address</div>
+      </div>
+
+      <!-- SAVED ADDRESSES -->
+      <div class="address-cards" id="addressCards">
+        <div class="address-card selected" onclick="selectAddress(this)">
+          <div class="address-card-radio"></div>
+          <div class="address-card-tag">Home</div>
+          <div class="address-card-name">Arjun Krishnan</div>
+          <div class="address-card-text">14/2, Raja Street, Kadayanallur,<br>Tirunelveli District, Tamil Nadu 627751</div>
+        </div>
+        <div class="address-card" onclick="selectAddress(this)">
+          <div class="address-card-radio"></div>
+          <div class="address-card-tag">Work</div>
+          <div class="address-card-name">Arjun Krishnan</div>
+          <div class="address-card-text">Sports Complex, MG Road,<br>Chennai, Tamil Nadu 600001</div>
+        </div>
+      </div>
+
+      <button class="add-address-btn" onclick="showToast('Address form opened')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add new address
+      </button>
+
+      <!-- NEW ADDRESS FORM -->
+      <div style="margin-top:16px" id="newAddrForm">
+        <div class="form-grid" style="margin-bottom:12px">
+          <div class="form-group">
+            <label class="form-label">Flat / House No.</label>
+            <input class="form-input" type="text" placeholder="14/2, Raja Street">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Landmark</label>
+            <input class="form-input" type="text" placeholder="Near water tank">
+          </div>
+        </div>
+        <div class="form-grid" style="margin-bottom:12px">
+          <div class="form-group">
+            <label class="form-label">City</label>
+            <input class="form-input" type="text" placeholder="Kadayanallur">
+          </div>
+          <div class="form-group">
+            <label class="form-label">State</label>
+            <select class="form-select">
+              <option>Tamil Nadu</option>
+              <option>Kerala</option>
+              <option>Karnataka</option>
+              <option>Andhra Pradesh</option>
+              <option>Maharashtra</option>
+              <option>Delhi</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">PIN Code</label>
+            <input class="form-input" type="text" placeholder="627751" maxlength="6">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Address Type</label>
+            <select class="form-select">
+              <option>Home</option>
+              <option>Work</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DELIVERY OPTIONS -->
+    <div class="form-section" style="animation:fadeUp .4s ease .16s both">
+      <div class="form-section-header">
+        <div class="form-section-title">Delivery Method</div>
+      </div>
+      <div class="delivery-options">
+        <div class="delivery-option selected" onclick="selectDelivery(this)">
+          <div class="delivery-radio"></div>
+          <div class="delivery-info">
+            <div class="delivery-name">Standard Delivery</div>
+            <div class="delivery-desc">Estimated: Apr 14–16, 2026 · India Post / Delhivery</div>
+          </div>
+          <div class="delivery-price free">FREE</div>
+        </div>
+        <div class="delivery-option" onclick="selectDelivery(this)">
+          <div class="delivery-radio"></div>
+          <div class="delivery-info">
+            <div class="delivery-name">Express Delivery</div>
+            <div class="delivery-desc">Estimated: Apr 13, 2026 · By 9 PM · BlueDart</div>
+          </div>
+          <div class="delivery-price">₹149</div>
+        </div>
+        <div class="delivery-option" onclick="selectDelivery(this)">
+          <div class="delivery-radio"></div>
+          <div class="delivery-info">
+            <div class="delivery-name">Same Day Delivery</div>
+            <div class="delivery-desc">Order before 12 PM · Available in select cities</div>
+          </div>
+          <div class="delivery-price">₹299</div>
+        </div>
+      </div>
+      <div style="margin-top:12px">
+        <label class="form-group" style="flex-direction:row;align-items:center;gap:10px;cursor:pointer">
+          <input type="checkbox" style="width:15px;height:15px;accent-color:var(--text)">
+          <span style="font-size:13px;color:var(--text-muted)">Gift wrap this order (+₹50)</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- PAYMENT -->
+    <div class="form-section" style="animation:fadeUp .4s ease .24s both">
+      <div class="form-section-header">
+        <div class="form-section-title">Payment</div>
+      </div>
+
+      <div class="payment-tabs">
+        <button class="payment-tab active" onclick="showPayment('card',this)">💳 Card</button>
+        <button class="payment-tab" onclick="showPayment('upi',this)">📱 UPI</button>
+        <button class="payment-tab" onclick="showPayment('netbanking',this)">🏦 Net Banking</button>
+        <button class="payment-tab" onclick="showPayment('cod',this)">💵 COD</button>
+      </div>
+
+      <!-- CARD -->
+      <div class="payment-panel active" id="panel-card">
+        <div class="card-icons">
+          <span class="card-icon">Visa</span>
+          <span class="card-icon">MC</span>
+          <span class="card-icon">Rupay</span>
+          <span class="card-icon">Amex</span>
+        </div>
+        <div class="form-group" style="margin-bottom:12px">
+          <label class="form-label">Card Number</label>
+          <input class="form-input" type="text" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)">
+        </div>
+        <div class="card-row">
+          <div class="form-group">
+            <label class="form-label">Expiry Date</label>
+            <input class="form-input" type="text" placeholder="MM / YY" maxlength="7">
+          </div>
+          <div class="form-group">
+            <label class="form-label">CVV</label>
+            <input class="form-input" type="password" placeholder="•••" maxlength="4">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Cardholder Name</label>
+          <input class="form-input" type="text" placeholder="As printed on card">
+        </div>
+        <label style="display:flex;align-items:center;gap:8px;margin-top:14px;cursor:pointer">
+          <input type="checkbox" checked style="width:15px;height:15px;accent-color:var(--text)">
+          <span style="font-size:12px;color:var(--text-muted)">Save this card for future payments</span>
+        </label>
+      </div>
+
+      <!-- UPI -->
+      <div class="payment-panel" id="panel-upi">
+        <div class="upi-options">
+          <div class="upi-opt selected" onclick="selectUPI(this)">
+            <div class="upi-icon" style="color:#5f4f9f;font-size:8px">GPay</div>
+            Google Pay
+          </div>
+          <div class="upi-opt" onclick="selectUPI(this)">
+            <div class="upi-icon" style="color:#282461;font-size:8px">PhPe</div>
+            PhonePe
+          </div>
+          <div class="upi-opt" onclick="selectUPI(this)">
+            <div class="upi-icon" style="color:#00baf2;font-size:7px">Paytm</div>
+            Paytm
+          </div>
+          <div class="upi-opt" onclick="selectUPI(this)">
+            <div class="upi-icon" style="font-size:8px">UPI</div>
+            Other UPI
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">UPI ID</label>
+          <input class="form-input" type="text" placeholder="yourname@upi">
+          <span class="form-hint">Enter your UPI ID and we'll send a payment request</span>
+        </div>
+      </div>
+
+      <!-- NET BANKING -->
+      <div class="payment-panel" id="panel-netbanking">
+        <div class="net-banks">
+          <div class="bank-opt" onclick="this.style.borderColor='var(--text)'">SBI</div>
+          <div class="bank-opt" onclick="this.style.borderColor='var(--text)'">HDFC</div>
+          <div class="bank-opt" onclick="this.style.borderColor='var(--text)'">ICICI</div>
+          <div class="bank-opt" onclick="this.style.borderColor='var(--text)'">Axis</div>
+          <div class="bank-opt" onclick="this.style.borderColor='var(--text)'">Kotak</div>
+          <div class="bank-opt" onclick="this.style.borderColor='var(--text)'">Yes Bank</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Or select other bank</label>
+          <select class="form-select">
+            <option>Select bank…</option>
+            <option>Bank of Baroda</option>
+            <option>Punjab National Bank</option>
+            <option>Canara Bank</option>
+            <option>Indian Bank</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- COD -->
+      <div class="payment-panel" id="panel-cod">
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:20px;text-align:center">
+          <div style="font-size:32px;margin-bottom:12px">💵</div>
+          <div style="font-size:14px;font-weight:500;color:var(--text);margin-bottom:6px">Cash on Delivery</div>
+          <div style="font-size:13px;color:var(--text-muted)">Pay ₹35,878 when your order arrives. Additional ₹50 COD fee applies.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: ORDER SUMMARY -->
+  <div class="checkout-summary">
+    <div class="summary-title">Order Summary</div>
+    <div class="order-items">
+      <div class="order-item">
+        <div class="order-item-img">
+          <svg viewBox="0 0 100 220" fill="none"><ellipse cx="50" cy="55" rx="34" ry="44" fill="none" stroke="currentColor" stroke-width="4.5"/><rect x="44" y="97" width="12" height="70" rx="3" fill="currentColor" opacity=".6"/><ellipse cx="50" cy="190" rx="7" ry="4.5" fill="currentColor" opacity=".35"/></svg>
+        </div>
+        <div class="order-item-info">
+          <div class="order-item-name">Yonex Astrox 88D Pro</div>
+          <div class="order-item-meta">Stiff · Qty 1</div>
+        </div>
+        <div class="order-item-price">₹12,799</div>
+      </div>
+      <div class="order-item">
+        <div class="order-item-img">
+          <svg viewBox="0 0 100 220" fill="none"><ellipse cx="50" cy="55" rx="34" ry="44" fill="none" stroke="currentColor" stroke-width="4.5"/><rect x="44" y="97" width="12" height="70" rx="3" fill="currentColor" opacity=".6"/><ellipse cx="50" cy="190" rx="7" ry="4.5" fill="currentColor" opacity=".35"/></svg>
+        </div>
+        <div class="order-item-info">
+          <div class="order-item-name">Li-Ning Axforce 90 Max</div>
+          <div class="order-item-meta">Extra Stiff · Qty 2</div>
+        </div>
+        <div class="order-item-price">₹22,400</div>
+      </div>
+    </div>
+
+    <div class="summary-row"><span class="label">Subtotal</span><span class="val">₹35,199</span></div>
+    <div class="summary-row"><span class="label">Discount</span><span class="val green">−₹2,500</span></div>
+    <div class="summary-row"><span class="label">Coupon (SMASH20)</span><span class="val green">−₹500</span></div>
+    <div class="summary-row"><span class="label">Delivery</span><span class="val green">FREE</span></div>
+    <div class="summary-row"><span class="label">GST (18%)</span><span class="val">₹2,880</span></div>
+    <div class="summary-divider"></div>
+    <div class="summary-total">
+      <span>Total</span>
+      <span>₹35,879</span>
+    </div>
+
+    <button class="btn-primary" onclick="placeOrder()">Place Order</button>
+
+    <div style="font-size:12px;color:var(--text-faint);text-align:center;line-height:1.5">
+      By placing your order, you agree to our
+      <a href="terms.html" style="color:var(--text-muted);text-decoration:underline;text-underline-offset:2px">Terms</a> and
+      <a href="privacy.html" style="color:var(--text-muted);text-decoration:underline;text-underline-offset:2px">Privacy Policy</a>
+    </div>
+    <div class="secure-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      SSL Encrypted · 100% Safe
+    </div>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Smash</div>
+        <p class="footer-desc">India's premier destination for professional badminton equipment. From Kerala to the court.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Shop</div>
+        <a class="footer-link" href="category.html">Rackets</a>
+        <a class="footer-link" href="footwear.html">Footwear</a>
+        <a class="footer-link" href="accessories.html">Shuttlecocks</a>
+        <a class="footer-link" href="accessories.html">Bags</a>
+        <a class="footer-link" href="apparel.html">Apparel</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Support</div>
+        <a class="footer-link" href="faq.html">FAQ</a>
+        <a class="footer-link" href="shipping.html">Shipping policy</a>
+        <a class="footer-link" href="returns.html">Returns</a>
+        <a class="footer-link" href="#">Size guide</a>
+        <a class="footer-link" href="contact.html">Contact us</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <a class="footer-link" href="#">About us</a>
+        <a class="footer-link" href="#">Blog</a>
+        <a class="footer-link" href="privacy.html">Privacy policy</a>
+        <a class="footer-link" href="terms.html">Terms</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Smash Badminton. All rights reserved.</span>
+      <div class="footer-links-row">
+        <a class="footer-link" href="https://www.instagram.com/smashsportsofficial/" target="_blank" style="margin:0">Instagram</a>
+        <a class="footer-link" href="#" style="margin:0">YouTube</a>
+        <a class="footer-link" href="https://wa.me/917592058888" target="_blank" style="margin:0">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+function selectAddress(el){
+  document.querySelectorAll('.address-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function selectDelivery(el){
+  document.querySelectorAll('.delivery-option').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function selectUPI(el){
+  document.querySelectorAll('.upi-opt').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function showPayment(type, btn){
+  document.querySelectorAll('.payment-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.payment-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-'+type).classList.add('active');
+}
+
+function formatCard(input){
+  let val = input.value.replace(/\D/g,'').substring(0,16);
+  input.value = val.replace(/(.{4})/g,'$1 ').trim();
+}
+
+function placeOrder(){
+  showToast('Processing order…');
+  setTimeout(()=>{ window.location.href='order-confirmation.html'; }, 1200);
+
+  
+}
+</script>
+
+<script src="main.js"></script>
+</body>
+</html>

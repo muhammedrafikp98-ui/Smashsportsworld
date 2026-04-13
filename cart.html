@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> cart — Smash Badminton Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<style>
+  :root{--transition:.35s cubic-bezier(.4,0,.2,1)}
+  [data-theme="dark"]{
+    --bg:#000;--bg2:#0a0a0a;--bg3:#111;--bg4:#1a1a1a;--surface:#141414;
+    --border:rgba(255,255,255,.08);--border-strong:rgba(255,255,255,.18);
+    --text:#fff;--text-muted:rgba(255,255,255,.5);--text-faint:rgba(255,255,255,.25);
+    --promo-bg:#0f0f0f;--promo-text:rgba(255,255,255,.55);
+    --card-hover:#141414;--toggle-bg:#222;--toggle-knob:#fff;
+    --hero-badge-bg:rgba(255,255,255,.06);--hero-badge-border:rgba(255,255,255,.12);
+    --nav-shadow:0 1px 0 rgba(255,255,255,.06);
+    --success:#4ade80;--danger:#ef4444;
+  }
+  [data-theme="light"]{
+    --bg:#fff;--bg2:#fafafa;--bg3:#f4f4f4;--bg4:#ececec;--surface:#f8f8f8;
+    --border:rgba(0,0,0,.07);--border-strong:rgba(0,0,0,.15);
+    --text:#0a0a0a;--text-muted:rgba(0,0,0,.45);--text-faint:rgba(0,0,0,.2);
+    --promo-bg:#f4f4f4;--promo-text:rgba(0,0,0,.5);
+    --card-hover:#f8f8f8;--toggle-bg:#e0e0e0;--toggle-knob:#0a0a0a;
+    --hero-badge-bg:rgba(0,0,0,.04);--hero-badge-border:rgba(0,0,0,.08);
+    --nav-shadow:0 1px 0 rgba(0,0,0,.07);
+    --success:#16a34a;--danger:#dc2626;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;
+    transition:background var(--transition),color var(--transition);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+  /* TOPBAR */
+  .topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 32px;height:36px;
+    display:flex;align-items:center;justify-content:space-between;z-index:100}
+  .theme-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+  .toggle-track{width:38px;height:20px;border-radius:10px;background:var(--toggle-bg);position:relative;
+    transition:background var(--transition);border:1px solid var(--border-strong);flex-shrink:0}
+  .toggle-knob{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:var(--toggle-knob);transition:transform var(--transition)}
+  [data-theme="light"] .toggle-knob{transform:translateX(18px)}
+  .toggle-label{font-size:11px;color:var(--text-muted);font-weight:400;letter-spacing:.03em}
+  .topbar-right{display:flex;align-items:center;gap:20px}
+  .topbar-right a{font-size:11px;color:var(--text-muted);text-decoration:none;transition:color .2s}
+  .topbar-right a:hover{color:var(--text)}
+  .topbar-sep{color:var(--border-strong);font-size:11px}
+
+  /* NAVBAR */
+  .navbar{background:var(--bg);border-bottom:1px solid var(--border);box-shadow:var(--nav-shadow);
+    position:sticky;top:0;z-index:99;transition:background var(--transition),border-color var(--transition)}
+  .nav-main{max-width:1400px;margin:0 auto;padding:0 32px;height:64px;display:flex;align-items:center}
+  .nav-logo{display:flex;flex-direction:column;margin-right:48px;text-decoration:none}
+  .logo-word{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.08em;color:var(--text);line-height:1}
+  .logo-tagline{font-size:9px;color:var(--text-muted);letter-spacing:.14em;text-transform:uppercase;line-height:1;margin-top:3px}
+  .nav-links{display:flex;align-items:center;gap:0;flex:1}
+  .nav-link{font-size:14px;font-weight:400;color:var(--text-muted);text-decoration:none;padding:0 18px;
+    height:64px;display:flex;align-items:center;border-bottom:2px solid transparent;
+    transition:color .2s,border-color .2s;white-space:nowrap}
+  .nav-link:hover,.nav-link.active{color:var(--text);border-bottom-color:var(--text)}
+  .nav-right{display:flex;align-items:center;gap:8px;margin-left:auto}
+  .icon-btn{width:38px;height:38px;border-radius:50%;background:none;border:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;color:var(--text);transition:background .2s;position:relative}
+  .icon-btn:hover{background:var(--bg3)}
+  .icon-btn svg{width:20px;height:20px}
+  .cart-badge{position:absolute;top:4px;right:4px;width:14px;height:14px;border-radius:50%;
+    background:var(--text);color:var(--bg);font-size:8px;font-weight:500;
+    display:flex;align-items:center;justify-content:center;border:1.5px solid var(--bg)}
+  .hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;color:var(--text)}
+  .hamburger span{display:block;width:22px;height:2px;background:currentColor;border-radius:2px}
+
+  /* PROMO */
+  .promo-banner{background:var(--promo-bg);border-bottom:1px solid var(--border);text-align:center;padding:10px 20px}
+  .promo-banner p{font-size:13px;color:var(--promo-text);font-weight:300;letter-spacing:.02em}
+  .promo-banner a{color:var(--text);font-weight:500;text-decoration:underline;text-underline-offset:3px}
+
+  /* BREADCRUMB */
+  .breadcrumb-bar{border-bottom:1px solid var(--border);background:var(--bg2)}
+  .breadcrumb-inner{max-width:1400px;margin:0 auto;padding:12px 32px;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-faint)}
+  .breadcrumb-inner a{color:var(--text-faint);text-decoration:none;transition:color .2s}
+  .breadcrumb-inner a:hover{color:var(--text)}
+
+  /* CHECKOUT STEPS */
+  .steps-bar{border-bottom:1px solid var(--border);background:var(--bg)}
+  .steps-inner{max-width:1400px;margin:0 auto;padding:0 32px;height:56px;display:flex;align-items:center;gap:0}
+  .step{display:flex;align-items:center;gap:10px;padding:0 24px 0 0;position:relative}
+  .step:not(:last-child)::after{content:'›';position:absolute;right:8px;color:var(--text-faint);font-size:16px}
+  .step-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:500;border:1.5px solid var(--border-strong);color:var(--text-faint);flex-shrink:0}
+  .step.active .step-num{background:var(--text);color:var(--bg);border-color:var(--text)}
+  .step.done .step-num{background:var(--success);color:#000;border-color:var(--success)}
+  .step-label{font-size:13px;color:var(--text-faint);font-weight:400;white-space:nowrap}
+  .step.active .step-label{color:var(--text);font-weight:500}
+  .step.done .step-label{color:var(--text-muted)}
+
+  /* MAIN LAYOUT */
+  .cart-page{max-width:1400px;margin:0 auto;padding:40px 32px 80px;display:grid;grid-template-columns:1fr 380px;gap:32px;align-items:start}
+
+  /* CART ITEMS */
+  .cart-section-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:.06em;color:var(--text);margin-bottom:24px}
+  .cart-items{display:flex;flex-direction:column;gap:0}
+
+  .cart-item{display:grid;grid-template-columns:120px 1fr auto;gap:20px;align-items:start;
+    padding:24px 0;border-bottom:1px solid var(--border);animation:fadeUp .4s ease both}
+  .cart-item:first-child{border-top:1px solid var(--border)}
+
+  .cart-item-img{width:120px;height:150px;background:var(--bg3);border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;border-radius:2px;flex-shrink:0;
+    transition:background var(--transition)}
+  .cart-item-img svg{width:52px;opacity:.7}
+
+  .cart-item-info{flex:1;min-width:0}
+  .cart-item-brand{font-size:10px;color:var(--text-faint);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+  .cart-item-name{font-size:16px;font-weight:400;color:var(--text);margin-bottom:6px;line-height:1.3}
+  .cart-item-meta{display:flex;gap:16px;margin-bottom:16px}
+  .cart-item-meta span{font-size:12px;color:var(--text-muted);background:var(--bg3);padding:3px 10px;border-radius:2px;border:1px solid var(--border)}
+  .cart-item-actions{display:flex;align-items:center;gap:16px}
+  .qty-control{display:flex;align-items:center;border:1px solid var(--border-strong);border-radius:3px;overflow:hidden}
+  .qty-btn{width:34px;height:34px;background:var(--bg3);border:none;color:var(--text);cursor:pointer;
+    font-size:18px;display:flex;align-items:center;justify-content:center;transition:background .15s;font-weight:300}
+  .qty-btn:hover{background:var(--bg4)}
+  .qty-val{width:44px;height:34px;background:none;border:none;border-left:1px solid var(--border-strong);
+    border-right:1px solid var(--border-strong);text-align:center;font-family:'DM Sans',sans-serif;
+    font-size:14px;color:var(--text);font-weight:400}
+  .cart-item-link{font-size:12px;color:var(--text-muted);cursor:pointer;text-decoration:underline;text-underline-offset:3px;background:none;border:none;font-family:'DM Sans',sans-serif;transition:color .2s}
+  .cart-item-link:hover{color:var(--text)}
+  .cart-item-link.danger:hover{color:var(--danger)}
+
+  .cart-item-price{text-align:right;flex-shrink:0}
+  .cart-item-price .price{font-size:16px;font-weight:500;color:var(--text)}
+  .cart-item-price .old-price{font-size:12px;color:var(--text-faint);text-decoration:line-through;margin-top:2px}
+  .cart-item-price .saving{font-size:11px;color:var(--success);margin-top:4px}
+
+  /* EMPTY CART */
+  .empty-cart{text-align:center;padding:80px 20px;display:none}
+  .empty-cart.visible{display:block}
+  .empty-cart-icon{font-size:56px;margin-bottom:20px;opacity:.3}
+  .empty-cart h2{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:.06em;color:var(--text);margin-bottom:8px}
+  .empty-cart p{font-size:14px;color:var(--text-muted);margin-bottom:24px}
+
+  /* COUPON */
+  .coupon-row{display:flex;gap:10px;margin-top:28px;padding-top:28px;border-top:1px solid var(--border)}
+  .coupon-input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:3px;
+    padding:11px 14px;font-size:13px;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;
+    transition:border-color .2s}
+  .coupon-input:focus{border-color:var(--border-strong)}
+  .coupon-input::placeholder{color:var(--text-faint)}
+  .coupon-btn{background:none;border:1px solid var(--border-strong);color:var(--text);padding:11px 20px;
+    border-radius:3px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;
+    letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap}
+  .coupon-btn:hover{background:var(--bg3)}
+  .coupon-success{font-size:12px;color:var(--success);margin-top:8px;display:none}
+  .coupon-success.visible{display:block}
+
+  /* ORDER SUMMARY */
+  .order-summary{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:28px;
+    position:sticky;top:88px;transition:background var(--transition),border-color var(--transition)}
+  .summary-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.06em;color:var(--text);margin-bottom:24px}
+  .summary-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-size:14px}
+  .summary-row .label{color:var(--text-muted);font-weight:300}
+  .summary-row .val{color:var(--text);font-weight:400}
+  .summary-row .val.green{color:var(--success)}
+  .summary-row .val.red{color:var(--danger)}
+  .summary-divider{height:1px;background:var(--border);margin:16px 0}
+  .summary-total{display:flex;justify-content:space-between;align-items:center;font-size:18px;font-weight:500;color:var(--text);margin-bottom:20px}
+  .summary-total-label{font-weight:400}
+
+  .btn-primary{background:var(--text);color:var(--bg);border:none;border-radius:3px;padding:15px 32px;
+    font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:.06em;
+    text-transform:uppercase;cursor:pointer;transition:opacity .2s,transform .15s;
+    text-decoration:none;display:block;text-align:center;width:100%;margin-bottom:12px}
+  .btn-primary:hover{opacity:.85;transform:translateY(-1px)}
+  .btn-ghost{background:none;color:var(--text);border:1px solid var(--border-strong);border-radius:3px;
+    padding:14px 32px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:400;
+    letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,background .2s;
+    display:block;text-align:center;width:100%;text-decoration:none}
+  .btn-ghost:hover{border-color:var(--text);background:var(--bg3)}
+
+  .secure-badge{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11px;
+    color:var(--text-faint);margin-top:16px}
+  .secure-badge svg{width:13px;height:13px}
+
+  /* PAYMENT ICONS */
+  .payment-icons{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+  .pay-icon{background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:4px 10px;
+    font-size:10px;font-weight:500;color:var(--text-muted);letter-spacing:.04em}
+
+  /* RECOMMENDED */
+  .recommend-section{margin-top:40px}
+  .recommend-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.06em;color:var(--text);margin-bottom:16px}
+  .recommend-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+  .rec-card{background:var(--surface);border:1px solid var(--border);cursor:pointer;
+    transition:background var(--transition),transform .2s;overflow:hidden}
+  .rec-card:hover{background:var(--card-hover);transform:translateY(-2px)}
+  .rec-img{aspect-ratio:1;background:var(--bg3);display:flex;align-items:center;justify-content:center;position:relative}
+  .rec-body{padding:12px}
+  .rec-brand{font-size:9px;color:var(--text-faint);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
+  .rec-name{font-size:12px;color:var(--text);font-weight:400;margin-bottom:6px;line-height:1.3}
+  .rec-price{font-size:13px;font-weight:500;color:var(--text)}
+  .rec-btn{width:100%;padding:8px;background:var(--text);color:var(--bg);border:none;
+    font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;letter-spacing:.08em;
+    text-transform:uppercase;cursor:pointer;border-radius:2px;margin-top:8px;transition:opacity .15s}
+  .rec-btn:hover{opacity:.85}
+
+  /* MOBILE NAV */
+  .mobile-nav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);
+    z-index:200;padding:24px;flex-direction:column;gap:0;overflow-y:auto}
+  .mobile-nav.open{display:flex}
+  .mobile-nav-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+  .mobile-nav-logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.08em;color:var(--text)}
+  .mobile-close{background:none;border:none;color:var(--text);font-size:28px;cursor:pointer;line-height:1;padding:0}
+  .mobile-link{display:block;font-size:22px;font-weight:400;color:var(--text);text-decoration:none;padding:14px 0;border-bottom:1px solid var(--border)}
+
+  /* TOAST */
+  .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);
+    background:var(--text);color:var(--bg);padding:11px 22px;border-radius:3px;font-size:13px;
+    font-weight:400;z-index:999;pointer-events:none;white-space:nowrap;
+    transition:transform .3s cubic-bezier(.4,0,.2,1)}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+  @media(max-width:1024px){.cart-page{grid-template-columns:1fr;}.order-summary{position:static}.recommend-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:768px){
+    .topbar{padding:0 16px}.nav-main{padding:0 16px}
+    .nav-links,.nav-store-badge{display:none}.hamburger{display:flex}
+    .cart-page{padding:24px 16px 60px}.steps-inner{padding:0 16px}
+    .step-label{display:none}.breadcrumb-inner{padding:12px 16px}
+    .cart-item{grid-template-columns:90px 1fr auto;gap:12px}
+    .cart-item-img{width:90px;height:112px}
+  }
+  @media(max-width:480px){
+    .cart-item{grid-template-columns:1fr;}.cart-item-img{width:100%;height:140px}
+    .cart-item-price{display:flex;gap:12px;align-items:center}.recommend-grid{grid-template-columns:repeat(2,1fr)}
+  }
+</style>
+</head>
+<body>
+
+<div class="mobile-nav" id="mobileNav">
+  <div class="mobile-nav-header">
+    <span class="mobile-nav-logo">Smash</span>
+    <button class="mobile-close" onclick="closeMobileNav()">×</button>
+  </div>
+  <a class="mobile-link" href="index.html">Home</a>
+  <a class="mobile-link" href="category.html">Rackets</a>
+  <a class="mobile-link" href="footwear.html">Footwear</a>
+  <a class="mobile-link" href="apparel.html">Apparel</a>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="theme-toggle" onclick="toggleTheme()">
+    <span id="modeIcon">🌙</span>
+    <div class="toggle-track"><div class="toggle-knob"></div></div>
+    <span class="toggle-label" id="modeLabel">Dark mode</span>
+  </div>
+  <div class="topbar-right">
+    <a href="contact.html">Help</a><span class="topbar-sep">|</span>
+    <a href="register.html">Sign Up</a><span class="topbar-sep">|</span>
+    <a href="login.html">Log In</a>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-main">
+    <a class="nav-logo" href="index.html">
+      <span class="logo-word">Smash</span>
+      <span class="logo-tagline">Badminton Store</span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">New &amp; Featured</a>
+      <a class="nav-link" href="category.html">Rackets</a>
+      <a class="nav-link" href="footwear.html">Footwear</a>
+      <a class="nav-link" href="apparel.html">Apparel</a>
+      <a class="nav-link" href="accessories.html">Accessories</a>
+    </div>
+    <div class="nav-right">
+      <button class="icon-btn" title="Wishlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21C12 21 3 14 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 13-9 13z"/></svg>
+      </button>
+      <button class="icon-btn" title="Cart" style="position:relative">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-badge" id="cartBadge">3</span>
+      </button>
+      <button class="hamburger" onclick="openMobileNav()"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- PROMO -->
+<div class="promo-banner"><p>Free delivery on orders above ₹999 · Easy returns within 30 days · <a href="collection.html">Shop now →</a></p></div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar">
+  <div class="breadcrumb-inner">
+    <a href="index.html">Home</a> <span>›</span> <span style="color:var(--text)">Cart</span>
+  </div>
+</div>
+
+<!-- STEPS -->
+<div class="steps-bar">
+  <div class="steps-inner">
+    <div class="step active">
+      <div class="step-num">1</div>
+      <span class="step-label">Cart</span>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <span class="step-label">Checkout</span>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <span class="step-label">Confirmation</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="cart-page">
+  <!-- LEFT: ITEMS -->
+  <div>
+    <div class="cart-section-title">Your Cart (<span id="itemCount">3</span> items)</div>
+
+    <div class="cart-items" id="cartItems"></div>
+
+    <div class="empty-cart" id="emptyCart">
+      <div class="empty-cart-icon">🏸</div>
+      <h2>Your cart is empty</h2>
+      <p>Looks like you haven't added anything yet. Let's fix that.</p>
+      <a href="collection.html" class="btn-primary" style="display:inline-block;width:auto;padding:14px 32px">Shop collection</a>
+    </div>
+
+    <!-- COUPON -->
+    <div class="coupon-row" id="couponRow">
+      <input class="coupon-input" type="text" placeholder="Enter coupon code" id="couponInput">
+      <button class="coupon-btn" onclick="applyCoupon()">Apply</button>
+    </div>
+    <div class="coupon-success" id="couponSuccess">✓ Coupon SMASH20 applied — you save ₹500!</div>
+
+    <!-- RECOMMENDED -->
+    <div class="recommend-section" id="recSection">
+      <div class="recommend-title">You may also like</div>
+      <div class="recommend-grid" id="recGrid"></div>
+    </div>
+  </div>
+
+  <!-- RIGHT: SUMMARY -->
+  <div class="order-summary">
+    <div class="summary-title">Order Summary</div>
+    <div class="summary-row"><span class="label">Subtotal (3 items)</span><span class="val" id="summarySubtotal">₹35,498</span></div>
+    <div class="summary-row"><span class="label">Discount</span><span class="val green" id="summaryDiscount">−₹2,500</span></div>
+    <div class="summary-row"><span class="label">Coupon (SMASH20)</span><span class="val green" id="summaryCoupon" style="display:none">−₹500</span></div>
+    <div class="summary-row"><span class="label">Delivery</span><span class="val green">FREE</span></div>
+    <div class="summary-row"><span class="label">GST (18%)</span><span class="val" id="summaryGst">₹2,880</span></div>
+    <div class="summary-divider"></div>
+    <div class="summary-total">
+      <span class="summary-total-label">Total</span>
+      <span id="summaryTotal">₹35,878</span>
+    </div>
+    <div style="font-size:12px;color:var(--success);margin-bottom:16px">You're saving ₹2,500 on this order 🎉</div>
+    <a href="checkout.html" class="btn-primary">Proceed to Checkout</a>
+    <a href="collection.html" class="btn-ghost">Continue Shopping</a>
+    <div class="secure-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Secure checkout · SSL encrypted
+    </div>
+    <div class="payment-icons">
+      <span class="pay-icon">UPI</span>
+      <span class="pay-icon">Visa</span>
+      <span class="pay-icon">Mastercard</span>
+      <span class="pay-icon">NetBanking</span>
+      <span class="pay-icon">EMI</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Smash</div>
+        <p class="footer-desc">India's premier destination for professional badminton equipment. From Kerala to the court.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Shop</div>
+        <a class="footer-link" href="category.html">Rackets</a>
+        <a class="footer-link" href="footwear.html">Footwear</a>
+        <a class="footer-link" href="accessories.html">Shuttlecocks</a>
+        <a class="footer-link" href="accessories.html">Bags</a>
+        <a class="footer-link" href="apparel.html">Apparel</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Support</div>
+        <a class="footer-link" href="faq.html">FAQ</a>
+        <a class="footer-link" href="shipping.html">Shipping policy</a>
+        <a class="footer-link" href="returns.html">Returns</a>
+        <a class="footer-link" href="#">Size guide</a>
+        <a class="footer-link" href="contact.html">Contact us</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <a class="footer-link" href="#">About us</a>
+        <a class="footer-link" href="#">Blog</a>
+        <a class="footer-link" href="privacy.html">Privacy policy</a>
+        <a class="footer-link" href="terms.html">Terms</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Smash Badminton. All rights reserved.</span>
+      <div class="footer-links-row">
+        <a class="footer-link" href="https://www.instagram.com/smashsportsofficial/" target="_blank" style="margin:0">Instagram</a>
+        <a class="footer-link" href="#" style="margin:0">YouTube</a>
+        <a class="footer-link" href="https://wa.me/917592058888" target="_blank" style="margin:0">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const racketSVG = `<img src="racket.png" style="width:100%;height:100%;object-fit:cover;border-radius:6px;opacity:0.9" alt="Product">`;
+
+let cartItems = [
+  {id:1,brand:'Yonex',name:'Astrox 88D Pro',meta:['Stiff Flex','Head Heavy'],price:12799,old:14999,qty:1},
+  {id:2,brand:'Li-Ning',name:'Axforce 90 Max',meta:['Extra Stiff','Attack'],price:11200,old:13000,qty:2},
+  {id:3,brand:'Victor',name:'Thruster K Falcon',meta:['Medium Flex','All-round'],price:9800,old:null,qty:1},
+];
+
+const recommended = [
+  {brand:'Yonex',name:'Nanoflare 1000Z',price:'₹18,499'},
+  {brand:'Victor',name:'Auraspeed 100X',price:'₹13,200'},
+  {brand:'Carlton',name:'Vapour Trail 90',price:'₹7,500'},
+  {brand:'Apacs',name:'Ziggler Light 68',price:'₹4,299'},
+];
+
+let couponApplied = false;
+
+function fmt(n){return '₹'+n.toLocaleString('en-IN')}
+
+function renderCart(){
+  const container = document.getElementById('cartItems');
+  const empty = document.getElementById('emptyCart');
+  const couponRow = document.getElementById('couponRow');
+  const recSection = document.getElementById('recSection');
+
+  if(!cartItems.length){
+    container.innerHTML=''; empty.classList.add('visible');
+    couponRow.style.display='none'; recSection.style.display='none'; return;
+  }
+  empty.classList.remove('visible');
+  couponRow.style.display=''; recSection.style.display='';
+
+  container.innerHTML = cartItems.map((item,i)=>{
+    const saving = item.old ? (item.old - item.price)*item.qty : 0;
+    return `<div class="cart-item" style="animation-delay:${i*0.08}s">
+      <div class="cart-item-img">${racketSVG}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-brand">${item.brand}</div>
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-meta">${item.meta.map(m=>`<span>${m}</span>`).join('')}</div>
+        <div class="cart-item-actions">
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+            <input class="qty-val" type="number" value="${item.qty}" min="1" max="10" onchange="setQty(${item.id},this.value)">
+            <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+          </div>
+          <button class="cart-item-link" onclick="saveForLater(${item.id})">Save for later</button>
+          <button class="cart-item-link danger" onclick="removeItem(${item.id})">Remove</button>
+        </div>
+      </div>
+      <div class="cart-item-price">
+        <div class="price">${fmt(item.price * item.qty)}</div>
+        ${item.old?`<div class="old-price">${fmt(item.old * item.qty)}</div><div class="saving">Save ${fmt(saving)}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+
+  updateSummary();
+  document.getElementById('itemCount').textContent = cartItems.reduce((s,i)=>s+i.qty,0);
+  document.getElementById('cartBadge').textContent = cartItems.reduce((s,i)=>s+i.qty,0);
+}
+
+function updateSummary(){
+  const subtotal = cartItems.reduce((s,i)=>s+i.price*i.qty,0);
+  const discount = cartItems.reduce((s,i)=>s+(i.old?((i.old-i.price)*i.qty):0),0);
+  const coupon = couponApplied ? 500 : 0;
+  const gst = Math.round((subtotal - discount - coupon) * 0.18);
+  const total = subtotal - discount - coupon + gst;
+
+  document.getElementById('summarySubtotal').textContent = fmt(subtotal);
+  document.getElementById('summaryDiscount').textContent = discount ? '−'+fmt(discount) : '₹0';
+  document.getElementById('summaryGst').textContent = fmt(gst);
+  document.getElementById('summaryTotal').textContent = fmt(total);
+
+  const couponEl = document.getElementById('summaryCoupon');
+  if(couponApplied){ couponEl.style.display=''; couponEl.textContent='−'+fmt(coupon); }
+  else couponEl.style.display='none';
+}
+
+function changeQty(id, delta){
+  const item = cartItems.find(i=>i.id===id);
+  if(!item) return;
+  item.qty = Math.max(1, Math.min(10, item.qty + delta));
+  renderCart();
+}
+
+function setQty(id, val){
+  const item = cartItems.find(i=>i.id===id);
+  if(!item) return;
+  item.qty = Math.max(1, Math.min(10, parseInt(val)||1));
+  renderCart();
+}
+
+function removeItem(id){
+  cartItems = cartItems.filter(i=>i.id!==id);
+  showToast('Item removed from cart');
+  renderCart();
+}
+
+function saveForLater(id){
+  removeItem(id);
+  showToast('Saved for later');
+}
+
+function applyCoupon(){
+  const code = document.getElementById('couponInput').value.trim().toUpperCase();
+  if(code === 'SMASH20'){
+    couponApplied = true;
+    document.getElementById('couponSuccess').classList.add('visible');
+    updateSummary();
+    showToast('Coupon applied successfully!');
+  } else {
+    showToast('Invalid coupon code');
+  }
+}
+
+function renderRecommended(){
+  document.getElementById('recGrid').innerHTML = recommended.map(p=>`
+    <div class="rec-card">
+      <div class="rec-img">${racketSVG}</div>
+      <div class="rec-body">
+        <div class="rec-brand">${p.brand}</div>
+        <div class="rec-name">${p.name}</div>
+        <div class="rec-price">${p.price}</div>
+        <button class="rec-btn" onclick="showToast('${p.name} added to cart')">Add to cart</button>
+      </div>
+    </div>`).join('');
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+
+
+function openMobileNav(){document.getElementById('mobileNav').classList.add('open');document.body.style.overflow='hidden';}
+function closeMobileNav(){document.getElementById('mobileNav').classList.remove('open');document.body.style.overflow='';}
+
+renderCart();
+renderRecommended();
+</script>
+<script src="main.js"></script>
+</body>
+</html>

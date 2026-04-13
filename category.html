@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rackets — Smash Badminton Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="category.css">
+</head>
+<body>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <div class="mobile-nav-header">
+    <span class="mobile-nav-logo">Smash</span>
+    <button class="mobile-close" onclick="closeMobileNav()">×</button>
+  </div>
+  <a class="mobile-link" href="index.html">Home</a>
+  <a class="mobile-link" href="category.html">Rackets</a>
+  <a class="mobile-link" href="footwear.html">Footwear</a>
+  <a class="mobile-link" href="apparel.html">Apparel</a>
+  <a class="mobile-link" href="accessories.html">Accessories</a>
+</div>
+
+<!-- FILTER DRAWER (mobile) -->
+<div class="filter-overlay" id="filterOverlay" onclick="closeFilterDrawer()"></div>
+<div class="filter-drawer" id="filterDrawer">
+  <div class="filter-drawer-header">
+    <span class="filter-drawer-title">Filters</span>
+    <button class="drawer-close" onclick="closeFilterDrawer()">×</button>
+  </div>
+  <div id="drawerContent"></div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="theme-toggle" onclick="toggleTheme()">
+      <span class="mode-icon" id="modeIcon">🌙</span>
+      <div class="toggle-track"><div class="toggle-knob"></div></div>
+      <span class="toggle-label" id="modeLabel">Dark mode</span>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <a href="contact.html">Help</a><span class="topbar-sep">|</span>
+    <a href="register.html">Sign Up</a><span class="topbar-sep">|</span>
+    <a href="login.html">Log In</a>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-main">
+    <a class="nav-logo" href="index.html">
+      <span class="logo-word">Smash</span>
+      <span class="logo-tagline">Badminton Store</span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">New &amp; Featured</a>
+      <a class="nav-link active" href="category.html">Rackets</a>
+      <a class="nav-link" href="footwear.html">Footwear</a>
+      <a class="nav-link" href="apparel.html">Apparel</a>
+      <a class="nav-link" href="accessories.html">Accessories</a>
+      <a class="nav-link" href="brands.html">Brands</a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-store-badge"><span class="store-dot"></span>Store open</div>
+      <div class="search-bar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input class="search-input" type="text" placeholder="Search…" id="searchInput" oninput="onSearch(this.value)">
+      </div>
+      <button class="icon-btn" title="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21C12 21 3 14 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 13-9 13z"/></svg></button>
+      <button class="icon-btn" title="Cart" href="cart.html" id="cartBtn" style="position:relative">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+      <button class="hamburger" onclick="openMobileNav()"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- PROMO -->
+<div class="promo-banner"><p>Free delivery on orders above ₹999 · 30-day returns · <a href="collection.html">Shop now →</a></p></div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a><span class="breadcrumb-sep">/</span>
+      <span>Rackets</span>
+    </div>
+    <div class="page-title">Rackets</div>
+    <div class="page-count" id="pageCount">Showing 24 products</div>
+  </div>
+</div>
+
+<!-- FILTER TABS BAR -->
+<div class="filter-tabs-bar">
+  <div class="filter-tabs-inner">
+    <button class="mobile-filter-btn" onclick="openFilterDrawer()" id="mobileFilterBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+      Filters
+      <span class="filter-badge-dot" id="filterBadgeDot"></span>
+    </button>
+    <button class="ftab active" onclick="setTabFilter('all',this)">All</button>
+    <button class="ftab" onclick="setTabFilter('attack',this)">Attack</button>
+    <button class="ftab" onclick="setTabFilter('control',this)">Control</button>
+    <button class="ftab" onclick="setTabFilter('all-round',this)">All-round</button>
+    <button class="ftab" onclick="setTabFilter('beginner',this)">Beginner</button>
+    <div class="ftab-sort-wrap">
+      <button class="sort-btn" onclick="toggleSort()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h18M7 12h10M10 18h4"/></svg>
+        <span id="sortLabel">Most Relevant</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:12px;height:12px"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="sort-dropdown" id="sortDropdown">
+        <div class="sort-option active" onclick="setSort('relevant','Most Relevant',this)">Most Relevant</div>
+        <div class="sort-option" onclick="setSort('price-asc','Price: Low to High',this)">Price: Low to High</div>
+        <div class="sort-option" onclick="setSort('price-desc','Price: High to Low',this)">Price: High to Low</div>
+        <div class="sort-option" onclick="setSort('rating','Rating',this)">Rating</div>
+        <div class="sort-option" onclick="setSort('popular','Popular',this)">Popular</div>
+        <div class="sort-option" onclick="setSort('discount','Highest Discount',this)">Highest Discount</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="shop-wrap">
+
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="mainSidebar">
+    <div class="sidebar-header">
+      <span class="sidebar-title">Filters</span>
+      <button class="sidebar-clear" onclick="clearAllFilters()">Clear all</button>
+    </div>
+    <!-- PRICE -->
+    <div class="filter-group" id="fg-price">
+      <div class="filter-group-header" onclick="toggleGroup('fg-price')">
+        <span class="filter-group-title">Price</span>
+        <svg class="filter-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+      <div class="filter-group-body">
+        <div class="price-range-wrap">
+          <div class="price-inputs">
+            <input class="price-input-box" type="number" id="priceMinInput" value="0" min="0" max="25000" oninput="updatePriceFromInput()">
+            <span class="price-to">to</span>
+            <input class="price-input-box" type="number" id="priceMaxInput" value="25000" min="0" max="25000" oninput="updatePriceFromInput()">
+          </div>
+          <div class="range-track-wrap">
+            <div class="range-track"><div class="range-fill" id="rangeFill"></div></div>
+            <input class="range-input" type="range" id="rangeMin" min="0" max="25000" value="0" step="500" oninput="syncPrice()">
+            <input class="range-input" type="range" id="rangeMax" min="0" max="25000" value="25000" step="500" oninput="syncPrice()">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- BRAND -->
+    <div class="filter-group" id="fg-brand">
+      <div class="filter-group-header" onclick="toggleGroup('fg-brand')">
+        <span class="filter-group-title">Brand</span>
+        <svg class="filter-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+      <div class="filter-group-body">
+        <div class="check-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" placeholder="Search brands…" oninput="filterCheckList(this,'brand')"></div>
+        <div id="brand-list">
+          <label class="check-item"><input type="checkbox" value="Yonex" onchange="applyFilters()"><span class="check-label">Yonex</span><span class="check-count">(8)</span></label>
+          <label class="check-item"><input type="checkbox" value="Victor" onchange="applyFilters()"><span class="check-label">Victor</span><span class="check-count">(6)</span></label>
+          <label class="check-item"><input type="checkbox" value="Li-Ning" onchange="applyFilters()"><span class="check-label">Li-Ning</span><span class="check-count">(5)</span></label>
+          <label class="check-item"><input type="checkbox" value="Carlton" onchange="applyFilters()"><span class="check-label">Carlton</span><span class="check-count">(4)</span></label>
+          <label class="check-item"><input type="checkbox" value="Apacs" onchange="applyFilters()"><span class="check-label">Apacs</span><span class="check-count">(3)</span></label>
+          <label class="check-item"><input type="checkbox" value="RSL" onchange="applyFilters()"><span class="check-label">RSL</span><span class="check-count">(2)</span></label>
+        </div>
+      </div>
+    </div>
+    <!-- SHAFT FLEX -->
+    <div class="filter-group" id="fg-flex">
+      <div class="filter-group-header" onclick="toggleGroup('fg-flex')">
+        <span class="filter-group-title">Shaft Flex</span>
+        <svg class="filter-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+      <div class="filter-group-body">
+        <label class="check-item"><input type="checkbox" value="Extra Stiff" onchange="applyFilters()"><span class="check-label">Extra Stiff</span><span class="check-count">(3)</span></label>
+        <label class="check-item"><input type="checkbox" value="Stiff" onchange="applyFilters()"><span class="check-label">Stiff</span><span class="check-count">(10)</span></label>
+        <label class="check-item"><input type="checkbox" value="Medium" onchange="applyFilters()"><span class="check-label">Medium</span><span class="check-count">(7)</span></label>
+        <label class="check-item"><input type="checkbox" value="Flexible" onchange="applyFilters()"><span class="check-label">Flexible</span><span class="check-count">(4)</span></label>
+      </div>
+    </div>
+    <!-- BALANCE -->
+    <div class="filter-group" id="fg-balance">
+      <div class="filter-group-header" onclick="toggleGroup('fg-balance')">
+        <span class="filter-group-title">Balance</span>
+        <svg class="filter-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+      <div class="filter-group-body">
+        <label class="check-item"><input type="checkbox" value="Head Heavy" onchange="applyFilters()"><span class="check-label">Head Heavy</span><span class="check-count">(9)</span></label>
+        <label class="check-item"><input type="checkbox" value="Even" onchange="applyFilters()"><span class="check-label">Even Balance</span><span class="check-count">(8)</span></label>
+        <label class="check-item"><input type="checkbox" value="Head Light" onchange="applyFilters()"><span class="check-label">Head Light</span><span class="check-count">(7)</span></label>
+      </div>
+    </div>
+    <!-- DISCOUNT -->
+    <div class="filter-group" id="fg-discount">
+      <div class="filter-group-header" onclick="toggleGroup('fg-discount')">
+        <span class="filter-group-title">Discount</span>
+        <svg class="filter-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+      <div class="filter-group-body">
+        <label class="check-item"><input type="checkbox" value="10" onchange="applyFilters()"><span class="check-label">10% and below</span><span class="check-count">(4)</span></label>
+        <label class="check-item"><input type="checkbox" value="20" onchange="applyFilters()"><span class="check-label">20% and below</span><span class="check-count">(8)</span></label>
+        <label class="check-item"><input type="checkbox" value="30" onchange="applyFilters()"><span class="check-label">30% and below</span><span class="check-count">(3)</span></label>
+      </div>
+    </div>
+    <!-- RATING -->
+    <div class="filter-group" id="fg-rating">
+      <div class="filter-group-header" onclick="toggleGroup('fg-rating')">
+        <span class="filter-group-title">Rating</span>
+        <svg class="filter-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+      <div class="filter-group-body">
+        <label class="star-row"><input type="checkbox" value="5" onchange="applyFilters()"><div class="stars-display">${renderStarsHTML(5)}</div><span class="star-row-count">(3)</span></label>
+        <label class="star-row"><input type="checkbox" value="4" onchange="applyFilters()"><div class="stars-display">${renderStarsHTMLPartial(4)}</div><span class="star-row-count">(9)</span></label>
+        <label class="star-row"><input type="checkbox" value="3" onchange="applyFilters()"><div class="stars-display">${renderStarsHTMLPartial(3)}</div><span class="star-row-count">(6)</span></label>
+      </div>
+    </div>
+    <!-- AVAILABILITY -->
+    <div class="filter-group" id="fg-avail">
+      <div class="filter-group-header" onclick="toggleGroup('fg-avail')">
+        <span class="filter-group-title">Availability</span>
+        <svg class="filter-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+      <div class="filter-group-body">
+        <label class="check-item"><input type="checkbox" id="excludeOOS" onchange="applyFilters()"><span class="check-label">Exclude out of stock</span></label>
+        <label class="check-item"><input type="checkbox" value="limited" onchange="applyFilters()"><span class="check-label">Limited stock only</span></label>
+      </div>
+    </div>
+  </aside>
+
+  <!-- PRODUCTS -->
+  <div class="product-area">
+    <!-- Active chips -->
+    <div class="active-chips" id="activeChips"><span class="chips-empty">No filters applied</span></div>
+
+    <!-- Results bar -->
+    <div class="results-bar">
+      <span class="results-count" id="resultsCount">24 products</span>
+      <div class="view-toggle">
+        <button class="vbtn active" id="btnGrid" onclick="setView('grid')" title="Grid view">
+          <svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        </button>
+        <button class="vbtn" id="btnList" onclick="setView('list')" title="List view">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3" cy="6" r="1" fill="currentColor"/><circle cx="3" cy="12" r="1" fill="currentColor"/><circle cx="3" cy="18" r="1" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="products-grid" id="productsGrid"></div>
+    <div class="pagination" id="pagination"></div>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Smash</div>
+        <p class="footer-desc">India's premier destination for professional badminton equipment. From Kerala to the court.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Shop</div>
+        <a class="footer-link" href="category.html">Rackets</a>
+        <a class="footer-link" href="footwear.html">Footwear</a>
+        <a class="footer-link" href="accessories.html">Shuttlecocks</a>
+        <a class="footer-link" href="accessories.html">Bags</a>
+        <a class="footer-link" href="apparel.html">Apparel</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Support</div>
+        <a class="footer-link" href="faq.html">FAQ</a>
+        <a class="footer-link" href="shipping.html">Shipping policy</a>
+        <a class="footer-link" href="returns.html">Returns</a>
+        <a class="footer-link" href="#">Size guide</a>
+        <a class="footer-link" href="contact.html">Contact us</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <a class="footer-link" href="#">About us</a>
+        <a class="footer-link" href="#">Blog</a>
+        <a class="footer-link" href="privacy.html">Privacy policy</a>
+        <a class="footer-link" href="terms.html">Terms</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Smash Badminton. All rights reserved.</span>
+      <div class="footer-links-row">
+        <a class="footer-link" href="https://www.instagram.com/smashsportsofficial/" target="_blank" style="margin:0">Instagram</a>
+        <a class="footer-link" href="#" style="margin:0">YouTube</a>
+        <a class="footer-link" href="https://wa.me/917592058888" target="_blank" style="margin:0">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── DATA ──
+const allProducts = [
+  {id:1,brand:'Yonex',name:'Astrox 99 Pro',price:8999,old:10999,rating:4.8,reviews:124,badge:'sale',type:'attack',flex:'Stiff',balance:'Head Heavy',inStock:true,limited:false},
+  {id:2,brand:'Yonex',name:'Nanoflare 1000Z',price:18499,old:null,rating:4.9,reviews:88,badge:'new',type:'control',flex:'Extra Stiff',balance:'Head Light',inStock:true,limited:false},
+  {id:3,brand:'Li-Ning',name:'Axforce 90 Max',price:11200,old:13000,rating:4.7,reviews:65,badge:'hot',type:'attack',flex:'Stiff',balance:'Head Heavy',inStock:true,limited:false},
+  {id:4,brand:'Victor',name:'Thruster K Falcon',price:9800,old:null,rating:4.6,reviews:52,badge:null,type:'all-round',flex:'Medium',balance:'Even',inStock:true,limited:false},
+  {id:5,brand:'Yonex',name:'Arcsaber 11 Pro',price:15999,old:null,rating:4.8,reviews:41,badge:'new',type:'control',flex:'Medium',balance:'Even',inStock:true,limited:false},
+  {id:6,brand:'Carlton',name:'Vapour Trail 90',price:7500,old:8999,rating:4.3,reviews:78,badge:'sale',type:'all-round',flex:'Flexible',balance:'Even',inStock:true,limited:true},
+  {id:7,brand:'Victor',name:'Auraspeed 100X',price:13200,old:null,rating:4.7,reviews:33,badge:null,type:'control',flex:'Stiff',balance:'Head Light',inStock:true,limited:false},
+  {id:8,brand:'Apacs',name:'Ziggler Light 68',price:4299,old:5500,rating:4.1,reviews:112,badge:'sale',type:'beginner',flex:'Flexible',balance:'Even',inStock:true,limited:false},
+  {id:9,brand:'Yonex',name:'Duora 10 LCW',price:12800,old:14500,rating:4.6,reviews:57,badge:'sale',type:'all-round',flex:'Stiff',balance:'Even',inStock:true,limited:false},
+  {id:10,brand:'Li-Ning',name:'Bladex 900',price:9999,old:null,rating:4.5,reviews:29,badge:'new',type:'attack',flex:'Extra Stiff',balance:'Head Heavy',inStock:false,limited:false},
+  {id:11,brand:'RSL',name:'Falcon Thunder 88',price:6800,old:7999,rating:4.2,reviews:44,badge:'sale',type:'beginner',flex:'Medium',balance:'Even',inStock:true,limited:false},
+  {id:12,brand:'Yonex',name:'Voltric 80 E-Tune',price:11500,old:null,rating:4.7,reviews:68,badge:null,type:'attack',flex:'Stiff',balance:'Head Heavy',inStock:true,limited:true},
+  {id:13,brand:'Victor',name:'Hypernano X 900',price:10200,old:12000,rating:4.5,reviews:39,badge:'sale',type:'all-round',flex:'Medium',balance:'Even',inStock:true,limited:false},
+  {id:14,brand:'Carlton',name:'Kinesis Ultra Tour',price:8500,old:null,rating:4.3,reviews:21,badge:null,type:'control',flex:'Flexible',balance:'Head Light',inStock:true,limited:false},
+  {id:15,brand:'Apacs',name:'Commander 10',price:3200,old:4000,rating:3.9,reviews:87,badge:'sale',type:'beginner',flex:'Flexible',balance:'Even',inStock:true,limited:false},
+  {id:16,brand:'Yonex',name:'Mavis 600 (Racket)',price:5500,old:null,rating:4.4,reviews:19,badge:'new',type:'beginner',flex:'Medium',balance:'Even',inStock:true,limited:false},
+  {id:17,brand:'Victor',name:'Jetspeed S12',price:14200,old:16000,rating:4.8,reviews:76,badge:'sale',type:'control',flex:'Stiff',balance:'Head Light',inStock:true,limited:false},
+  {id:18,brand:'Li-Ning',name:'Wind Lite 900',price:7800,old:null,rating:4.4,reviews:34,badge:null,type:'all-round',flex:'Medium',balance:'Even',inStock:true,limited:false},
+];
+
+// ── STATE ──
+const state = {
+  search: '',
+  minPrice: 0, maxPrice: 25000,
+  brands: [],
+  flex: [],
+  balance: [],
+  discount: [],
+  rating: [],
+  excludeOOS: false,
+  type: 'all',
+  sort: 'relevant',
+  view: 'grid',
+  page: 1,
+  perPage: 9,
+  cartQty: 0,
+};
+
+// ── HELPERS ──
+function fmt(n){ return '₹'+n.toLocaleString('en-IN'); }
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+function renderStarsHTML(n){
+  let h='';
+  for(let i=0;i<5;i++) h+=`<svg class="star${i>=n?' star-empty':''}" viewBox="0 0 24 24" fill="${i<n?'#f59e0b':'none'}" stroke="#f59e0b" stroke-width="1.5"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>`;
+  return h;
+}
+function renderStarsHTMLPartial(full){
+  let h='';
+  for(let i=0;i<5;i++) h+=`<svg class="star${i>=full?' star-empty':''}" viewBox="0 0 24 24" fill="${i<full?'#f59e0b':'none'}" stroke="#f59e0b" stroke-width="1.5"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>`;
+  return h;
+}
+
+document.getElementById('fg-rating').querySelector('#fg-rating .filter-group-body').innerHTML=`
+  <label class="star-row"><input type="checkbox" value="5" onchange="applyFilters()"><div class="stars-display">${renderStarsHTML(5)}</div><span class="star-row-count">(3)</span></label>
+  <label class="star-row"><input type="checkbox" value="4" onchange="applyFilters()"><div class="stars-display">${renderStarsHTMLPartial(4)}</div><span class="star-row-count">(9)</span></label>
+  <label class="star-row"><input type="checkbox" value="3" onchange="applyFilters()"><div class="stars-display">${renderStarsHTMLPartial(3)}</div><span class="star-row-count">(6)</span></label>
+`;
+
+// ── FILTER LOGIC ──
+function getFiltered(){
+  let list = [...allProducts];
+  if(state.search) list=list.filter(p=>p.name.toLowerCase().includes(state.search)||p.brand.toLowerCase().includes(state.search));
+  list=list.filter(p=>p.price>=state.minPrice && p.price<=state.maxPrice);
+  if(state.brands.length) list=list.filter(p=>state.brands.includes(p.brand));
+  if(state.flex.length) list=list.filter(p=>state.flex.includes(p.flex));
+  if(state.balance.length) list=list.filter(p=>state.balance.some(b=>p.balance.includes(b)));
+  if(state.excludeOOS) list=list.filter(p=>p.inStock);
+  if(state.type!=='all') list=list.filter(p=>p.type===state.type);
+  if(state.discount.length){
+    const maxPct=Math.max(...state.discount.map(Number));
+    list=list.filter(p=>{
+      if(!p.old) return false;
+      const pct=Math.round((p.old-p.price)/p.old*100);
+      return pct<=maxPct;
+    });
+  }
+  if(state.rating.length){
+    const minR=Math.min(...state.rating.map(Number));
+    list=list.filter(p=>Math.floor(p.rating)>=minR);
+  }
+  // sort
+  if(state.sort==='price-asc') list.sort((a,b)=>a.price-b.price);
+  else if(state.sort==='price-desc') list.sort((a,b)=>b.price-a.price);
+  else if(state.sort==='rating') list.sort((a,b)=>b.rating-a.rating);
+  else if(state.sort==='discount') list.sort((a,b)=>{
+    const da=a.old?Math.round((a.old-a.price)/a.old*100):0;
+    const db=b.old?Math.round((b.old-b.price)/b.old*100):0;
+    return db-da;
+  });
+  else if(state.sort==='popular') list.sort((a,b)=>b.reviews-a.reviews);
+  return list;
+}
+
+function applyFilters(){
+  // read checkboxes
+  state.brands=[...document.querySelectorAll('#brand-list input:checked')].map(e=>e.value);
+  state.flex=[...document.querySelectorAll('#fg-flex input:checked')].map(e=>e.value);
+  state.balance=[...document.querySelectorAll('#fg-balance input:checked')].map(e=>e.value);
+  state.discount=[...document.querySelectorAll('#fg-discount input:checked')].map(e=>e.value);
+  state.rating=[...document.querySelectorAll('#fg-rating input:checked')].map(e=>e.value);
+  state.excludeOOS=document.getElementById('excludeOOS').checked;
+  state.page=1;
+  render();
+}
+
+function onSearch(v){ state.search=v.toLowerCase(); state.page=1; render(); }
+
+// ── PRICE RANGE ──
+function syncPrice(){
+  let mn=parseInt(document.getElementById('rangeMin').value);
+  let mx=parseInt(document.getElementById('rangeMax').value);
+  if(mn>mx-500){ if(event.target.id==='rangeMin') mn=mx-500; else mx=mn+500; }
+  document.getElementById('rangeMin').value=mn;
+  document.getElementById('rangeMax').value=mx;
+  document.getElementById('priceMinInput').value=mn;
+  document.getElementById('priceMaxInput').value=mx;
+  state.minPrice=mn; state.maxPrice=mx;
+  updateRangeFill(); state.page=1; render();
+}
+function updatePriceFromInput(){
+  let mn=parseInt(document.getElementById('priceMinInput').value)||0;
+  let mx=parseInt(document.getElementById('priceMaxInput').value)||25000;
+  mn=Math.max(0,Math.min(mn,25000));
+  mx=Math.max(0,Math.min(mx,25000));
+  if(mn>mx) mx=mn+500;
+  document.getElementById('rangeMin').value=mn;
+  document.getElementById('rangeMax').value=mx;
+  state.minPrice=mn; state.maxPrice=mx;
+  updateRangeFill(); state.page=1; render();
+}
+function updateRangeFill(){
+  const mn=parseInt(document.getElementById('rangeMin').value);
+  const mx=parseInt(document.getElementById('rangeMax').value);
+  const pct1=(mn/25000)*100, pct2=(mx/25000)*100;
+  document.getElementById('rangeFill').style.left=pct1+'%';
+  document.getElementById('rangeFill').style.width=(pct2-pct1)+'%';
+}
+updateRangeFill();
+
+// ── ACTIVE CHIPS ──
+function renderChips(){
+  const chips=[];
+  if(state.type!=='all') chips.push({label:'Type: '+state.type,key:'type'});
+  if(state.minPrice>0||state.maxPrice<25000) chips.push({label:fmt(state.minPrice)+' – '+fmt(state.maxPrice),key:'price'});
+  state.brands.forEach(b=>chips.push({label:b,key:'brand:'+b}));
+  state.flex.forEach(f=>chips.push({label:'Flex: '+f,key:'flex:'+f}));
+  state.balance.forEach(b=>chips.push({label:'Balance: '+b,key:'bal:'+b}));
+  state.discount.forEach(d=>chips.push({label:'Discount ≤'+d+'%',key:'disc:'+d}));
+  state.rating.forEach(r=>chips.push({label:r+'★ & above',key:'rat:'+r}));
+  if(state.excludeOOS) chips.push({label:'In Stock only',key:'oos'});
+  if(state.search) chips.push({label:'Search: '+state.search,key:'search'});
+
+  const container=document.getElementById('activeChips');
+  if(!chips.length){ container.innerHTML='<span class="chips-empty">No filters applied</span>'; document.getElementById('filterBadgeDot').style.display='none'; return; }
+  document.getElementById('filterBadgeDot').style.display='block';
+  container.innerHTML=chips.map(c=>`<span class="chip" onclick="removeChip('${c.key}')">${c.label} <span class="chip-x">×</span></span>`).join('')
+    +`<span class="chips-clear" onclick="clearAllFilters()">Clear all</span>`;
+}
+
+function removeChip(key){
+  if(key==='type'){state.type='all';document.querySelectorAll('.ftab').forEach(b=>{b.classList.toggle('active',b.textContent.trim()==='All')});}
+  else if(key==='price'){state.minPrice=0;state.maxPrice=25000;document.getElementById('rangeMin').value=0;document.getElementById('rangeMax').value=25000;document.getElementById('priceMinInput').value=0;document.getElementById('priceMaxInput').value=25000;updateRangeFill();}
+  else if(key==='oos'){state.excludeOOS=false;document.getElementById('excludeOOS').checked=false;}
+  else if(key==='search'){state.search='';document.getElementById('searchInput').value='';}
+  else if(key.startsWith('brand:')){const v=key.slice(6);state.brands=state.brands.filter(x=>x!==v);document.querySelector(`#brand-list input[value="${v}"]`).checked=false;}
+  else if(key.startsWith('flex:')){const v=key.slice(5);state.flex=state.flex.filter(x=>x!==v);document.querySelector(`#fg-flex input[value="${v}"]`).checked=false;}
+  else if(key.startsWith('bal:')){const v=key.slice(4);state.balance=state.balance.filter(x=>x!==v);document.querySelector(`#fg-balance input[value="${v}"]`).checked=false;}
+  else if(key.startsWith('disc:')){const v=key.slice(5);state.discount=state.discount.filter(x=>x!==v);document.querySelector(`#fg-discount input[value="${v}"]`).checked=false;}
+  else if(key.startsWith('rat:')){const v=key.slice(4);state.rating=state.rating.filter(x=>x!==v);document.querySelector(`#fg-rating input[value="${v}"]`).checked=false;}
+  state.page=1; render();
+}
+
+function clearAllFilters(){
+  state.search=''; state.minPrice=0; state.maxPrice=25000;
+  state.brands=[]; state.flex=[]; state.balance=[]; state.discount=[]; state.rating=[];
+  state.excludeOOS=false; state.type='all'; state.page=1;
+  document.getElementById('searchInput').value='';
+  document.getElementById('rangeMin').value=0; document.getElementById('rangeMax').value=25000;
+  document.getElementById('priceMinInput').value=0; document.getElementById('priceMaxInput').value=25000;
+  updateRangeFill();
+  document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(cb=>cb.checked=false);
+  document.querySelectorAll('.ftab').forEach(b=>b.classList.toggle('active',b.textContent.trim()==='All'));
+  render();
+}
+
+// ── RENDER PRODUCTS ──
+function renderProducts(filtered){
+  const start=(state.page-1)*state.perPage;
+  const page=filtered.slice(start,start+state.perPage);
+  const grid=document.getElementById('productsGrid');
+  grid.className='products-grid'+(state.view==='list'?' list-view':'');
+
+  if(!page.length){
+    grid.innerHTML=`<div class="empty-state"><h3>No products found</h3><p>Try adjusting your filters or search term.</p><button class="btn-reset" onclick="clearAllFilters()">Reset filters</button></div>`;
+    return;
+  }
+
+  grid.innerHTML=page.map(p=>{
+    const disc=p.old?Math.round((p.old-p.price)/p.old*100):0;
+    return `
+    <div class="product-card" onclick="window.location='product.html?id=${p.id}'">
+      <div class="card-img">
+        ${p.badge?`<span class="card-badge badge-${p.badge}">${p.badge}</span>`:''}
+        ${p.limited?`<span class="card-badge badge-limited" style="left:auto;right:12px">limited</span>`:''}
+        <button class="card-wishlist" onclick="event.stopPropagation();showToast('${p.name} saved to wishlist')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21C12 21 3 14 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 13-9 13z"/></svg>
+        </button>
+        <img src="racket.png" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px;opacity:${p.inStock?.9:.4}" alt="${p.name}">
+        ${!p.inStock?`<div style="position:absolute;inset:0;background:var(--bg);opacity:.5;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted)">Out of stock</div>`:''}
+        <div class="card-actions">
+          <button class="card-add-btn" onclick="event.stopPropagation();addToCart('${p.name}')">${p.inStock?'Add to cart':'Notify me'}</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-brand">${p.brand}</div>
+        <div class="card-name">${p.name}</div>
+        <div class="card-price-row">
+          <span class="card-price">${fmt(p.price)}</span>
+          ${p.old?`<span class="card-price-old">${fmt(p.old)}</span><span class="card-discount">−${disc}%</span>`:''}
+        </div>
+        <div class="card-rating-row">
+          <div class="stars-mini">${renderStarsHTML(Math.round(p.rating))}</div>
+          <span class="card-rating-num">${p.rating}</span>
+          <span class="card-rating-cnt">(${p.reviews})</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderPagination(total){
+  const pages=Math.ceil(total/state.perPage);
+  const pg=document.getElementById('pagination');
+  if(pages<=1){pg.innerHTML='';return;}
+  let h=`<button class="pg-btn" onclick="goPage(${state.page-1})" ${state.page===1?'disabled':''}>←</button>`;
+  for(let i=1;i<=pages;i++) h+=`<button class="pg-btn${i===state.page?' active':''}" onclick="goPage(${i})">${i}</button>`;
+  h+=`<button class="pg-btn" onclick="goPage(${state.page+1})" ${state.page===pages?'disabled':''}>→</button>`;
+  pg.innerHTML=h;
+}
+
+function goPage(n){ state.page=n; window.scrollTo({top:0,behavior:'smooth'}); render(); }
+
+function render(){
+  const filtered=getFiltered();
+  const total=filtered.length;
+  const start=(state.page-1)*state.perPage+1;
+  const end=Math.min(state.page*state.perPage,total);
+  document.getElementById('pageCount').textContent=`Showing ${total} products`;
+  document.getElementById('resultsCount').textContent=total?`${start}–${end} of ${total} products`:'0 products';
+  renderChips();
+  renderProducts(filtered);
+  renderPagination(total);
+}
+
+// ── CONTROLS ──
+function toggleGroup(id){
+  document.getElementById(id).classList.toggle('collapsed');
+}
+
+function setTabFilter(type,btn){
+  state.type=type; state.page=1;
+  document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function toggleSort(){
+  document.getElementById('sortDropdown').classList.toggle('open');
+}
+
+function setSort(val,label,el){
+  state.sort=val; state.page=1;
+  document.getElementById('sortLabel').textContent=label;
+  document.querySelectorAll('.sort-option').forEach(o=>o.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('sortDropdown').classList.remove('open');
+  render();
+}
+
+function setView(v){
+  state.view=v;
+  document.getElementById('btnGrid').classList.toggle('active',v==='grid');
+  document.getElementById('btnList').classList.toggle('active',v==='list');
+  render();
+}
+
+function filterCheckList(input,type){
+  const q=input.value.toLowerCase();
+  document.querySelectorAll('#'+type+'-list .check-item').forEach(item=>{
+    item.style.display=item.querySelector('.check-label').textContent.toLowerCase().includes(q)?'':'none';
+  });
+}
+
+function addToCart(name){
+  state.cartQty++;
+  document.getElementById('cartBadge').textContent=state.cartQty;
+  showToast(name+' added to cart');
+}
+
+
+
+// ── MOBILE NAV ──
+function openMobileNav(){document.getElementById('mobileNav').classList.add('open');document.body.style.overflow='hidden';}
+function closeMobileNav(){document.getElementById('mobileNav').classList.remove('open');document.body.style.overflow='';}
+
+// ── MOBILE FILTER DRAWER ──
+function openFilterDrawer(){
+  document.getElementById('filterOverlay').classList.add('open');
+  document.getElementById('filterDrawer').classList.add('open');
+  document.body.style.overflow='hidden';
+  document.getElementById('drawerContent').innerHTML=document.getElementById('mainSidebar').innerHTML;
+}
+function closeFilterDrawer(){
+  document.getElementById('filterOverlay').classList.remove('open');
+  document.getElementById('filterDrawer').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// close sort dropdown on outside click
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.ftab-sort-wrap')) document.getElementById('sortDropdown').classList.remove('open');
+});
+
+// ── INIT ──
+render();
+</script>
+<script src="main.js"></script>
+</body>
+</html>

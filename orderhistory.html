@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order History — Smash Badminton Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.account-layout{max-width:1200px;margin:0 auto;padding:40px 32px 80px;display:grid;grid-template-columns:240px 1fr;gap:32px;align-items:start}
+.account-sidebar{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:24px;position:sticky;top:88px}
+.user-avatar{width:56px;height:56px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--text-muted);margin:0 auto 10px}
+.user-name{font-size:14px;font-weight:500;color:var(--text);text-align:center;margin-bottom:2px}
+.user-email{font-size:11px;color:var(--text-faint);text-align:center;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.sidebar-nav{display:flex;flex-direction:column;gap:2px}
+.sidebar-link{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:3px;font-size:13px;color:var(--text-muted);cursor:pointer;transition:all .2s;text-decoration:none;border:none;background:none;font-family:'DM Sans',sans-serif;width:100%;text-align:left}
+.sidebar-link:hover,.sidebar-link.active{background:var(--bg3);color:var(--text)}
+.sidebar-link.active{font-weight:500}
+.sidebar-link svg{width:16px;height:16px;flex-shrink:0}
+.sidebar-link.danger{color:var(--danger)}
+.sidebar-link.danger:hover{background:var(--danger-bg)}
+.filter-bar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center}
+.filter-tab{padding:7px 16px;border-radius:3px;border:1px solid var(--border);background:none;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text-muted);cursor:pointer;transition:all .2s}
+.filter-tab:hover{border-color:var(--border-strong);color:var(--text)}
+.filter-tab.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.search-orders{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:0 12px;height:36px;margin-left:auto}
+.search-orders svg{width:13px;height:13px;color:var(--text-faint)}
+.search-orders input{background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:'DM Sans',sans-serif;width:180px}
+.search-orders input::placeholder{color:var(--text-faint)}
+.order-card{background:var(--bg2);border:1px solid var(--border);border-radius:4px;margin-bottom:14px;overflow:hidden;animation:fadeUp .4s ease both}
+.order-card-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:10px}
+.order-card-left{display:flex;align-items:center;gap:16px}
+.order-num{font-size:12px;font-weight:500;color:var(--text);font-family:monospace;letter-spacing:.04em}
+.order-meta-sm{font-size:11px;color:var(--text-faint)}
+.order-status-badge{font-size:9px;font-weight:500;padding:3px 10px;border-radius:2px;letter-spacing:.04em;text-transform:uppercase}
+.badge-shipped{background:var(--warn-bg);color:var(--warn);border:1px solid var(--warn)}
+.badge-delivered{background:var(--success-bg);color:var(--success);border:1px solid var(--success)}
+.badge-processing{background:var(--info-bg);color:var(--info);border:1px solid var(--info)}
+.badge-cancelled{background:var(--danger-bg);color:var(--danger);border:1px solid var(--danger)}
+.order-card-right{display:flex;align-items:center;gap:12px}
+.order-total-hd{font-size:14px;font-weight:500;color:var(--text)}
+.order-action-btn{font-size:11px;color:var(--text-muted);background:none;border:1px solid var(--border);border-radius:3px;padding:6px 12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;letter-spacing:.04em}
+.order-action-btn:hover{border-color:var(--border-strong);color:var(--text)}
+.order-items-row{padding:16px 20px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.order-item-thumb{width:52px;height:64px;background:var(--bg3);border:1px solid var(--border);border-radius:2px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.order-item-thumb svg{width:20px;opacity:.7}
+.order-item-detail{flex:1;min-width:140px}
+.order-item-name{font-size:12px;color:var(--text);font-weight:400;margin-bottom:2px}
+.order-item-sub{font-size:11px;color:var(--text-muted)}
+.order-card-footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:10px;flex-wrap:wrap}
+.footer-action{font-size:12px;color:var(--text-muted);cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:6px;padding:0;transition:color .2s}
+.footer-action:hover{color:var(--text)}
+.footer-action svg{width:14px;height:14px}
+.footer-sep{width:1px;height:16px;background:var(--border);align-self:center}
+@media(max-width:900px){.account-layout{grid-template-columns:1fr}.account-sidebar{position:static}}
+@media(max-width:768px){.account-layout{padding:24px 16px 60px}.search-orders{display:none}.filter-bar{gap:6px}.order-card-header{padding:12px 14px}.order-items-row{padding:12px 14px}.order-card-footer{padding:10px 14px}}
+</style>
+</head>
+<body>
+<div class="mobile-nav" id="mobileNav">
+  <div class="mobile-nav-header"><span class="mobile-nav-logo">Smash</span><button class="mobile-close" onclick="closeMobileNav()">×</button></div>
+  <a class="mobile-link" href="index.html">Home</a>
+  <a class="mobile-link" href="collection.html">Shop</a>
+  <a class="mobile-link" href="login.html">Sign Out</a>
+</div>
+<div class="topbar">
+  <div class="topbar-left"><div class="theme-toggle" onclick="toggleTheme()"><span class="mode-icon" id="modeIcon">🌙</span><div class="toggle-track"><div class="toggle-knob"></div></div><span class="toggle-label" id="modeLabel">Dark mode</span></div></div>
+  <div class="topbar-right"><a href="#">Help</a><span class="topbar-sep">|</span><a href="login.html">Sign Out</a></div>
+</div>
+<nav class="navbar">
+  <div class="nav-main">
+    <a class="nav-logo" href="index.html"><span class="logo-word">Smash</span><span class="logo-tagline">Badminton Store</span></a>
+    <div class="nav-links"><a class="nav-link" href="index.html">New &amp; Featured</a><a class="nav-link" href="category.html">Rackets</a><a class="nav-link" href="footwear.html">Footwear</a><a class="nav-link" href="accessories.html">Accessories</a></div>
+    <div class="nav-right"><button class="icon-btn" title="Cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button><button class="hamburger" onclick="openMobileNav()"><span></span><span></span><span></span></button></div>
+  </div>
+</nav>
+<div class="breadcrumb-bar"><div class="breadcrumb-inner"><a href="index.html">Home</a><span>›</span><a href="accountdashboard.html">My Account</a><span>›</span><span style="color:var(--text)">Order History</span></div></div>
+<div class="account-layout">
+  <div class="account-sidebar">
+    <div class="user-avatar">AK</div>
+    <div class="user-name">Arjun Krishnan</div>
+    <div class="user-email">arjun@email.com</div>
+    <nav class="sidebar-nav">
+      <a class="sidebar-link" href="accountdashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a>
+      <a class="sidebar-link active" href="orderhistory.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>My Orders</a>
+      <a class="sidebar-link" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Wishlist</a>
+      <a class="sidebar-link" href="ordertracking.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16,8 20,8 23,11 23,16 16,16 16,8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Track Order</a>
+      <div style="height:1px;background:var(--border);margin:8px 0"></div>
+      <a class="sidebar-link danger" href="login.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign Out</a>
+    </nav>
+  </div>
+  <div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:.06em;color:var(--text);margin-bottom:20px">My Orders</div>
+    <div class="filter-bar">
+      <button class="filter-tab active" onclick="setFilter('all',this)">All Orders</button>
+      <button class="filter-tab" onclick="setFilter('processing',this)">Processing</button>
+      <button class="filter-tab" onclick="setFilter('shipped',this)">Shipped</button>
+      <button class="filter-tab" onclick="setFilter('delivered',this)">Delivered</button>
+      <button class="filter-tab" onclick="setFilter('cancelled',this)">Cancelled</button>
+      <div class="search-orders"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" placeholder="Search orders…" oninput="renderOrders(this.value)"></div>
+    </div>
+    <div id="ordersContainer"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Smash</div>
+        <p class="footer-desc">India's premier destination for professional badminton equipment. From Kerala to the court.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Shop</div>
+        <a class="footer-link" href="category.html">Rackets</a>
+        <a class="footer-link" href="footwear.html">Footwear</a>
+        <a class="footer-link" href="accessories.html">Shuttlecocks</a>
+        <a class="footer-link" href="accessories.html">Bags</a>
+        <a class="footer-link" href="apparel.html">Apparel</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Support</div>
+        <a class="footer-link" href="faq.html">FAQ</a>
+        <a class="footer-link" href="shipping.html">Shipping policy</a>
+        <a class="footer-link" href="returns.html">Returns</a>
+        <a class="footer-link" href="#">Size guide</a>
+        <a class="footer-link" href="contact.html">Contact us</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <a class="footer-link" href="#">About us</a>
+        <a class="footer-link" href="#">Blog</a>
+        <a class="footer-link" href="privacy.html">Privacy policy</a>
+        <a class="footer-link" href="terms.html">Terms</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Smash Badminton. All rights reserved.</span>
+      <div class="footer-links-row">
+        <a class="footer-link" href="https://www.instagram.com/smashsportsofficial/" target="_blank" style="margin:0">Instagram</a>
+        <a class="footer-link" href="#" style="margin:0">YouTube</a>
+        <a class="footer-link" href="https://wa.me/917592058888" target="_blank" style="margin:0">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<script>
+const racketSVG=`<svg viewBox="0 0 100 220" fill="none"><ellipse cx="50" cy="55" rx="34" ry="44" fill="none" stroke="currentColor" stroke-width="4.5"/><rect x="44" y="97" width="12" height="70" rx="3" fill="currentColor" opacity=".6"/><ellipse cx="50" cy="190" rx="7" ry="4.5" fill="currentColor" opacity=".35"/></svg>`;
+const orders=[
+  {id:'SMH-2026-04871',date:'Apr 11, 2026',status:'shipped',total:'₹35,079',items:[{name:'Yonex Astrox 88D Pro',meta:'Stiff · Qty 1'},{name:'Li-Ning Axforce 90 Max',meta:'Extra Stiff · Qty 2'}]},
+  {id:'SMH-2026-03210',date:'Mar 28, 2026',status:'delivered',total:'₹12,799',items:[{name:'Yonex Nanoflare 1000Z',meta:'Extra Stiff · Qty 1'}]},
+  {id:'SMH-2026-01985',date:'Feb 14, 2026',status:'delivered',total:'₹22,400',items:[{name:'Victor Thruster K Falcon',meta:'Medium · Qty 1'},{name:'Carlton Vapour Trail 90',meta:'Flexible · Qty 2'}]},
+  {id:'SMH-2025-09871',date:'Dec 20, 2025',status:'delivered',total:'₹8,500',items:[{name:'Carlton Kinesis Ultra',meta:'Flexible · Qty 1'}]},
+  {id:'SMH-2025-07321',date:'Oct 5, 2025',status:'cancelled',total:'₹4,299',items:[{name:'Apacs Ziggler Light 68',meta:'Flexible · Qty 1'}]},
+];
+let activeFilter='all';
+function badgeClass(s){return{shipped:'badge-shipped',delivered:'badge-delivered',processing:'badge-processing',cancelled:'badge-cancelled'}[s]||'';}
+function setFilter(f,btn){activeFilter=f;document.querySelectorAll('.filter-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderOrders('');}
+function renderOrders(search=''){
+  const list=orders.filter(o=>{
+    const matchFilter=activeFilter==='all'||o.status===activeFilter;
+    const matchSearch=!search||o.id.toLowerCase().includes(search.toLowerCase())||o.items.some(i=>i.name.toLowerCase().includes(search.toLowerCase()));
+    return matchFilter&&matchSearch;
+  });
+  const c=document.getElementById('ordersContainer');
+  if(!list.length){c.innerHTML=`<div style="text-align:center;padding:60px 20px"><div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--text-muted)">No orders found</div><p style="font-size:13px;color:var(--text-faint);margin-top:8px">Try a different filter or search term</p></div>`;return;}
+  c.innerHTML=list.map((o,idx)=>`
+  <div class="order-card" style="animation-delay:${idx*.07}s">
+    <div class="order-card-header">
+      <div class="order-card-left"><div><div class="order-num">${o.id}</div><div class="order-meta-sm">Placed on ${o.date} · ${o.items.length} item${o.items.length>1?'s':''}</div></div><span class="order-status-badge ${badgeClass(o.status)}">${o.status}</span></div>
+      <div class="order-card-right"><div class="order-total-hd">${o.total}</div><button class="order-action-btn" onclick="window.location.href='order-tracking.html'">Track</button><button class="order-action-btn" onclick="showToast('Invoice downloaded')">Invoice</button></div>
+    </div>
+    <div class="order-items-row">${o.items.map(i=>`<div style="display:flex;gap:10px;align-items:center"><div class="order-item-thumb">${racketSVG}</div><div class="order-item-detail"><div class="order-item-name">${i.name}</div><div class="order-item-sub">${i.meta}</div></div></div>`).join('')}</div>
+    <div class="order-card-footer">
+      <button class="footer-action" onclick="window.location.href='order-tracking.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16,8 20,8 23,11 23,16 16,16 16,8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Track Order</button>
+      <div class="footer-sep"></div>
+      <button class="footer-action" onclick="showToast('Return request submitted')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>Return / Exchange</button>
+      <div class="footer-sep"></div>
+      <button class="footer-action" onclick="showToast('Added to cart — all items from this order')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Buy Again</button>
+      ${o.status==='shipped'?`<div class="footer-sep"></div><button class="footer-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download Invoice</button>`:''}
+    </div>
+  </div>`).join('');
+}
+<script src="main.js"></script>
+renderOrders();
+</script>
+</body>
+</html>

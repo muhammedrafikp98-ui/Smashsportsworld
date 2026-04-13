@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Order — Smash Badminton Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  :root{--transition:.35s cubic-bezier(.4,0,.2,1)}
+  [data-theme="dark"]{
+    --bg:#000;--bg2:#0a0a0a;--bg3:#111;--bg4:#1a1a1a;--surface:#141414;
+    --border:rgba(255,255,255,.08);--border-strong:rgba(255,255,255,.18);
+    --text:#fff;--text-muted:rgba(255,255,255,.5);--text-faint:rgba(255,255,255,.25);
+    --promo-bg:#0f0f0f;--promo-text:rgba(255,255,255,.55);
+    --toggle-bg:#222;--toggle-knob:#fff;
+    --nav-shadow:0 1px 0 rgba(255,255,255,.06);
+    --success:#4ade80;--success-bg:rgba(74,222,128,.08);
+    --warn:#f59e0b;--warn-bg:rgba(245,158,11,.08);
+    --card-hover:#141414;
+  }
+  [data-theme="light"]{
+    --bg:#fff;--bg2:#fafafa;--bg3:#f4f4f4;--bg4:#ececec;--surface:#f8f8f8;
+    --border:rgba(0,0,0,.07);--border-strong:rgba(0,0,0,.15);
+    --text:#0a0a0a;--text-muted:rgba(0,0,0,.45);--text-faint:rgba(0,0,0,.2);
+    --promo-bg:#f4f4f4;--promo-text:rgba(0,0,0,.5);
+    --toggle-bg:#e0e0e0;--toggle-knob:#0a0a0a;
+    --nav-shadow:0 1px 0 rgba(0,0,0,.07);
+    --success:#16a34a;--success-bg:rgba(22,163,74,.08);
+    --warn:#d97706;--warn-bg:rgba(217,119,6,.08);
+    --card-hover:#f8f8f8;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;
+    transition:background var(--transition),color var(--transition);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+  /* TOPBAR */
+  .topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 32px;height:36px;
+    display:flex;align-items:center;justify-content:space-between}
+  .theme-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+  .toggle-track{width:38px;height:20px;border-radius:10px;background:var(--toggle-bg);position:relative;border:1px solid var(--border-strong);flex-shrink:0}
+  .toggle-knob{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--toggle-knob);transition:transform var(--transition)}
+  [data-theme="light"] .toggle-knob{transform:translateX(18px)}
+  .toggle-label{font-size:11px;color:var(--text-muted);font-weight:400;letter-spacing:.03em}
+  .topbar-right{display:flex;align-items:center;gap:20px}
+  .topbar-right a{font-size:11px;color:var(--text-muted);text-decoration:none;transition:color .2s}
+  .topbar-right a:hover{color:var(--text)}
+  .topbar-sep{color:var(--border-strong);font-size:11px}
+
+  /* NAVBAR */
+  .navbar{background:var(--bg);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:99}
+  .nav-main{max-width:1400px;margin:0 auto;padding:0 32px;height:64px;display:flex;align-items:center;gap:0}
+  .nav-logo{display:flex;flex-direction:column;text-decoration:none;margin-right:48px}
+  .logo-word{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.08em;color:var(--text);line-height:1}
+  .logo-tagline{font-size:9px;color:var(--text-muted);letter-spacing:.14em;text-transform:uppercase;line-height:1;margin-top:3px}
+  .nav-links{display:flex;align-items:center;gap:0;flex:1}
+  .nav-link{font-size:14px;font-weight:400;color:var(--text-muted);text-decoration:none;padding:0 18px;
+    height:64px;display:flex;align-items:center;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;white-space:nowrap}
+  .nav-link:hover{color:var(--text);border-bottom-color:var(--text)}
+  .nav-right{display:flex;align-items:center;gap:8px;margin-left:auto}
+  .icon-btn{width:38px;height:38px;border-radius:50%;background:none;border:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;color:var(--text);transition:background .2s}
+  .icon-btn:hover{background:var(--bg3)}
+  .icon-btn svg{width:20px;height:20px}
+  .hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;color:var(--text)}
+  .hamburger span{display:block;width:22px;height:2px;background:currentColor;border-radius:2px}
+
+  /* BREADCRUMB */
+  .breadcrumb-bar{border-bottom:1px solid var(--border);background:var(--bg2)}
+  .breadcrumb-inner{max-width:1400px;margin:0 auto;padding:12px 32px;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-faint)}
+  .breadcrumb-inner a{color:var(--text-faint);text-decoration:none;transition:color .2s}
+  .breadcrumb-inner a:hover{color:var(--text)}
+
+  /* MAIN */
+  .track-page{max-width:1000px;margin:0 auto;padding:40px 32px 80px}
+
+  /* SEARCH BAR */
+  .track-search{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:28px;margin-bottom:28px;animation:fadeUp .4s ease both}
+  .track-search-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.06em;color:var(--text);margin-bottom:6px}
+  .track-search-sub{font-size:13px;color:var(--text-muted);margin-bottom:20px}
+  .search-row{display:flex;gap:10px}
+  .track-input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:12px 16px;
+    font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;outline:none;
+    transition:border-color .2s}
+  .track-input:focus{border-color:var(--border-strong)}
+  .track-input::placeholder{color:var(--text-faint)}
+  .track-btn{background:var(--text);color:var(--bg);border:none;border-radius:3px;padding:12px 28px;
+    font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;
+    cursor:pointer;transition:opacity .2s;white-space:nowrap}
+  .track-btn:hover{opacity:.85}
+
+  /* STATUS BANNER */
+  .status-banner{border-radius:4px;padding:20px 24px;margin-bottom:24px;display:flex;align-items:center;gap:16px;animation:fadeUp .4s ease both .05s;border:1px solid}
+  .status-banner.shipped{background:var(--warn-bg);border-color:var(--warn)}
+  .status-banner.delivered{background:var(--success-bg);border-color:var(--success)}
+  .status-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .status-banner.shipped .status-icon{background:var(--warn-bg)}
+  .status-banner.delivered .status-icon{background:var(--success-bg)}
+  .status-icon svg{width:22px;height:22px}
+  .status-banner.shipped .status-icon svg{color:var(--warn)}
+  .status-banner.delivered .status-icon svg{color:var(--success)}
+  .status-info{}
+  .status-label{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+  .status-banner.shipped .status-label{color:var(--warn)}
+  .status-banner.delivered .status-label{color:var(--success)}
+  .status-title{font-size:16px;font-weight:500;color:var(--text);margin-bottom:2px}
+  .status-sub{font-size:13px;color:var(--text-muted)}
+  .status-eta{margin-left:auto;text-align:right;flex-shrink:0}
+  .status-eta-label{font-size:10px;color:var(--text-faint);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+  .status-eta-date{font-size:16px;font-weight:500;color:var(--text)}
+
+  /* LAYOUT */
+  .track-layout{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start}
+
+  /* TIMELINE CARD */
+  .track-card{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:28px;margin-bottom:20px;animation:fadeUp .4s ease both .1s}
+  .card-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.06em;color:var(--text);margin-bottom:20px}
+
+  /* PROGRESS BAR */
+  .progress-wrap{margin-bottom:28px}
+  .progress-steps{display:flex;justify-content:space-between;position:relative;margin-bottom:12px}
+  .progress-steps::before{content:'';position:absolute;top:13px;left:0;right:0;height:2px;background:var(--border-strong)}
+  .progress-fill{position:absolute;top:13px;left:0;height:2px;background:var(--success);transition:width .8s ease}
+  .prog-step{display:flex;flex-direction:column;align-items:center;gap:8px;position:relative;z-index:1;flex:1}
+  .prog-dot{width:28px;height:28px;border-radius:50%;border:2px solid var(--border-strong);background:var(--bg);
+    display:flex;align-items:center;justify-content:center;transition:all .3s}
+  .prog-dot.done{background:var(--success);border-color:var(--success)}
+  .prog-dot.done svg{color:#000}
+  .prog-dot.active{background:var(--text);border-color:var(--text)}
+  .prog-dot.active svg{color:var(--bg)}
+  .prog-dot svg{width:13px;height:13px;color:var(--text-faint)}
+  .prog-label{font-size:11px;color:var(--text-muted);text-align:center;white-space:nowrap}
+  .prog-step.done .prog-label,.prog-step.active .prog-label{color:var(--text)}
+
+  /* EVENTS */
+  .events-list{display:flex;flex-direction:column;gap:0}
+  .event{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid var(--border);position:relative}
+  .event:last-child{border-bottom:none}
+  .event-time{min-width:96px;flex-shrink:0;text-align:right}
+  .event-date{font-size:11px;font-weight:500;color:var(--text-muted)}
+  .event-hour{font-size:11px;color:var(--text-faint);margin-top:1px}
+  .event-dot-col{display:flex;flex-direction:column;align-items:center;gap:0;flex-shrink:0}
+  .event-dot{width:10px;height:10px;border-radius:50%;background:var(--border-strong);flex-shrink:0;margin-top:4px}
+  .event.latest .event-dot{background:var(--success);box-shadow:0 0 0 3px var(--success-bg)}
+  .event-line{flex:1;width:1px;background:var(--border);margin-top:4px;min-height:20px}
+  .event-content{flex:1}
+  .event-title{font-size:13px;font-weight:400;color:var(--text);margin-bottom:3px;line-height:1.4}
+  .event.latest .event-title{color:var(--success)}
+  .event-location{font-size:12px;color:var(--text-muted)}
+
+  /* RIGHT SIDEBAR */
+  .track-sidebar{}
+
+  /* ORDER INFO */
+  .order-info-card{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:24px;margin-bottom:16px;animation:fadeUp .4s ease both .15s}
+  .oi-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;font-size:13px}
+  .oi-row:last-child{margin-bottom:0}
+  .oi-label{color:var(--text-muted);font-size:12px}
+  .oi-val{color:var(--text);font-weight:400;text-align:right;font-size:12px}
+  .oi-val.mono{font-family:monospace;font-size:13px;letter-spacing:.04em}
+  .copy-inline{background:none;border:none;color:var(--text-faint);cursor:pointer;padding:0 0 0 6px;vertical-align:middle;transition:color .2s}
+  .copy-inline:hover{color:var(--text)}
+  .copy-inline svg{width:13px;height:13px;display:inline;vertical-align:middle}
+
+  /* ITEMS IN ORDER */
+  .items-card{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:24px;margin-bottom:16px;animation:fadeUp .4s ease both .2s}
+  .mini-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);align-items:center}
+  .mini-item:first-of-type{padding-top:0}
+  .mini-item:last-child{border-bottom:none;padding-bottom:0}
+  .mini-img{width:48px;height:60px;background:var(--bg3);border:1px solid var(--border);border-radius:2px;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .mini-img svg{width:20px;opacity:.7}
+  .mini-info{flex:1}
+  .mini-name{font-size:12px;color:var(--text);font-weight:400;margin-bottom:2px}
+  .mini-meta{font-size:11px;color:var(--text-muted)}
+  .mini-price{font-size:12px;font-weight:500;color:var(--text)}
+
+  /* ACTIONS */
+  .action-card{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:20px;animation:fadeUp .4s ease both .25s}
+  .action-btn{display:flex;align-items:center;gap:10px;width:100%;padding:12px 0;border:none;
+    background:none;color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;
+    border-bottom:1px solid var(--border);transition:color .2s;text-align:left}
+  .action-btn:last-child{border-bottom:none}
+  .action-btn:hover{color:var(--text)}
+  .action-btn svg{width:16px;height:16px;flex-shrink:0}
+  .action-btn .action-arrow{margin-left:auto;font-size:16px;color:var(--text-faint)}
+
+  /* MAP MOCK */
+  .map-card{background:var(--bg2);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:16px;animation:fadeUp .4s ease both .12s}
+  .map-placeholder{height:200px;background:var(--bg3);display:flex;align-items:center;justify-content:center;position:relative;border-bottom:1px solid var(--border)}
+  .map-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:28px 28px}
+  .map-dot{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:20px;height:20px;border-radius:50%;background:var(--success);box-shadow:0 0 0 8px var(--success-bg);animation:mapPulse 2s infinite}
+  .map-label{position:absolute;top:14px;left:14px;background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:6px 12px;font-size:11px;color:var(--text-muted)}
+  .map-refresh{position:absolute;top:14px;right:14px;background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:6px 8px;cursor:pointer;color:var(--text-muted);transition:color .2s}
+  .map-refresh:hover{color:var(--text)}
+  .map-refresh svg{width:14px;height:14px;display:block}
+  .map-info{padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+  .map-courier{font-size:13px;color:var(--text)}
+  .map-track-id{font-size:12px;color:var(--text-muted)}
+  .map-ext-btn{font-size:11px;color:var(--text-muted);background:var(--bg3);border:1px solid var(--border);
+    border-radius:3px;padding:6px 12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;letter-spacing:.04em;text-transform:uppercase}
+  .map-ext-btn:hover{color:var(--text);border-color:var(--border-strong)}
+
+  /* NOTIFICATION OPT */
+  .notif-card{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:20px;margin-bottom:16px;animation:fadeUp .4s ease both .22s}
+  .notif-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:12px}
+  .notif-opt{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)}
+  .notif-opt:last-child{border-bottom:none}
+  .notif-opt-label{font-size:12px;color:var(--text-muted)}
+  .toggle-sm{width:32px;height:17px;border-radius:9px;background:var(--border-strong);position:relative;cursor:pointer;transition:background .2s}
+  .toggle-sm.on{background:var(--success)}
+  .toggle-sm-knob{position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:#fff;transition:transform .2s}
+  .toggle-sm.on .toggle-sm-knob{transform:translateX(15px)}
+
+  /* TOAST */
+  .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);
+    background:var(--text);color:var(--bg);padding:11px 22px;border-radius:3px;font-size:13px;
+    font-weight:400;z-index:999;pointer-events:none;white-space:nowrap;transition:transform .3s cubic-bezier(.4,0,.2,1)}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  @keyframes mapPulse{0%{box-shadow:0 0 0 0 var(--success-bg)}70%{box-shadow:0 0 0 14px transparent}100%{box-shadow:0 0 0 0 transparent}}
+
+  @media(max-width:900px){.track-layout{grid-template-columns:1fr}}
+  @media(max-width:768px){
+    .topbar{padding:0 16px}.nav-main{padding:0 16px}
+    .nav-links{display:none}.hamburger{display:flex}
+    .track-page{padding:24px 16px 60px}
+    .breadcrumb-inner{padding:12px 16px}
+    .prog-label{display:none}
+    .search-row{flex-direction:column}
+    .status-eta{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="theme-toggle" onclick="toggleTheme()">
+    <span id="modeIcon">🌙</span>
+    <div class="toggle-track"><div class="toggle-knob"></div></div>
+    <span class="toggle-label" id="modeLabel">Dark mode</span>
+  </div>
+  <div class="topbar-right">
+    <a href="#">Help</a><span class="topbar-sep">|</span>
+    <a href="accountdashboard.html">My Account</a>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-main">
+    <a class="nav-logo" href="index.html">
+      <span class="logo-word">Smash</span>
+      <span class="logo-tagline">Badminton Store</span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">New &amp; Featured</a>
+      <a class="nav-link" href="category.html">Rackets</a>
+      <a class="nav-link" href="footwear.html">Footwear</a>
+      <a class="nav-link" href="apparel.html">Apparel</a>
+      <a class="nav-link" href="accessories.html">Accessories</a>
+    </div>
+    <div class="nav-right">
+      <button class="icon-btn" title="Cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </button>
+      <button class="hamburger" onclick="showToast('Mobile menu')"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar">
+  <div class="breadcrumb-inner">
+    <a href="index.html">Home</a> <span>›</span>
+    <a href="accountdashboard.html">My Account</a> <span>›</span>
+    <span style="color:var(--text)">Track Order</span>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="track-page">
+
+  <!-- SEARCH -->
+  <div class="track-search">
+    <div class="track-search-title">Track Your Order</div>
+    <div class="track-search-sub">Enter your order ID or tracking number to get live updates</div>
+    <div class="search-row">
+      <input class="track-input" type="text" id="trackInput" placeholder="e.g. SMH-2026-04871 or AWB123456789" value="SMH-2026-04871">
+      <button class="track-btn" onclick="refreshTracking()">Track</button>
+    </div>
+  </div>
+
+  <!-- STATUS BANNER -->
+  <div class="status-banner shipped">
+    <div class="status-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16,8 20,8 23,11 23,16 16,16 16,8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+    </div>
+    <div class="status-info">
+      <div class="status-label">In Transit</div>
+      <div class="status-title">Your order is on its way!</div>
+      <div class="status-sub">BlueDart · AWB: 1234567890 · Last updated: 2 hrs ago</div>
+    </div>
+    <div class="status-eta">
+      <div class="status-eta-label">Expected by</div>
+      <div class="status-eta-date">Apr 14, 2026</div>
+    </div>
+  </div>
+
+  <!-- MAIN LAYOUT -->
+  <div class="track-layout">
+
+    <!-- LEFT -->
+    <div>
+
+      <!-- PROGRESS TRACKER -->
+      <div class="track-card">
+        <div class="card-title">Shipment Progress</div>
+        <div class="progress-wrap">
+          <div class="progress-steps" id="progSteps">
+            <div class="prog-step done">
+              <div class="prog-dot done">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+              </div>
+              <div class="prog-label">Ordered</div>
+            </div>
+            <div class="prog-step done">
+              <div class="prog-dot done">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+              </div>
+              <div class="prog-label">Confirmed</div>
+            </div>
+            <div class="prog-step done">
+              <div class="prog-dot done">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+              </div>
+              <div class="prog-label">Packed</div>
+            </div>
+            <div class="prog-step active">
+              <div class="prog-dot active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16,8 20,8 23,11 23,16 16,16 16,8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+              </div>
+              <div class="prog-label">Shipped</div>
+            </div>
+            <div class="prog-step">
+              <div class="prog-dot">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              </div>
+              <div class="prog-label">Delivered</div>
+            </div>
+          </div>
+          <div class="progress-fill" style="width:72%"></div>
+        </div>
+
+        <!-- EVENTS -->
+        <div class="events-list">
+          <div class="event latest">
+            <div class="event-time">
+              <div class="event-date">Apr 13</div>
+              <div class="event-hour">9:15 AM</div>
+            </div>
+            <div class="event-dot-col">
+              <div class="event-dot"></div>
+              <div class="event-line"></div>
+            </div>
+            <div class="event-content">
+              <div class="event-title">Out for delivery — Chennai Hub</div>
+              <div class="event-location">📍 Chennai Distribution Centre, Tamil Nadu</div>
+            </div>
+          </div>
+          <div class="event">
+            <div class="event-time">
+              <div class="event-date">Apr 12</div>
+              <div class="event-hour">11:30 PM</div>
+            </div>
+            <div class="event-dot-col">
+              <div class="event-dot"></div>
+              <div class="event-line"></div>
+            </div>
+            <div class="event-content">
+              <div class="event-title">Arrived at transit hub</div>
+              <div class="event-location">📍 Chennai, Tamil Nadu</div>
+            </div>
+          </div>
+          <div class="event">
+            <div class="event-time">
+              <div class="event-date">Apr 12</div>
+              <div class="event-hour">2:45 PM</div>
+            </div>
+            <div class="event-dot-col">
+              <div class="event-dot"></div>
+              <div class="event-line"></div>
+            </div>
+            <div class="event-content">
+              <div class="event-title">In transit — Coimbatore to Chennai</div>
+              <div class="event-location">📍 Coimbatore, Tamil Nadu</div>
+            </div>
+          </div>
+          <div class="event">
+            <div class="event-time">
+              <div class="event-date">Apr 12</div>
+              <div class="event-hour">7:00 AM</div>
+            </div>
+            <div class="event-dot-col">
+              <div class="event-dot"></div>
+              <div class="event-line"></div>
+            </div>
+            <div class="event-content">
+              <div class="event-title">Picked up by BlueDart</div>
+              <div class="event-location">📍 Smash Warehouse, Bengaluru, Karnataka</div>
+            </div>
+          </div>
+          <div class="event">
+            <div class="event-time">
+              <div class="event-date">Apr 11</div>
+              <div class="event-hour">4:20 PM</div>
+            </div>
+            <div class="event-dot-col">
+              <div class="event-dot"></div>
+              <div class="event-line"></div>
+            </div>
+            <div class="event-content">
+              <div class="event-title">Order packed and ready for dispatch</div>
+              <div class="event-location">📍 Smash Fulfillment Centre, Bengaluru</div>
+            </div>
+          </div>
+          <div class="event">
+            <div class="event-time">
+              <div class="event-date">Apr 11</div>
+              <div class="event-hour">3:45 PM</div>
+            </div>
+            <div class="event-dot-col">
+              <div class="event-dot"></div>
+              <div class="event-line"></div>
+            </div>
+            <div class="event-content">
+              <div class="event-title">Order confirmed and payment received</div>
+              <div class="event-location">📍 Smash Badminton Store</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDEBAR -->
+    <div class="track-sidebar">
+
+      <!-- MAP -->
+      <div class="map-card">
+        <div class="map-placeholder">
+          <div class="map-grid"></div>
+          <div class="map-dot"></div>
+          <div class="map-label">🚚 In transit</div>
+          <button class="map-refresh" onclick="showToast('Location refreshed')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+          </button>
+        </div>
+        <div class="map-info">
+          <div>
+            <div class="map-courier">BlueDart Express</div>
+            <div class="map-track-id">AWB: 1234567890</div>
+          </div>
+          <button class="map-ext-btn" onclick="showToast('Opening BlueDart tracker…')">Track on BlueDart</button>
+        </div>
+      </div>
+
+      <!-- ORDER INFO -->
+      <div class="order-info-card">
+        <div class="card-title" style="font-size:18px;margin-bottom:16px">Order Details</div>
+        <div class="oi-row">
+          <span class="oi-label">Order ID</span>
+          <span class="oi-val mono">SMH-2026-04871
+            <button class="copy-inline" onclick="showToast('Copied!')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </span>
+        </div>
+        <div class="oi-row"><span class="oi-label">Order Date</span><span class="oi-val">Apr 11, 2026</span></div>
+        <div class="oi-row"><span class="oi-label">Order Total</span><span class="oi-val">₹35,079</span></div>
+        <div class="oi-row"><span class="oi-label">Payment</span><span class="oi-val">Google Pay · Paid</span></div>
+        <div class="oi-row"><span class="oi-label">Deliver to</span><span class="oi-val">Kadayanallur, TN</span></div>
+      </div>
+
+      <!-- ITEMS -->
+      <div class="items-card">
+        <div class="card-title" style="font-size:18px;margin-bottom:16px">Items (3)</div>
+        <div class="mini-item">
+          <div class="mini-img"><svg viewBox="0 0 100 220" fill="none"><ellipse cx="50" cy="55" rx="34" ry="44" fill="none" stroke="currentColor" stroke-width="4.5"/><rect x="44" y="97" width="12" height="70" rx="3" fill="currentColor" opacity=".6"/></svg></div>
+          <div class="mini-info">
+            <div class="mini-name">Yonex Astrox 88D Pro</div>
+            <div class="mini-meta">Stiff · Qty 1</div>
+          </div>
+          <div class="mini-price">₹12,799</div>
+        </div>
+        <div class="mini-item">
+          <div class="mini-img"><svg viewBox="0 0 100 220" fill="none"><ellipse cx="50" cy="55" rx="34" ry="44" fill="none" stroke="currentColor" stroke-width="4.5"/><rect x="44" y="97" width="12" height="70" rx="3" fill="currentColor" opacity=".6"/></svg></div>
+          <div class="mini-info">
+            <div class="mini-name">Li-Ning Axforce 90 Max</div>
+            <div class="mini-meta">Extra Stiff · Qty 2</div>
+          </div>
+          <div class="mini-price">₹22,400</div>
+        </div>
+      </div>
+
+      <!-- NOTIFICATIONS -->
+      <div class="notif-card">
+        <div class="notif-title">Delivery Notifications</div>
+        <div class="notif-opt">
+          <span class="notif-opt-label">SMS updates</span>
+          <div class="toggle-sm on" onclick="this.classList.toggle('on')"><div class="toggle-sm-knob"></div></div>
+        </div>
+        <div class="notif-opt">
+          <span class="notif-opt-label">Email updates</span>
+          <div class="toggle-sm on" onclick="this.classList.toggle('on')"><div class="toggle-sm-knob"></div></div>
+        </div>
+        <div class="notif-opt">
+          <span class="notif-opt-label">WhatsApp alerts</span>
+          <div class="toggle-sm" onclick="this.classList.toggle('on')"><div class="toggle-sm-knob"></div></div>
+        </div>
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="action-card">
+        <button class="action-btn" onclick="showToast('Download invoice')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Invoice
+          <span class="action-arrow">›</span>
+        </button>
+        <button class="action-btn" onclick="showToast('Raise return request')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/></svg>
+          Request Return / Exchange
+          <span class="action-arrow">›</span>
+        </button>
+        <button class="action-btn" onclick="window.location.href='contact.html'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Contact Support
+          <span class="action-arrow">›</span>
+        </button>
+        <button class="action-btn" onclick="window.location.href='index.html'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          Shop Again
+          <span class="action-arrow">›</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Smash</div>
+        <p class="footer-desc">India's premier destination for professional badminton equipment. From Kerala to the court.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Shop</div>
+        <a class="footer-link" href="category.html">Rackets</a>
+        <a class="footer-link" href="footwear.html">Footwear</a>
+        <a class="footer-link" href="accessories.html">Shuttlecocks</a>
+        <a class="footer-link" href="accessories.html">Bags</a>
+        <a class="footer-link" href="apparel.html">Apparel</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Support</div>
+        <a class="footer-link" href="faq.html">FAQ</a>
+        <a class="footer-link" href="shipping.html">Shipping policy</a>
+        <a class="footer-link" href="returns.html">Returns</a>
+        <a class="footer-link" href="#">Size guide</a>
+        <a class="footer-link" href="contact.html">Contact us</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <a class="footer-link" href="#">About us</a>
+        <a class="footer-link" href="#">Blog</a>
+        <a class="footer-link" href="privacy.html">Privacy policy</a>
+        <a class="footer-link" href="terms.html">Terms</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Smash Badminton. All rights reserved.</span>
+      <div class="footer-links-row">
+        <a class="footer-link" href="https://www.instagram.com/smashsportsofficial/" target="_blank" style="margin:0">Instagram</a>
+        <a class="footer-link" href="#" style="margin:0">YouTube</a>
+        <a class="footer-link" href="https://wa.me/917592058888" target="_blank" style="margin:0">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2200);
+}
+function refreshTracking(){
+  showToast('Tracking refreshed — SMH-2026-04871');
+}
+</script>
+
+<script src="main.js"></script>
+</body>
+</html>

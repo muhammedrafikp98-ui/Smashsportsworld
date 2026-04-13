@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shipping Policy — Smash Badminton Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.policy-page{max-width:900px;margin:0 auto;padding:60px 32px 80px;display:grid;grid-template-columns:220px 1fr;gap:48px;align-items:start}
+.policy-toc{position:sticky;top:88px;background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:20px}
+.toc-title{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);margin-bottom:12px}
+.toc-link{display:block;font-size:13px;color:var(--text-muted);text-decoration:none;padding:6px 0;border-bottom:1px solid var(--border);transition:color .2s}
+.toc-link:last-child{border-bottom:none}
+.toc-link:hover,.toc-link.active{color:var(--text)}
+.policy-content h2{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.06em;color:var(--text);margin:36px 0 14px;scroll-margin-top:90px}
+.policy-content h2:first-child{margin-top:0}
+.policy-content p{font-size:14px;color:var(--text-muted);line-height:1.8;margin-bottom:14px}
+.policy-content ul,.policy-content ol{padding-left:20px;margin-bottom:14px}
+.policy-content li{font-size:14px;color:var(--text-muted);line-height:1.8;margin-bottom:6px}
+.policy-content strong{color:var(--text);font-weight:500}
+.policy-content a{color:var(--text-muted);text-decoration:underline;text-underline-offset:3px;transition:color .2s}
+.policy-content a:hover{color:var(--text)}
+.policy-highlight{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--text);border-radius:0 4px 4px 0;padding:16px 20px;margin:20px 0;font-size:13px;color:var(--text-muted);line-height:1.7}
+.policy-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.policy-table th{text-align:left;padding:10px 14px;background:var(--bg3);color:var(--text-muted);font-weight:500;font-size:11px;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--border-strong)}
+.policy-table td{padding:10px 14px;color:var(--text-muted);border-bottom:1px solid var(--border)}
+.policy-table tr:last-child td{border-bottom:none}
+.faq-item{border-bottom:1px solid var(--border);overflow:hidden}
+.faq-question{display:flex;align-items:center;justify-content:space-between;padding:18px 0;cursor:pointer;font-size:14px;font-weight:400;color:var(--text);transition:color .2s;gap:12px;list-style:none}
+.faq-question:hover{color:var(--text-muted)}
+.faq-arrow{width:18px;height:18px;color:var(--text-faint);flex-shrink:0;transition:transform .25s}
+.faq-answer{font-size:13px;color:var(--text-muted);line-height:1.8;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease}
+.faq-answer.open{max-height:400px;padding-bottom:16px}
+.faq-arrow.open{transform:rotate(45deg)}
+.faq-category{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.06em;color:var(--text);margin:32px 0 14px;scroll-margin-top:90px}
+.faq-category:first-child{margin-top:0}
+@media(max-width:900px){.policy-page{grid-template-columns:1fr}.policy-toc{position:static;display:none}}
+@media(max-width:768px){.policy-page{padding:40px 16px 60px}}
+</style>
+</head>
+<body>
+<div class="mobile-nav" id="mobileNav">
+  <div class="mobile-nav-header"><span class="mobile-nav-logo">Smash</span><button class="mobile-close" onclick="closeMobileNav()">×</button></div>
+  <a class="mobile-link" href="index.html">Home</a><a class="mobile-link" href="category.html">Shop</a>
+</div>
+<div class="topbar">
+  <div class="topbar-left"><div class="theme-toggle" onclick="toggleTheme()"><span class="mode-icon" id="modeIcon">🌙</span><div class="toggle-track"><div class="toggle-knob"></div></div><span class="toggle-label" id="modeLabel">Dark mode</span></div></div>
+  <div class="topbar-right"><a href="#">Help</a><span class="topbar-sep">|</span><a href="login.html">Sign In</a></div>
+</div>
+<nav class="navbar">
+  <div class="nav-main">
+    <a class="nav-logo" href="index.html"><span class="logo-word">Smash</span><span class="logo-tagline">Badminton Store</span></a>
+    <div class="nav-links"><a class="nav-link" href="index.html">New &amp; Featured</a><a class="nav-link" href="category.html">Rackets</a><a class="nav-link" href="category.html">Footwear</a><a class="nav-link" href="category.html">Accessories</a></div>
+    <div class="nav-right"><button class="icon-btn" title="Cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button><button class="hamburger" onclick="openMobileNav()"><span></span><span></span><span></span></button></div>
+  </div>
+</nav>
+<div class="breadcrumb-bar"><div class="breadcrumb-inner"><a href="index.html">Home</a><span>›</span><span style="color:var(--text)">Shipping & Delivery</span></div></div>
+<div style="background:var(--bg2);border-bottom:1px solid var(--border);padding:32px 32px 0;max-width:1400px;margin:0 auto">
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,5vw,64px);letter-spacing:.04em;color:var(--text);line-height:1;margin-bottom:10px">Shipping & Delivery</div>
+  <div style="font-size:14px;color:var(--text-muted);padding-bottom:24px">Everything you need to know about how and when your order gets to you.</div>
+</div>
+<div class="policy-page" id="policyPage"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Smash</div>
+        <p class="footer-desc">India's premier destination for professional badminton equipment. From Kerala to the court.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Shop</div>
+        <a class="footer-link" href="category.html">Rackets</a>
+        <a class="footer-link" href="footwear.html">Footwear</a>
+        <a class="footer-link" href="accessories.html">Shuttlecocks</a>
+        <a class="footer-link" href="accessories.html">Bags</a>
+        <a class="footer-link" href="apparel.html">Apparel</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Support</div>
+        <a class="footer-link" href="faq.html">FAQ</a>
+        <a class="footer-link" href="shipping.html">Shipping policy</a>
+        <a class="footer-link" href="returns.html">Returns</a>
+        <a class="footer-link" href="#">Size guide</a>
+        <a class="footer-link" href="contact.html">Contact us</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <a class="footer-link" href="#">About us</a>
+        <a class="footer-link" href="#">Blog</a>
+        <a class="footer-link" href="privacy.html">Privacy policy</a>
+        <a class="footer-link" href="terms.html">Terms</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Smash Badminton. All rights reserved.</span>
+      <div class="footer-links-row">
+        <a class="footer-link" href="https://www.instagram.com/smashsportsofficial/" target="_blank" style="margin:0">Instagram</a>
+        <a class="footer-link" href="#" style="margin:0">YouTube</a>
+        <a class="footer-link" href="https://wa.me/917592058888" target="_blank" style="margin:0">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<script>
+const PAGE='shipping';
+const content={
+
+shipping:{
+  toc:[['delivery-times','Delivery Times'],['free-shipping','Free Shipping'],['express','Express Delivery'],['tracking','Tracking'],['international','International']],
+  html:`
+<h2 id="delivery-times">Delivery Timeframes</h2>
+<p>We partner with India's leading courier services — BlueDart, Delhivery, and India Post — to ensure your badminton gear reaches you quickly and safely.</p>
+<table class="policy-table"><thead><tr><th>Delivery Type</th><th>Timeframe</th><th>Cost</th><th>Coverage</th></tr></thead><tbody>
+<tr><td><strong>Standard Delivery</strong></td><td>3–5 business days</td><td>Free above ₹999 · ₹99 below</td><td>All India</td></tr>
+<tr><td><strong>Express Delivery</strong></td><td>Next business day</td><td>₹149</td><td>Select cities</td></tr>
+<tr><td><strong>Same-Day Delivery</strong></td><td>Same day (order before 12 PM)</td><td>₹299</td><td>Bengaluru, Chennai, Mumbai, Delhi</td></tr>
+<tr><td><strong>Remote Areas</strong></td><td>5–7 business days</td><td>₹149</td><td>Northeast, J&K, Islands</td></tr>
+</tbody></table>
+<h2 id="free-shipping">Free Shipping</h2>
+<p>All orders above <strong>₹999</strong> qualify for free standard delivery — no code needed. The free shipping threshold applies to the final cart value after any discounts or coupons.</p>
+<div class="policy-highlight">💡 <strong>Pro tip:</strong> Add an overgrip pack or shuttlecock tube to reach ₹999 and unlock free shipping on your racket purchase.</div>
+<h2 id="express">Express &amp; Same-Day Delivery</h2>
+<p>Express delivery is available in over 100 cities across India. Place your order before <strong>3 PM</strong> for next-day delivery. Same-day delivery is available in Bengaluru, Chennai, Mumbai, Hyderabad, and Delhi for orders placed before <strong>12 PM</strong>.</p>
+<p>Public holidays and Sundays are not counted as business days. Orders placed on these days will be dispatched on the next business day.</p>
+<h2 id="tracking">Order Tracking</h2>
+<p>Once your order is dispatched, you will receive an SMS and email with your tracking number and a direct link to the courier's tracking page. You can also track your order on our <a href="order-tracking.html">Order Tracking page</a> using your Order ID.</p>
+<h2 id="international">International Shipping</h2>
+<p>Currently, we ship within India only. We are working on international shipping and expect to launch it by Q3 2026. If you are based outside India and need our products urgently, please <a href="contact.html">contact us</a> and we will try to assist.</p>
+  `
+},
+
+};
+const data=content[PAGE];
+document.getElementById('policyPage').innerHTML=`<div class="policy-toc"><div class="toc-title">On this page</div>${data.toc.map(([id,label])=>`<a class="toc-link" href="#${id}">${label}</a>`).join('')}</div><div class="policy-content">${data.html}</div>`;
+
+</script>
+<script src="main.js"></script>
+</body>
+</html>

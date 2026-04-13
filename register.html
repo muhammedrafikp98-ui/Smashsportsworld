@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account — Smash Badminton Store</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .auth-page {
+        min-height: calc(100vh - 100px);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 60px 32px;
+        gap: 80px;
+        align-items: start;
+      }
+      .auth-left {
+        padding-top: 20px;
+      }
+      .auth-headline {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(48px, 5.5vw, 78px);
+        letter-spacing: 0.04em;
+        color: var(--text);
+        line-height: 0.92;
+        margin-bottom: 20px;
+      }
+      .auth-headline em {
+        font-style: normal;
+        color: var(--text-muted);
+      }
+      .auth-tagline {
+        font-size: 15px;
+        color: var(--text-muted);
+        line-height: 1.65;
+        max-width: 380px;
+        margin-bottom: 32px;
+      }
+      .auth-perks {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .auth-perk {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 13px;
+        color: var(--text-muted);
+      }
+      .auth-perk-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--success);
+        flex-shrink: 0;
+      }
+      .auth-box {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 36px;
+        animation: fadeUp 0.5s ease both;
+      }
+      .auth-box-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 28px;
+        letter-spacing: 0.06em;
+        color: var(--text);
+        margin-bottom: 6px;
+      }
+      .auth-box-sub {
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-bottom: 28px;
+      }
+      .auth-submit {
+        width: 100%;
+        padding: 13px;
+        background: var(--text);
+        color: var(--bg);
+        border: none;
+        border-radius: 3px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        cursor: pointer;
+        margin-top: 4px;
+        transition:
+          opacity 0.2s,
+          transform 0.15s;
+      }
+      .auth-submit:hover {
+        opacity: 0.85;
+        transform: translateY(-1px);
+      }
+      .auth-footer {
+        text-align: center;
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-top: 20px;
+      }
+      .auth-footer a {
+        color: var(--text);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+      .pw-wrap {
+        position: relative;
+      }
+      .pw-toggle {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: var(--text-faint);
+        cursor: pointer;
+        padding: 4px;
+        transition: color 0.2s;
+      }
+      .pw-toggle:hover {
+        color: var(--text);
+      }
+      .pw-toggle svg {
+        width: 16px;
+        height: 16px;
+        display: block;
+      }
+      .strength-bar {
+        height: 3px;
+        border-radius: 2px;
+        background: var(--border-strong);
+        margin-top: 6px;
+        overflow: hidden;
+      }
+      .strength-fill {
+        height: 100%;
+        border-radius: 2px;
+        transition:
+          width 0.3s,
+          background 0.3s;
+        width: 0;
+      }
+      .strength-label {
+        font-size: 10px;
+        color: var(--text-faint);
+        margin-top: 3px;
+      }
+      .terms-check {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 12px;
+        color: var(--text-muted);
+        cursor: pointer;
+        line-height: 1.5;
+      }
+      .terms-check input {
+        width: 15px;
+        height: 15px;
+        accent-color: var(--text);
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .terms-check a {
+        color: var(--text);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+      .auth-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 16px 0;
+      }
+      .auth-divider-line {
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+      .auth-divider-text {
+        font-size: 11px;
+        color: var(--text-faint);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .social-btn {
+        width: 100%;
+        padding: 11px;
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        border-radius: 3px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 13px;
+        color: var(--text-muted);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: all 0.2s;
+        margin-bottom: 10px;
+      }
+      .social-btn:hover {
+        border-color: var(--border-strong);
+        color: var(--text);
+      }
+      @media (max-width: 900px) {
+        .auth-page {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+        .auth-left {
+          display: none;
+        }
+      }
+      @media (max-width: 768px) {
+        .auth-page {
+          padding: 40px 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mobile-nav" id="mobileNav">
+      <div class="mobile-nav-header">
+        <span class="mobile-nav-logo">Smash</span
+        ><button class="mobile-close" onclick="closeMobileNav()">×</button>
+      </div>
+      <a class="mobile-link" href="index.html">Home</a>
+      <a class="mobile-link" href="">Shop</a>
+    </div>
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="theme-toggle" onclick="toggleTheme()">
+          <span class="mode-icon" id="modeIcon">🌙</span>
+          <div class="toggle-track"><div class="toggle-knob"></div></div>
+          <span class="toggle-label" id="modeLabel">Dark mode</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <a href="#">Help</a><span class="topbar-sep">|</span
+        ><a href="login.html">Sign In</a>
+      </div>
+    </div>
+    <nav class="navbar">
+      <div class="nav-main">
+        <a class="nav-logo" href="index.html"
+          ><span class="logo-word">Smash</span
+          ><span class="logo-tagline">Badminton Store</span></a
+        >
+        <div class="nav-links">
+          <a class="nav-link" href="index.html">New &amp; Featured</a>
+          <a class="nav-link" href="category.html">Rackets</a>
+          <a class="nav-link" href="">Footwear</a>
+          <a class="nav-link" href="">Accessories</a>
+        </div>
+        <div class="nav-right">
+          <button class="icon-btn" title="Cart">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <path d="M16 10a4 4 0 0 1-8 0" />
+            </svg>
+          </button>
+          <button class="hamburger" onclick="openMobileNav()">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div class="auth-page">
+      <div class="auth-left">
+        <div class="auth-headline">JOIN<br /><em>THE</em><br />GAME</div>
+        <p class="auth-tagline">
+          Create your Smash account in 60 seconds. Get access to exclusive
+          offers, order tracking, and more.
+        </p>
+        <div class="auth-perks">
+          <div class="auth-perk">
+            <div class="auth-perk-dot"></div>
+            ₹200 off your first order
+          </div>
+          <div class="auth-perk">
+            <div class="auth-perk-dot"></div>
+            Early access to sales and new drops
+          </div>
+          <div class="auth-perk">
+            <div class="auth-perk-dot"></div>
+            Save multiple delivery addresses
+          </div>
+          <div class="auth-perk">
+            <div class="auth-perk-dot"></div>
+            Free shipping on all member orders above ₹999
+          </div>
+        </div>
+      </div>
+      <div class="auth-box">
+        <div class="auth-box-title">Create Account</div>
+        <div class="auth-box-sub">It's free and takes less than a minute</div>
+        <button class="social-btn">G &nbsp; Sign up with Google</button>
+        <div class="auth-divider">
+          <div class="auth-divider-line"></div>
+          <span class="auth-divider-text">or fill the form</span>
+          <div class="auth-divider-line"></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 14px">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">First Name</label
+              ><input
+                class="form-input"
+                type="text"
+                id="fName"
+                placeholder="Arjun"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last Name</label
+              ><input
+                class="form-input"
+                type="text"
+                id="lName"
+                placeholder="Krishnan"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label
+            ><input
+              class="form-input"
+              type="email"
+              id="regEmail"
+              placeholder="arjun@email.com"
+              required
+            />
+            <div class="form-error" id="regEmailErr">
+              Please enter a valid email
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number</label
+            ><input
+              class="form-input"
+              type="tel"
+              placeholder="+91 98765 43210"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <div class="pw-wrap">
+              <input
+                class="form-input"
+                type="password"
+                id="regPw"
+                placeholder="Min 8 characters"
+                style="width: 100%; padding-right: 44px"
+                oninput="checkStrength(this.value)"
+              /><button
+                class="pw-toggle"
+                onclick="togglePw('regPw', this)"
+                type="button"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                >
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+            </div>
+            <div class="strength-bar">
+              <div class="strength-fill" id="strengthFill"></div>
+            </div>
+            <div class="strength-label" id="strengthLabel"></div>
+            <div class="form-error" id="pwErr2">
+              Password must be at least 8 characters
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirm Password</label>
+            <div class="pw-wrap">
+              <input
+                class="form-input"
+                type="password"
+                id="regPw2"
+                placeholder="Re-enter password"
+                style="width: 100%; padding-right: 44px"
+              /><button
+                class="pw-toggle"
+                onclick="togglePw('regPw2', this)"
+                type="button"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                >
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+            </div>
+            <div class="form-error" id="pw2Err">Passwords do not match</div>
+          </div>
+          <label class="terms-check"
+            ><input type="checkbox" id="termsCheck" />I agree to the
+            <a href="terms.html">Terms of Service</a> and
+            <a href="privacy.html">Privacy Policy</a></label
+          >
+          <button class="auth-submit" onclick="handleRegister()">
+            Create Account
+          </button>
+        </div>
+        <div class="auth-footer">
+          Already have an account? <a href="login.html">Sign in →</a>
+        </div>
+      </div>
+    </div>
+    
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Smash</div>
+        <p class="footer-desc">India's premier destination for professional badminton equipment. From Kerala to the court.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Shop</div>
+        <a class="footer-link" href="category.html">Rackets</a>
+        <a class="footer-link" href="footwear.html">Footwear</a>
+        <a class="footer-link" href="accessories.html">Shuttlecocks</a>
+        <a class="footer-link" href="accessories.html">Bags</a>
+        <a class="footer-link" href="apparel.html">Apparel</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Support</div>
+        <a class="footer-link" href="faq.html">FAQ</a>
+        <a class="footer-link" href="shipping.html">Shipping policy</a>
+        <a class="footer-link" href="returns.html">Returns</a>
+        <a class="footer-link" href="#">Size guide</a>
+        <a class="footer-link" href="contact.html">Contact us</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <a class="footer-link" href="#">About us</a>
+        <a class="footer-link" href="#">Blog</a>
+        <a class="footer-link" href="privacy.html">Privacy policy</a>
+        <a class="footer-link" href="terms.html">Terms</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Smash Badminton. All rights reserved.</span>
+      <div class="footer-links-row">
+        <a class="footer-link" href="https://www.instagram.com/smashsportsofficial/" target="_blank" style="margin:0">Instagram</a>
+        <a class="footer-link" href="#" style="margin:0">YouTube</a>
+        <a class="footer-link" href="https://wa.me/917592058888" target="_blank" style="margin:0">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+    <script>
+      
+      function togglePw(id) {
+        const i = document.getElementById(id);
+        i.type = i.type === "password" ? "text" : "password";
+      }
+      function checkStrength(v) {
+        const f = document.getElementById("strengthFill");
+        const l = document.getElementById("strengthLabel");
+        let s = 0;
+        if (v.length >= 8) s++;
+        if (/[A-Z]/.test(v)) s++;
+        if (/[0-9]/.test(v)) s++;
+        if (/[^a-zA-Z0-9]/.test(v)) s++;
+        const map = {
+          0: ["0%", "", ""],
+          1: ["25%", "#ef4444", "Weak"],
+          2: ["50%", "#f59e0b", "Fair"],
+          3: ["75%", "#60a5fa", "Good"],
+          4: ["100%", "#4ade80", "Strong"],
+        };
+        f.style.width = map[s][0];
+        f.style.background = map[s][1];
+        l.textContent = map[s][2];
+        l.style.color = map[s][1];
+      }
+      function handleRegister() {
+        const e = document.getElementById("regEmail").value;
+        const p = document.getElementById("regPw").value;
+        const p2 = document.getElementById("regPw2").value;
+        let ok = true;
+        if (!e || !e.includes("@")) {
+          document.getElementById("regEmailErr").classList.add("show");
+          ok = false;
+        } else document.getElementById("regEmailErr").classList.remove("show");
+        if (p.length < 8) {
+          document.getElementById("pwErr2").classList.add("show");
+          ok = false;
+        } else document.getElementById("pwErr2").classList.remove("show");
+        if (p !== p2) {
+          document.getElementById("pw2Err").classList.add("show");
+          ok = false;
+        } else document.getElementById("pw2Err").classList.remove("show");
+        if (!document.getElementById("termsCheck").checked) {
+          showToast("Please accept Terms & Privacy Policy");
+          ok = false;
+        }
+        if (!ok) return;
+        showToast("Creating your account…");
+        setTimeout(
+          () => (window.location.href = "account-dashboard.html"),
+          1400,
+        );
+      }
+</script>
+      <script src="main.js"></script>
+  </body>
+</html>

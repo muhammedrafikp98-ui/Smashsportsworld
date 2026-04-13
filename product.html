@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product — Smash Badminton Store</title>
+<meta name="description" content="View detailed product information, specs, reviews and more at Smash Badminton Store.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root{--transition:.35s cubic-bezier(.4,0,.2,1)}
+  [data-theme="dark"]{
+    --bg:#000;--bg2:#0a0a0a;--bg3:#111;--bg4:#1a1a1a;--surface:#141414;
+    --border:rgba(255,255,255,.08);--border-strong:rgba(255,255,255,.18);
+    --text:#fff;--text-muted:rgba(255,255,255,.5);--text-faint:rgba(255,255,255,.25);
+    --promo-bg:#0f0f0f;--promo-text:rgba(255,255,255,.55);
+    --card-hover:#141414;--toggle-bg:#222;--toggle-knob:#fff;
+    --hero-badge-bg:rgba(255,255,255,.06);--hero-badge-border:rgba(255,255,255,.12);
+    --nav-shadow:0 1px 0 rgba(255,255,255,.06);
+    --success:#4ade80;--danger:#ef4444;--amber:#f59e0b;
+    --glow:rgba(255,255,255,.04);
+  }
+  [data-theme="light"]{
+    --bg:#fff;--bg2:#fafafa;--bg3:#f4f4f4;--bg4:#ececec;--surface:#f8f8f8;
+    --border:rgba(0,0,0,.07);--border-strong:rgba(0,0,0,.15);
+    --text:#0a0a0a;--text-muted:rgba(0,0,0,.45);--text-faint:rgba(0,0,0,.2);
+    --promo-bg:#f4f4f4;--promo-text:rgba(0,0,0,.5);
+    --card-hover:#f8f8f8;--toggle-bg:#e0e0e0;--toggle-knob:#0a0a0a;
+    --hero-badge-bg:rgba(0,0,0,.04);--hero-badge-border:rgba(0,0,0,.08);
+    --nav-shadow:0 1px 0 rgba(0,0,0,.07);
+    --success:#16a34a;--danger:#dc2626;--amber:#d97706;
+    --glow:rgba(0,0,0,.02);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;
+    transition:background var(--transition),color var(--transition);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+  /* TOPBAR */
+  .topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 32px;height:36px;
+    display:flex;align-items:center;justify-content:space-between;z-index:100}
+  .theme-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+  .toggle-track{width:38px;height:20px;border-radius:10px;background:var(--toggle-bg);position:relative;
+    transition:background var(--transition);border:1px solid var(--border-strong);flex-shrink:0}
+  .toggle-knob{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:var(--toggle-knob);transition:transform var(--transition)}
+  [data-theme="light"] .toggle-knob{transform:translateX(18px)}
+  .toggle-label{font-size:11px;color:var(--text-muted);font-weight:400;letter-spacing:.03em}
+  .topbar-right{display:flex;align-items:center;gap:20px}
+  .topbar-right a{font-size:11px;color:var(--text-muted);text-decoration:none;transition:color .2s}
+  .topbar-right a:hover{color:var(--text)}
+  .topbar-sep{color:var(--border-strong);font-size:11px}
+
+  /* NAVBAR */
+  .navbar{background:var(--bg);border-bottom:1px solid var(--border);box-shadow:var(--nav-shadow);
+    position:sticky;top:0;z-index:99;transition:background var(--transition),border-color var(--transition)}
+  .nav-main{max-width:1400px;margin:0 auto;padding:0 32px;height:64px;display:flex;align-items:center}
+  .nav-logo{display:flex;flex-direction:column;margin-right:48px;text-decoration:none}
+  .logo-word{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.08em;color:var(--text);line-height:1}
+  .logo-tagline{font-size:9px;color:var(--text-muted);letter-spacing:.14em;text-transform:uppercase;line-height:1;margin-top:3px}
+  .nav-links{display:flex;align-items:center;gap:0;flex:1}
+  .nav-link{font-size:14px;font-weight:400;color:var(--text-muted);text-decoration:none;padding:0 18px;
+    height:64px;display:flex;align-items:center;border-bottom:2px solid transparent;
+    transition:color .2s,border-color .2s;white-space:nowrap}
+  .nav-link:hover,.nav-link.active{color:var(--text);border-bottom-color:var(--text)}
+  .nav-right{display:flex;align-items:center;gap:8px;margin-left:auto}
+  .icon-btn{width:38px;height:38px;border-radius:50%;background:none;border:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;color:var(--text);transition:background .2s;position:relative}
+  .icon-btn:hover{background:var(--bg3)}
+  .icon-btn svg{width:20px;height:20px}
+  .cart-badge{position:absolute;top:4px;right:4px;width:14px;height:14px;border-radius:50%;
+    background:var(--text);color:var(--bg);font-size:8px;font-weight:500;
+    display:flex;align-items:center;justify-content:center;border:1.5px solid var(--bg)}
+  .hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;color:var(--text)}
+  .hamburger span{display:block;width:22px;height:2px;background:currentColor;border-radius:2px}
+
+  /* MOBILE NAV */
+  .mobile-nav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);
+    z-index:200;padding:24px;flex-direction:column;gap:0;overflow-y:auto}
+  .mobile-nav.open{display:flex}
+  .mobile-nav-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+  .mobile-nav-logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.08em;color:var(--text)}
+  .mobile-close{background:none;border:none;color:var(--text);font-size:28px;cursor:pointer;line-height:1;padding:0}
+  .mobile-link{display:block;font-size:22px;font-weight:400;color:var(--text);text-decoration:none;padding:14px 0;border-bottom:1px solid var(--border)}
+
+  /* PROMO */
+  .promo-banner{background:var(--promo-bg);border-bottom:1px solid var(--border);text-align:center;padding:10px 20px}
+  .promo-banner p{font-size:13px;color:var(--promo-text);font-weight:300;letter-spacing:.02em}
+  .promo-banner a{color:var(--text);font-weight:500;text-decoration:underline;text-underline-offset:3px}
+
+  /* BREADCRUMB */
+  .breadcrumb-bar{border-bottom:1px solid var(--border);background:var(--bg2)}
+  .breadcrumb-inner{max-width:1400px;margin:0 auto;padding:12px 32px;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-faint)}
+  .breadcrumb-inner a{color:var(--text-faint);text-decoration:none;transition:color .2s}
+  .breadcrumb-inner a:hover{color:var(--text)}
+
+  /* PRODUCT PAGE */
+  .product-page{max-width:1400px;margin:0 auto;padding:48px 32px 80px;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+
+  /* IMAGE GALLERY */
+  .gallery{position:sticky;top:88px}
+  .gallery-main{aspect-ratio:1;background:var(--bg2);border:1px solid var(--border);border-radius:4px;
+    display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;margin-bottom:12px;
+    transition:background var(--transition)}
+  .gallery-main-svg{width:100%;height:100%;max-width:100%;transition:transform .4s cubic-bezier(.4,0,.2,1);animation:floatIn .6s ease both}
+  .gallery-main:hover .gallery-main-svg{transform:scale(1.02)}
+  .gallery-badge-wrap{position:absolute;top:16px;left:16px;display:flex;flex-direction:column;gap:6px}
+  .g-badge{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:2px}
+  .g-badge-sale{background:#ef4444;color:#fff}
+  .g-badge-new{background:var(--text);color:var(--bg)}
+  .g-badge-hot{background:#f59e0b;color:#000}
+  .g-badge-limited{background:transparent;border:1px solid var(--border-strong);color:var(--text-muted)}
+  .g-thumb-wrap{display:flex;flex-direction:column;gap:12px;width:72px;flex-shrink:0}
+  .g-thumb{width:100%;aspect-ratio:1;border-radius:6px;background:var(--bg3);border:2px solid transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;overflow:hidden}
+  .g-thumb:hover{background:var(--bg4)}
+  .g-thumb.active{border-color:var(--text)}
+  .g-thumb svg{width:32px;opacity:.6}
+  .g-thumb.apparel svg{width:36px}
+
+  .gallery-wishlist{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;
+    background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
+    cursor:pointer;transition:all .2s;color:var(--text-muted)}
+  .gallery-wishlist:hover{background:var(--bg3);color:var(--text);border-color:var(--border-strong)}
+  .gallery-wishlist.loved{color:#ef4444;border-color:#ef4444}
+  .gallery-wishlist svg{width:16px;height:16px}
+
+  /* PRODUCT INFO */
+  .product-info{animation:slideIn .5s ease both}
+  .product-breadcrumb-title{font-size:11px;color:var(--text-faint);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+  .product-brand{font-size:12px;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+  .product-name{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:.04em;color:var(--text);line-height:1;margin-bottom:16px}
+  .product-rating-row{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+  .stars{display:flex;gap:2px}
+  .stars svg{width:15px;height:15px}
+  .rating-num{font-size:14px;font-weight:500;color:var(--text)}
+  .rating-cnt{font-size:13px;color:var(--text-muted)}
+  .rating-sep{color:var(--border-strong)}
+  .verified-badge{font-size:11px;color:var(--success);background:rgba(74,222,128,.08);
+    border:1px solid rgba(74,222,128,.2);padding:2px 8px;border-radius:2px;font-weight:400;letter-spacing:.02em}
+
+  /* PRICE */
+  .price-block{margin-bottom:24px}
+  .price-main{font-size:36px;font-weight:500;color:var(--text);line-height:1}
+  .price-row{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+  .price-old{font-size:18px;color:var(--text-faint);text-decoration:line-through}
+  .price-disc{font-size:14px;font-weight:500;color:var(--success);background:rgba(74,222,128,.1);
+    border:1px solid rgba(74,222,128,.2);padding:3px 10px;border-radius:2px}
+  .price-saving{font-size:13px;color:var(--success)}
+  .price-tax{font-size:12px;color:var(--text-faint);margin-top:4px}
+  .emi-note{font-size:12px;color:var(--text-muted);margin-top:6px}
+  .emi-note strong{color:var(--text)}
+
+  /* VARIANT SELECTOR */
+  .variant-section{margin-bottom:20px}
+  .variant-label{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px}
+  .variant-label span{color:var(--text);font-weight:400;text-transform:none;letter-spacing:0}
+  .variant-pills{display:flex;flex-wrap:wrap;gap:8px}
+  .vpill{padding:8px 16px;border:1.5px solid var(--border);border-radius:3px;font-size:13px;
+    color:var(--text-muted);cursor:pointer;transition:all .2s;background:none;font-family:'DM Sans',sans-serif;
+    white-space:nowrap}
+  .vpill:hover{border-color:var(--border-strong);color:var(--text)}
+  .vpill.active{border-color:var(--text);color:var(--text);background:var(--bg3)}
+  .vpill.oos{opacity:.4;cursor:not-allowed;text-decoration:line-through}
+
+  /* COLOR SWATCHES */
+  .color-swatches{display:flex;gap:10px;flex-wrap:wrap}
+  .cswatch{width:28px;height:28px;border-radius:50%;cursor:pointer;border:2px solid transparent;
+    transition:all .2s;position:relative}
+  .cswatch.active{border-color:var(--text);box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--text)}
+  .cswatch::after{content:attr(title);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
+    background:var(--bg3);border:1px solid var(--border);padding:3px 8px;font-size:10px;
+    color:var(--text-muted);border-radius:2px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s}
+  .cswatch:hover::after{opacity:1}
+
+  /* QTY + CTA */
+  .cta-section{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+  .qty-row{display:flex;align-items:center;gap:12px}
+  .qty-label{font-size:12px;color:var(--text-muted)}
+  .qty-ctrl{display:flex;align-items:center;border:1px solid var(--border-strong);border-radius:3px;overflow:hidden}
+  .qty-btn{width:36px;height:36px;background:var(--bg3);border:none;color:var(--text);cursor:pointer;
+    font-size:18px;display:flex;align-items:center;justify-content:center;transition:background .15s;font-weight:300}
+  .qty-btn:hover{background:var(--bg4)}
+  .qty-val{width:44px;height:36px;background:none;border:none;border-left:1px solid var(--border-strong);
+    border-right:1px solid var(--border-strong);text-align:center;font-family:'DM Sans',sans-serif;
+    font-size:14px;color:var(--text);font-weight:400}
+  .btn-cart{background:var(--text);color:var(--bg);border:none;border-radius:3px;padding:16px 32px;
+    font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+    cursor:pointer;transition:opacity .2s,transform .15s;flex:1;display:flex;align-items:center;justify-content:center;gap:8px}
+  .btn-cart:hover{opacity:.88;transform:translateY(-1px)}
+  .btn-cart svg{width:16px;height:16px}
+  .btn-wish{background:none;color:var(--text);border:1.5px solid var(--border-strong);border-radius:3px;
+    padding:15px 20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;
+    transition:all .2s;display:flex;align-items:center;gap:8px;white-space:nowrap}
+  .btn-wish:hover{border-color:var(--text);background:var(--bg3)}
+  .btn-buynow{background:none;color:var(--text);border:1.5px solid var(--border-strong);border-radius:3px;
+    padding:15px 32px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:.06em;
+    text-transform:uppercase;cursor:pointer;transition:all .2s;flex:1;text-align:center}
+  .btn-buynow:hover{border-color:var(--text);background:var(--bg3)}
+
+  /* TRUST BADGES */
+  .trust-row{display:flex;gap:16px;flex-wrap:wrap;padding:16px 0;border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);margin-bottom:24px}
+  .trust-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-muted)}
+  .trust-item svg{width:16px;height:16px;color:var(--success);flex-shrink:0}
+
+  /* DELIVERY INFO */
+  .delivery-block{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:20px;margin-bottom:24px}
+  .delivery-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+  .delivery-row:last-child{border-bottom:none;padding-bottom:0}
+  .delivery-row:first-child{padding-top:0}
+  .delivery-icon{width:32px;height:32px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .delivery-icon svg{width:15px;height:15px;color:var(--text-muted)}
+  .delivery-text{flex:1}
+  .delivery-title{font-size:13px;font-weight:400;color:var(--text)}
+  .delivery-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
+
+  /* TABS SECTION */
+  .tabs-section{margin-top:56px;border-top:2px solid var(--border);grid-column:1/-1}
+  .tabs-bar{display:flex;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+  .tabs-bar::-webkit-scrollbar{display:none}
+  .tab-btn{padding:16px 24px;font-size:13px;font-weight:400;color:var(--text-muted);background:none;border:none;
+    border-bottom:2px solid transparent;cursor:pointer;font-family:'DM Sans',sans-serif;flex-shrink:0;
+    transition:color .2s,border-color .2s;margin-bottom:-1px;letter-spacing:.02em}
+  .tab-btn.active{color:var(--text);border-bottom-color:var(--text)}
+  .tab-pane{display:none;padding:32px 0;animation:fadeUp .3s ease both}
+  .tab-pane.active{display:block}
+
+  /* SPECS TABLE */
+  .specs-table{width:100%;border-collapse:collapse;font-size:13px}
+  .specs-table tr{border-bottom:1px solid var(--border)}
+  .specs-table td{padding:14px 16px;line-height:1.5}
+  .specs-table td:first-child{color:var(--text-muted);width:200px;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+  .specs-table td:last-child{color:var(--text);font-weight:400}
+  .specs-table tr:last-child{border-bottom:none}
+
+  /* DESCRIPTION */
+  .desc-body{font-size:14px;color:var(--text-muted);line-height:1.8;max-width:720px}
+  .desc-body strong{color:var(--text)}
+  .desc-body ul{margin:16px 0;padding-left:20px;display:flex;flex-direction:column;gap:8px}
+  .desc-body li{position:relative}
+  .desc-h{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.06em;color:var(--text);margin:28px 0 12px}
+  .desc-h:first-child{margin-top:0}
+
+  /* REVIEWS */
+  .reviews-layout{display:grid;grid-template-columns:240px 1fr;gap:40px}
+  .review-summary{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:24px;position:sticky;top:100px}
+  .review-big-num{font-family:'Bebas Neue',sans-serif;font-size:72px;letter-spacing:.06em;color:var(--text);line-height:1}
+  .review-stars-big{display:flex;gap:4px;margin:8px 0}
+  .review-stars-big svg{width:20px;height:20px}
+  .review-total{font-size:13px;color:var(--text-muted);margin-bottom:20px}
+  .rating-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:12px;color:var(--text-muted)}
+  .rating-bar-track{flex:1;height:4px;background:var(--bg4);border-radius:2px;overflow:hidden}
+  .rating-bar-fill{height:100%;background:var(--amber);border-radius:2px}
+  .rating-bar-label{width:16px;text-align:right}
+  .review-card{padding:24px 0;border-bottom:1px solid var(--border)}
+  .review-card:last-child{border-bottom:none}
+  .review-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
+  .reviewer-avatar{width:36px;height:36px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;color:var(--text-muted);flex-shrink:0}
+  .reviewer-name{font-size:13px;font-weight:500;color:var(--text)}
+  .reviewer-date{font-size:11px;color:var(--text-faint);margin-top:2px}
+  .review-stars-small{display:flex;gap:2px;margin-bottom:10px}
+  .review-stars-small svg{width:13px;height:13px}
+  .review-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:6px}
+  .review-body{font-size:13px;color:var(--text-muted);line-height:1.7}
+  .review-helpful{font-size:11px;color:var(--text-faint);margin-top:12px}
+  .review-helpful button{background:none;border:1px solid var(--border);padding:3px 10px;border-radius:2px;
+    font-size:11px;color:var(--text-muted);cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+  .review-helpful button:hover{border-color:var(--border-strong);color:var(--text)}
+  .verified-review{font-size:10px;color:var(--success);letter-spacing:.04em}
+
+  /* RELATED PRODUCTS */
+  .related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+  .rec-card{background:var(--surface);border:1px solid var(--border);cursor:pointer;transition:background .2s,transform .2s;overflow:hidden}
+  .rec-card:hover{background:var(--card-hover);transform:translateY(-2px)}
+  .rec-img{aspect-ratio:1;background:var(--bg3);display:flex;align-items:center;justify-content:center;position:relative}
+  .rec-body{padding:14px}
+  .rec-brand{font-size:9px;color:var(--text-faint);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
+  .rec-name{font-size:13px;color:var(--text);font-weight:400;margin-bottom:6px;line-height:1.3}
+  .rec-price{font-size:13px;font-weight:500;color:var(--text)}
+  .rec-old{font-size:11px;color:var(--text-faint);text-decoration:line-through;margin-left:6px}
+
+  /* OOS overlay */
+  .oos-banner{background:var(--bg4);border:1px solid var(--border-strong);border-radius:3px;padding:14px 18px;
+    display:flex;align-items:center;gap:12px;margin-bottom:20px}
+  .oos-banner svg{width:18px;height:18px;color:var(--danger);flex-shrink:0}
+  .oos-text{font-size:13px;color:var(--text-muted)}
+  .oos-text strong{color:var(--danger)}
+
+  /* TOAST */
+  .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);
+    background:var(--text);color:var(--bg);padding:11px 22px;border-radius:3px;font-size:13px;
+    font-weight:400;z-index:999;pointer-events:none;white-space:nowrap;
+    transition:transform .3s cubic-bezier(.4,0,.2,1)}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes floatIn{from{opacity:0;transform:translateY(20px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+  @keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+
+  @media(max-width:1024px){.product-page{grid-template-columns:1fr;gap:40px}.related-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:768px){
+    .topbar{padding:0 16px}.nav-main{padding:0 16px}
+    .nav-links,.nav-store-badge{display:none}.hamburger{display:flex}
+    .product-page{padding:24px 16px 60px}
+    .product-name{font-size:36px}
+    .breadcrumb-inner{padding:12px 16px}
+    .reviews-layout{grid-template-columns:1fr}
+    .review-summary{position:static}
+    .gallery{position:static}
+  }
+  @media(max-width:480px){.trust-row{flex-direction:column}.cta-section .btn-buynow{flex:none}}
+</style>
+</head>
+<body>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <div class="mobile-nav-header">
+    <span class="mobile-nav-logo">Smash</span>
+    <button class="mobile-close" onclick="closeMobileNav()">×</button>
+  </div>
+  <a class="mobile-link" href="index.html">Home</a>
+  <a class="mobile-link" href="category.html">Rackets</a>
+  <a class="mobile-link" href="footwear.html">Footwear</a>
+  <a class="mobile-link" href="apparel.html">Apparel</a>
+  <a class="mobile-link" href="accessories.html">Accessories</a>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="theme-toggle" onclick="toggleTheme()">
+    <span id="modeIcon">🌙</span>
+    <div class="toggle-track"><div class="toggle-knob"></div></div>
+    <span class="toggle-label" id="modeLabel">Dark mode</span>
+  </div>
+  <div class="topbar-right">
+    <a href="contact.html">Help</a><span class="topbar-sep">|</span>
+    <a href="register.html">Sign Up</a><span class="topbar-sep">|</span>
+    <a href="login.html">Log In</a>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-main">
+    <a class="nav-logo" href="index.html">
+      <span class="logo-word">Smash</span>
+      <span class="logo-tagline">Badminton Store</span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">New &amp; Featured</a>
+      <a class="nav-link" href="category.html">Rackets</a>
+      <a class="nav-link" href="footwear.html">Footwear</a>
+      <a class="nav-link" href="apparel.html">Apparel</a>
+      <a class="nav-link" href="accessories.html">Accessories</a>
+    </div>
+    <div class="nav-right">
+      <button class="icon-btn" title="Wishlist" id="wishNavBtn" onclick="toggleWishlist()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21C12 21 3 14 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 13-9 13z"/></svg>
+      </button>
+      <button class="icon-btn" title="Cart" onclick="window.location.href='cart.html'" style="position:relative">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+      <button class="hamburger" onclick="openMobileNav()"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- PROMO -->
+<div class="promo-banner"><p>Free delivery on orders above ₹999 · 30-day returns · <a href="collection.html">Shop now →</a></p></div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar">
+  <div class="breadcrumb-inner" id="breadcrumbInner">
+    <a href="index.html">Home</a>
+    <span>›</span>
+    <a href="category.html" id="breadcrumbCat">Rackets</a>
+    <span>›</span>
+    <span id="breadcrumbName">Loading…</span>
+  </div>
+</div>
+
+<!-- MAIN PRODUCT LAYOUT -->
+<div class="product-page" id="productPage">
+
+  <!-- LEFT: GALLERY -->
+  <div class="gallery">
+    <div class="gallery-main">
+      <div class="gallery-badge-wrap" id="galleryBadges"></div>
+      <button class="gallery-wishlist" id="galleryWish" onclick="toggleWishlist()" title="Save to wishlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21C12 21 3 14 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 13-9 13z"/></svg>
+      </button>
+      <div class="gallery-main-svg" id="mainSvg"></div>
+    </div>
+    <div class="gallery-thumbs" id="galleryThumbs"></div>
+  </div>
+
+  <!-- RIGHT: PRODUCT INFO -->
+  <div class="product-info">
+    <div class="product-breadcrumb-title" id="pdCategoryLabel">Rackets</div>
+    <div class="product-brand" id="pdBrand">Loading…</div>
+    <h1 class="product-name" id="pdName">Loading…</h1>
+
+    <div class="product-rating-row">
+      <div class="stars" id="pdStars"></div>
+      <span class="rating-num" id="pdRatingNum">4.8</span>
+      <span class="rating-sep">·</span>
+      <span class="rating-cnt" id="pdReviewCnt">0 reviews</span>
+      <span class="rating-sep">·</span>
+      <span class="verified-badge">Verified</span>
+    </div>
+
+    <!-- PRICE -->
+    <div class="price-block">
+      <div class="price-row">
+        <span class="price-main" id="pdPrice">₹0</span>
+        <span class="price-old" id="pdOldPrice" style="display:none"></span>
+        <span class="price-disc" id="pdDisc" style="display:none"></span>
+      </div>
+      <div class="price-saving" id="pdSaving" style="display:none"></div>
+      <div class="price-tax">Inclusive of all taxes</div>
+      <div class="emi-note" id="pdEmi"></div>
+    </div>
+
+    <!-- OOS BANNER -->
+    <div class="oos-banner" id="oosBanner" style="display:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      <div class="oos-text"><strong>Out of Stock</strong> — This item is currently unavailable. Notify me when back.</div>
+    </div>
+
+    <!-- VARIANTS -->
+    <div id="variantsBlock"></div>
+
+    <!-- QTY + CTA -->
+    <div class="cta-section" id="ctaSection">
+      <div class="qty-row">
+        <span class="qty-label">Qty:</span>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="changeQty(-1)">−</button>
+          <input class="qty-val" type="number" id="qtyInput" value="1" min="1" max="10">
+          <button class="qty-btn" onclick="changeQty(1)">+</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn-cart" id="btnAddCart" onclick="addToCartAction()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          Add to Cart
+        </button>
+        <button class="btn-wish" onclick="toggleWishlist()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" id="wishBtnIcon"><path d="M12 21C12 21 3 14 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 13-9 13z"/></svg>
+          <span id="wishBtnLabel">Wishlist</span>
+        </button>
+      </div>
+      <button class="btn-buynow" onclick="buyNow()">Buy Now</button>
+    </div>
+
+    <!-- TRUST -->
+    <div class="trust-row">
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        Free delivery above ₹999
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/></svg>
+        30-day returns
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        SSL secure payment
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        2-year warranty
+      </div>
+    </div>
+
+    <!-- DELIVERY INFO -->
+    <div class="delivery-block">
+      <div class="delivery-row">
+        <div class="delivery-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16,8 20,8 23,11 23,16 16,16 16,8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        </div>
+        <div class="delivery-text">
+          <div class="delivery-title">Free Standard Delivery</div>
+          <div class="delivery-sub">Expected in 4–6 business days · India Post / Delhivery</div>
+        </div>
+      </div>
+      <div class="delivery-row">
+        <div class="delivery-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+        </div>
+        <div class="delivery-text">
+          <div class="delivery-title">Express (+₹149)</div>
+          <div class="delivery-sub">Delivered within 1–2 days · BlueDart</div>
+        </div>
+      </div>
+      <div class="delivery-row">
+        <div class="delivery-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/></svg>
+        </div>
+        <div class="delivery-text">
+          <div class="delivery-title">Easy Returns</div>
+          <div class="delivery-sub">30-day hassle-free returns · <a href="returns.html" style="color:var(--text-muted);text-decoration:underline;text-underline-offset:2px">Learn more</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS SECTION (full width) -->
+  <div class="tabs-section">
+    <div class="tabs-bar">
+      <button class="tab-btn active" onclick="switchTab('description',this)" id="tab-description">Description</button>
+      <button class="tab-btn" onclick="switchTab('specs',this)" id="tab-specs">Specifications</button>
+      <button class="tab-btn" onclick="switchTab('reviews',this)" id="tab-reviews">Reviews <span id="reviewCountTab"></span></button>
+      <button class="tab-btn" onclick="switchTab('related',this)" id="tab-related">You May Also Like</button>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="tab-pane active" id="pane-description">
+      <div class="desc-body" id="descBody"></div>
+    </div>
+
+    <!-- SPECS -->
+    <div class="tab-pane" id="pane-specs">
+      <table class="specs-table" id="specsTable"></table>
+    </div>
+
+    <!-- REVIEWS -->
+    <div class="tab-pane" id="pane-reviews">
+      <div class="reviews-layout">
+        <div class="review-summary">
+          <div class="review-big-num" id="revBigNum">4.8</div>
+          <div class="review-stars-big" id="revBigStars"></div>
+          <div class="review-total" id="revTotal"></div>
+          <div id="ratingBars"></div>
+        </div>
+        <div id="reviewsList"></div>
+      </div>
+    </div>
+
+    <!-- RELATED -->
+    <div class="tab-pane" id="pane-related">
+      <div class="related-grid" id="relatedGrid"></div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Smash</div>
+        <p class="footer-desc">India's premier destination for professional badminton equipment. From Kerala to the court.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Shop</div>
+        <a class="footer-link" href="category.html">Rackets</a>
+        <a class="footer-link" href="footwear.html">Footwear</a>
+        <a class="footer-link" href="accessories.html">Shuttlecocks</a>
+        <a class="footer-link" href="accessories.html">Bags</a>
+        <a class="footer-link" href="apparel.html">Apparel</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Support</div>
+        <a class="footer-link" href="faq.html">FAQ</a>
+        <a class="footer-link" href="shipping.html">Shipping policy</a>
+        <a class="footer-link" href="returns.html">Returns</a>
+        <a class="footer-link" href="#">Size guide</a>
+        <a class="footer-link" href="contact.html">Contact us</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <a class="footer-link" href="#">About us</a>
+        <a class="footer-link" href="#">Blog</a>
+        <a class="footer-link" href="privacy.html">Privacy policy</a>
+        <a class="footer-link" href="terms.html">Terms</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Smash Badminton. All rights reserved.</span>
+      <div class="footer-links-row">
+        <a class="footer-link" href="https://www.instagram.com/smashsportsofficial/" target="_blank" style="margin:0">Instagram</a>
+        <a class="footer-link" href="#" style="margin:0">YouTube</a>
+        <a class="footer-link" href="https://wa.me/917592058888" target="_blank" style="margin:0">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="main.js"></script>
+<script>
+// ═══════════════════════════════════════════════════════
+//  ALL PRODUCTS DATABASE
+// ═══════════════════════════════════════════════════════
+const PRODUCTS = {
+  // ── RACKETS ──
+  rackets: [
+    {id:1, brand:'Yonex', name:'Astrox 99 Pro', price:8999, old:10999, rating:4.8, reviews:124, badge:'sale', type:'attack', flex:'Stiff', balance:'Head Heavy', weight:'83g / 3U', length:'675mm', shaft:'6.7mm diameter', string:'22 lbs recommended', material:'HM Graphite + Tungsten', colors:['#1a1a2e','#e94560','#0f3460'], colorNames:['Midnight Black','Cherry Red','Deep Blue'], sizes:[], inStock:true, limited:false,
+      desc:`The <strong>Yonex Astrox 99 Pro</strong> is the racket favored by world number one Viktor Axelsen. Engineered for aggressive attack play, it delivers unmatched rotational power from the head-heavy balance, while the stiff shaft ensures every smash transfers maximum force to the shuttle.\n\n<ul><li>All-new ROTATIONAL GENERATOR SYSTEM channels energy into every swing</li><li>New NAMD graphite shaft for faster snapback and energy return</li><li>Aero+Box frame gives aerodynamic efficiency without sacrificing frame rigidity</li><li>Optimum contact time through built-in T-Anchor</li></ul>`,
+      specs:[['Frame','HM Graphite, Nanometric DR, Tungsten'],['Shaft','HM Graphite, NAMD'],['Flex','Stiff'],['Balance','Head Heavy'],['Weight','83g (3U)'],['Grip Size','G4'],['String Tension','22–29 lbs'],['Stringing','Pre-strung with BG65'],['Suitable For','Attack / Advanced'],['Country of Origin','Japan']]
+    },
+    {id:2, brand:'Yonex', name:'Nanoflare 1000Z', price:18499, old:null, rating:4.9, reviews:88, badge:'new', type:'control', flex:'Extra Stiff', balance:'Head Light', weight:'77g / 4U', length:'675mm', shaft:'6.4mm diameter', string:'24 lbs recommended', material:'M40X + Fullerene C60', colors:['#0d0d0d','#c0a060'], colorNames:['Matte Black','Royal Gold'], sizes:[], inStock:true, limited:false,
+      desc:`The <strong>Yonex Nanoflare 1000Z</strong> is the pinnacle of Yonex engineering — built for elite control and lightning-fast wrist movements. Its extra-stiff shaft and head-light balance make it the weapon of choice for net play and rapid exchanges.\n\n<ul><li>M40X high-modulus graphite with Fullerene C60 for unparalleled feel</li><li>Super-thin 6.4mm shaft for rapid recovery and crisp control</li><li>AERO Frame Technology for reduced air drag during swings</li><li>Recommended for intermediate to advanced players</li></ul>`,
+      specs:[['Frame','M40X, Fullerene C60'],['Shaft','M40X, 6.4mm'],['Flex','Extra Stiff'],['Balance','Head Light'],['Weight','77g (4U)'],['Grip Size','G5'],['String Tension','24–31 lbs'],['Stringing','Not strung'],['Suitable For','Control / Advanced'],['Country of Origin','Japan']]
+    },
+    {id:3, brand:'Li-Ning', name:'Axforce 90 Max', price:11200, old:13000, rating:4.7, reviews:65, badge:'hot', type:'attack', flex:'Stiff', balance:'Head Heavy', weight:'85g / 3U', length:'672mm', shaft:'7.0mm diameter', string:'22 lbs recommended', material:'Carbon Fiber + Kevlar', colors:['#8b0000','#1a1a1a'], colorNames:['Smash Red','Carbon Black'], sizes:[], inStock:true, limited:false,
+      desc:`The <strong>Li-Ning Axforce 90 Max</strong> is built for aggressive smash-style players. Its Flex Control System and high-tension frame respond to power shots with exceptional shuttle control and precision.\n\n<ul><li>TB Nano Carbon construction for lightweight power</li><li>Pro shaft tech for optimised flex during attack shots</li><li>Large sweet spot frame geometry</li><li>Endorsed by Lin Dan, World Badminton Champion</li></ul>`,
+      specs:[['Frame','Carbon Fiber, Kevlar Fiber'],['Shaft','TB Nano Carbon'],['Flex','Stiff'],['Balance','Head Heavy'],['Weight','85g (3U)'],['Grip Size','G3'],['String Tension','22–28 lbs'],['Stringing','Not strung'],['Suitable For','Attack / Power'],['Country of Origin','China']]
+    },
+    {id:4, brand:'Victor', name:'Thruster K Falcon', price:9800, old:null, rating:4.6, reviews:52, badge:null, type:'all-round', flex:'Medium', balance:'Even', weight:'82g / 3U', length:'675mm', shaft:'6.8mm diameter', string:'20 lbs recommended', material:'Hard Cored Technology + Nano Fortify', colors:['#1c3d5a','#c8a900'], colorNames:['Navy Storm','Gold Edition'], sizes:[], inStock:true, limited:false,
+      desc:`The <strong>Victor Thruster K Falcon</strong> is the all-around performer every competitive player needs. With a perfectly even balance and medium flex, it adapts to both smash attacks and delicate net drops with equal finesse.\n\n<ul><li>Hard Cored Technology for a box-shaped frame with superior rigidity</li><li>Nano Fortify TR treatment on a 7.0mm shaft</li><li>Aero-Sword II aerodynamic frame reduces drag by 8%</li><li>Ideal for beginners to intermediate players transitioning to competitive play</li></ul>`,
+      specs:[['Frame','Hard Cored Technology, Nano Fortify'],['Shaft','6.8mm'],['Flex','Medium'],['Balance','Even'],['Weight','82g (3U)'],['Grip Size','G2'],['String Tension','20–28 lbs'],['Stringing','Pre-strung'],['Suitable For','All-round'],['Country of Origin','Taiwan']]
+    },
+    {id:5, brand:'Yonex', name:'Arcsaber 11 Pro', price:15999, old:null, rating:4.8, reviews:41, badge:'new', type:'control', flex:'Medium', balance:'Even', weight:'82g / 3U', length:'675mm', shaft:'6.7mm diameter', string:'22 lbs recommended', material:'Graphlex + NAMD', colors:['#ffffff','#2c2c2c'], colorNames:['Pearl White','Graphite'], sizes:[], inStock:true, limited:false,
+      desc:`The legendary <strong>Yonex Arcsaber 11 Pro</strong> returns with a complete engineering overhaul. Its unique dual-arc frame cross-section amplifies contact time while still offering crisp shuttle flight — perfect for the control-focused player who demands finesse.\n\n<ul><li>Dual Optimum System for extended contact and faster shuttle response</li><li>NAMD shaft for snappier rebound with consistent control feel</li><li>Large, forgiving sweet spot</li><li>Preferred by Lee Chong Wei during his professional career</li></ul>`,
+      specs:[['Frame','Graphlex, NAMD'],['Shaft','NAMD, 6.7mm'],['Flex','Medium'],['Balance','Even'],['Weight','82g (3U)'],['Grip Size','G4'],['String Tension','22–30 lbs'],['Stringing','Not strung'],['Suitable For','Control / All-round'],['Country of Origin','Japan']]
+    },
+    {id:6, brand:'Carlton', name:'Vapour Trail 90', price:7500, old:8999, rating:4.3, reviews:78, badge:'sale', type:'all-round', flex:'Flexible', balance:'Even', weight:'84g / 3U', length:'672mm', shaft:'7.0mm diameter', string:'18 lbs recommended', material:'TurboBlades Carbon', colors:['#003366','#ff6600'], colorNames:['Carlton Blue','Flash Orange'], sizes:[], inStock:true, limited:true,
+      desc:`The <strong>Carlton Vapour Trail 90</strong> blends speed, feel, and durability into one incredibly well-priced package. Its flexible shaft is ideal for club players seeking a comfortable, responsive racket for recreational or training sessions.\n\n<ul><li>TurboBlades technology for exceptional aerodynamics</li><li>Flexible shaft provides a forgiving feel for off-centre hits</li><li>Wide-body oval frame maximises the sweetspot</li><li>Great entry point to performance badminton</li></ul>`,
+      specs:[['Frame','TurboBlades Carbon'],['Shaft','Flexible, 7.0mm'],['Flex','Flexible'],['Balance','Even'],['Weight','84g (3U)'],['Grip Size','G3'],['String Tension','18–25 lbs'],['Stringing','Pre-strung'],['Suitable For','All-round / Beginner'],['Country of Origin','UK']]
+    },
+    {id:7, brand:'Victor', name:'Auraspeed 100X', price:13200, old:null, rating:4.7, reviews:33, badge:null, type:'control', flex:'Stiff', balance:'Head Light', weight:'78g / 4U', length:'675mm', shaft:'6.5mm diameter', string:'24 lbs recommended', material:'Ultra High Modulus Graphite + Resin', colors:['#1a1a1a','#4fc3f7'], colorNames:['Stealth Black','Ice Blue'], sizes:[], inStock:true, limited:false,
+      desc:`The <strong>Victor Auraspeed 100X</strong> is speed incarnate. Its ultra-thin shaft and head-light balance make it the fastest swinging racket in the Victor lineup, delivering blistering net speed and lightning-quick defensive clears.\n\n<ul><li>Ultra High Modulus Graphite for stiff, precise shaft flex</li><li>Sword frame for aerodynamic cutting through air resistance</li><li>Enhanced resin binding for stronger frame-to-shaft connection</li><li>Designed for elite defensive and quick-exchange play</li></ul>`,
+      specs:[['Frame','Ultra High Modulus Graphite'],['Shaft','UHSG, 6.5mm'],['Flex','Stiff'],['Balance','Head Light'],['Weight','78g (4U)'],['Grip Size','G1'],['String Tension','24–32 lbs'],['Stringing','Not strung'],['Suitable For','Control / Defense'],['Country of Origin','Taiwan']]
+    },
+    {id:8, brand:'Apacs', name:'Ziggler Light 68', price:4299, old:5500, rating:4.1, reviews:112, badge:'sale', type:'beginner', flex:'Flexible', balance:'Even', weight:'78g / 4U', length:'665mm', shaft:'7.0mm diameter', string:'18 lbs recommended', material:'Aluminum + Steel', colors:['#333','#e53935','#43a047'], colorNames:['Gunmetal','Red Fury','Sport Green'], sizes:[], inStock:true, limited:false,
+      desc:`The <strong>Apacs Ziggler Light 68</strong> is the perfect starter racket — incredibly lightweight, easy to swing, and priced for anyone just getting into the sport. It's a favourite among school and college players across South Asia.\n\n<ul><li>Super lightweight 68g frame for effortless swing speed</li><li>Flexible shaft absorbs vibration for comfortable extended play</li><li>Pre-strung and ready to play right out of the box</li><li>Durable aluminum frame for everyday court use</li></ul>`,
+      specs:[['Frame','Aluminum Alloy'],['Shaft','Steel, Flexible'],['Flex','Flexible'],['Balance','Even'],['Weight','78g (4U)'],['Grip Size','G2'],['String Tension','18–22 lbs'],['Stringing','Pre-strung'],['Suitable For','Beginner / Casual'],['Country of Origin','Malaysia']]
+    },
+    {id:9, brand:'Yonex', name:'Duora 10 LCW', price:12800, old:14500, rating:4.6, reviews:57, badge:'sale', type:'all-round', flex:'Stiff', balance:'Even', weight:'82g / 3U', length:'675mm', shaft:'6.7mm diameter', string:'22 lbs recommended', material:'Carbon Nanotube + G-Tomoni', colors:['#cc0000','#000000'], colorNames:['LCW Red','LCW Black'], sizes:[], inStock:true, limited:false,
+      desc:`A limited edition tribute to the legendary Lee Chong Wei, the <strong>Yonex Duora 10 LCW</strong> features the revolutionary dual-optimum frame — offense on one face, defense on the other. A collector's piece that also performs at the highest level.\n\n<ul><li>Dual Optimum System Frame: Attack side for smashes, Defense side for drives</li><li>Special LCW colorway with collector's packaging</li><li>Custom G-Tomoni Shaft for precision control under pressure</li><li>Stiff flex for maximum energy transfer</li></ul>`,
+      specs:[['Frame','Carbon Nanotube, G-Tomoni'],['Shaft','G-Tomoni, 6.7mm'],['Flex','Stiff'],['Balance','Even'],['Weight','82g (3U)'],['Grip Size','G4'],['String Tension','22–30 lbs'],['Stringing','Not strung'],['Suitable For','All-round / Collector'],['Country of Origin','Japan']]
+    },
+    {id:10, brand:'Li-Ning', name:'Bladex 900', price:9999, old:null, rating:4.5, reviews:29, badge:'new', type:'attack', flex:'Extra Stiff', balance:'Head Heavy', weight:'86g / 3U', length:'675mm', shaft:'7.2mm diameter', string:'22 lbs recommended', material:'Aerolite Carbon + Nano Flex', colors:['#111','#f57f17'], colorNames:['Phantom Black','Blade Gold'], sizes:[], inStock:false, limited:false,
+      desc:`The <strong>Li-Ning Bladex 900</strong> is the newest power weapon in the Li-Ning arsenal. Its extra-stiff shaft and head-heavy balance are engineered for maximum smash power — this is a racket that punishes opponents on every attack.\n\n<ul><li>Aerolite Carbon for ultra-stiff resonance and clean power delivery</li><li>Nano Flex shaft material enables explosive whip on every smash</li><li>Structured frame for maximum string bed stiffness</li><li>Currently out of stock — high demand item</li></ul>`,
+      specs:[['Frame','Aerolite Carbon, Nano Flex'],['Shaft','Nano Flex, 7.2mm'],['Flex','Extra Stiff'],['Balance','Head Heavy'],['Weight','86g (3U)'],['Grip Size','G3'],['String Tension','22–30 lbs'],['Stringing','Not strung'],['Suitable For','Attack / Power'],['Country of Origin','China']]
+    },
+    {id:11, brand:'RSL', name:'Falcon Thunder 88', price:6800, old:7999, rating:4.2, reviews:44, badge:'sale', type:'beginner', flex:'Medium', balance:'Even', weight:'85g / 3U', length:'670mm', shaft:'7.0mm diameter', string:'18 lbs recommended', material:'Carbon Graphite', colors:['#263238','#ff7043'], colorNames:['Dark Slate','Thunder Orange'], sizes:[], inStock:true, limited:false,
+      desc:`The <strong>RSL Falcon Thunder 88</strong> is RSL's most popular entry-level performance racket. Trusted by clubs and coaches alike, it offers better-than-average build quality for its price tier, making it one of the best value rackets on the market.\n\n<ul><li>Medium flex shaft is forgiving for developing players</li><li>Isometric frame shape increases the sweet spot area</li><li>Durable carbon graphite builds well for daily use</li><li>Includes full-length cover and grip replacement</li></ul>`,
+      specs:[['Frame','Carbon Graphite'],['Shaft','Carbon, Medium Flex'],['Flex','Medium'],['Balance','Even'],['Weight','85g (3U)'],['Grip Size','G3'],['String Tension','18–26 lbs'],['Stringing','Pre-strung'],['Suitable For','Beginner / Club'],['Country of Origin','Malaysia']]
+    },
+    {id:12, brand:'Yonex', name:'Voltric 80 E-Tune', price:11500, old:null, rating:4.7, reviews:68, badge:null, type:'attack', flex:'Stiff', balance:'Head Heavy', weight:'83g / 3U', length:'675mm', shaft:'6.7mm diameter', string:'22 lbs recommended', material:'HM Graphite + Super HMG', colors:['#1a237e','#ffd600'], colorNames:['Deep Violet','Solar Yellow'], sizes:[], inStock:true, limited:true,
+      desc:`The <strong>Yonex Voltric 80 E-Tune</strong> gives players the ability to fine-tune their racket's balance and weight using the included E-Tune kit. Ideal for players who need a custom feel for their game style.\n\n<ul><li>E-Tune system: 3 interchangeable weights to customise balance point</li><li>Tri-Voltage System frame concentrates mass at 9, 12, and 3 o'clock</li><li>HM Graphite + Super HMG shaft for responsive power</li><li>Limited stock — collector and players choice</li></ul>`,
+      specs:[['Frame','HM Graphite, Super HMG'],['Shaft','HM Graphite, 6.7mm'],['Flex','Stiff'],['Balance','Head Heavy (adjustable)'],['Weight','83g (3U)'],['Grip Size','G4'],['String Tension','22–30 lbs'],['Stringing','Not strung'],['Suitable For','Attack / Advanced'],['Country of Origin','Japan']]
+    },
+    {id:13, brand:'Victor', name:'Hypernano X 900', price:10200, old:12000, rating:4.5, reviews:39, badge:'sale', type:'all-round', flex:'Medium', balance:'Even', weight:'82g / 3U', length:'675mm', shaft:'6.8mm diameter', string:'20 lbs recommended', material:'Nano Resin + Carbon Fiber', colors:['#4a4a4a','#00bcd4'], colorNames:['Graphite Grey','Cyan Pulse'], sizes:[], inStock:true, limited:false,
+      desc:`The <strong>Victor Hypernano X 900</strong> combines nano-resin construction with a medium flex shaft for a versatile all-round game. It's the racket that can do anything — attack, defend, and dominate the net all in one session.\n\n<ul><li>Nano Resin reinforced shaft and frame for enhanced resilience</li><li>Aero-Sword II frame for exceptional aerodynamics</li><li>Medium flex shaft ideal for beginners moving to intermediate levels</li><li>Strung at 20-22 lbs for immediate competitive use</li></ul>`,
+      specs:[['Frame','Nano Resin, Carbon Fiber'],['Shaft','Nano Resin, 6.8mm'],['Flex','Medium'],['Balance','Even'],['Weight','82g (3U)'],['Grip Size','G2'],['String Tension','20–28 lbs'],['Stringing','Pre-strung'],['Suitable For','All-round'],['Country of Origin','Taiwan']]
+    },
+    {id:14, brand:'Carlton', name:'Kinesis Ultra Tour', price:8500, old:null, rating:4.3, reviews:21, badge:null, type:'control', flex:'Flexible', balance:'Head Light', weight:'80g / 3U', length:'675mm', shaft:'6.8mm diameter', string:'20 lbs recommended', material:'Carbon Fibre + Kevlar', colors:['#003300','#cccccc'], colorNames:['Forest Green','Silver'], sizes:[], inStock:true, limited:false,
+      desc:`The <strong>Carlton Kinesis Ultra Tour</strong> channels kinetic energy from the grip through the shaft into every shot. Its head-light, flexible design makes it a joy for defensive and fast rally play.\n\n<ul><li>Kinesis frame technology for maximum energy transfer</li><li>Head-light balance point boosts maneuverability</li><li>Carbon Fibre + Kevlar frame for lightweight durability</li><li>Ideal for doubles players and quick-defense specialists</li></ul>`,
+      specs:[['Frame','Carbon Fibre, Kevlar'],['Shaft','Flexible, 6.8mm'],['Flex','Flexible'],['Balance','Head Light'],['Weight','80g (3U)'],['Grip Size','G3'],['String Tension','20–28 lbs'],['Stringing','Not strung'],['Suitable For','Control / Defense'],['Country of Origin','UK']]
+    },
+    {id:15, brand:'Apacs', name:'Commander 10', price:3200, old:4000, rating:3.9, reviews:87, badge:'sale', type:'beginner', flex:'Flexible', balance:'Even', weight:'90g / 2U', length:'665mm', shaft:'7.5mm diameter', string:'16 lbs recommended', material:'Aluminum + Nylon', colors:['#212121','#e91e63'], colorNames:['Jet Black','Pop Pink'], sizes:[], inStock:true, limited:false,
+      desc:`The <strong>Apacs Commander 10</strong> is the most affordable way to get started in badminton. Durable, easy to swing, and ready to use right out of the box — perfect for first-time players and casual recreational players.\n\n<ul><li>Aluminum frame for durability in recreational environments</li><li>Ready-strung for immediate play</li><li>Comfortable natural grip included</li><li>Available in multiple colours</li></ul>`,
+      specs:[['Frame','Aluminum Alloy'],['Shaft','Nylon, Flexible'],['Flex','Flexible'],['Balance','Even'],['Weight','90g (2U)'],['Grip Size','G3'],['String Tension','16–20 lbs'],['Stringing','Pre-strung'],['Suitable For','Beginner / Casual'],['Country of Origin','Malaysia']]
+    },
+    {id:16, brand:'Yonex', name:'Mavis 600 (Racket)', price:5500, old:null, rating:4.4, reviews:19, badge:'new', type:'beginner', flex:'Medium', balance:'Even', weight:'85g / 3U', length:'670mm', shaft:'6.9mm diameter', string:'18 lbs recommended', material:'HM Graphite Lite', colors:['#ff5722','#4caf50','#2196f3'], colorNames:['Sunset Orange','Grass Green','Azure Blue'], sizes:[], inStock:true, limited:false,
+      desc:`The <strong>Yonex Mavis 600</strong> recreation edition racket is the first step into the Yonex family. Inspired by the best-selling Mavis shuttle, this racket offers the quality and feel associated with the Yonex brand at an accessible entry price.\n\n<ul><li>HM Graphite Lite for Yonex quality at an entry price</li><li>Isometric frame for a larger sweet spot</li><li>Multiple colour options for personalized style</li><li>Includes carry case and overgrip</li></ul>`,
+      specs:[['Frame','HM Graphite Lite'],['Shaft','Medium Flex'],['Flex','Medium'],['Balance','Even'],['Weight','85g (3U)'],['Grip Size','G4'],['String Tension','18–24 lbs'],['Stringing','Pre-strung'],['Suitable For','Beginner'],['Country of Origin','Japan']]
+    },
+    {id:17, brand:'Victor', name:'Jetspeed S12', price:14200, old:16000, rating:4.8, reviews:76, badge:'sale', type:'control', flex:'Stiff', balance:'Head Light', weight:'78g / 4U', length:'675mm', shaft:'6.4mm diameter', string:'24 lbs recommended', material:'Ultra High Modulus Graphite + Nano Resin', colors:['#b71c1c','#212121'], colorNames:['Speed Red','Carbon Dark'], sizes:[], inStock:true, limited:false,
+      desc:`The <strong>Victor Jetspeed S12</strong> is a flagship doubles racket used by top professional players. Its head-light balance and stiff 6.4mm shaft enable explosive net exchanges and rapid defensive responses.\n\n<ul><li>Swift Power System for instant shaft recovery</li><li>Headlight balance for fast wrist maneuverability</li><li>Ultra High Modulus Graphite for uncompromising stiffness at low weight</li><li>Endorsed by Japan national team players</li></ul>`,
+      specs:[['Frame','UHMG, Nano Resin'],['Shaft','UHMG, 6.4mm Extra Thin'],['Flex','Stiff'],['Balance','Head Light'],['Weight','78g (4U)'],['Grip Size','G1'],['String Tension','24–32 lbs'],['Stringing','Not strung'],['Suitable For','Control / Speed'],['Country of Origin','Taiwan']]
+    },
+    {id:18, brand:'Li-Ning', name:'Wind Lite 900', price:7800, old:null, rating:4.4, reviews:34, badge:null, type:'all-round', flex:'Medium', balance:'Even', weight:'80g / 4U', length:'675mm', shaft:'6.8mm diameter', string:'20 lbs recommended', material:'Carbon Fiber + Kevlar Resin', colors:['#e0e0e0','#1565c0'], colorNames:['Storm White','Storm Blue'], sizes:[], inStock:true, limited:false,
+      desc:`The <strong>Li-Ning Wind Lite 900</strong> is all about effortless speed. Weighing just 80g, it's feather-light yet powerful — perfect for players who prioritise speed and quick reflex shots in both singles and doubles play.\n\n<ul><li>Wind Flow Box Frame for optimal aerodynamic performance</li><li>Ultra lightweight 80g for quick recovery between shots</li><li>Carbon Fiber + Kevlar Resin for rigidity without bulk</li><li>Versatile even balance for all-round play style</li></ul>`,
+      specs:[['Frame','Carbon Fiber, Kevlar Resin'],['Shaft','Medium, 6.8mm'],['Flex','Medium'],['Balance','Even'],['Weight','80g (4U)'],['Grip Size','G3'],['String Tension','20–28 lbs'],['Stringing','Not strung'],['Suitable For','All-round / Speed'],['Country of Origin','China']]
+    },
+  ],
+
+  // ── APPAREL ──
+  apparel: [
+    {id:101, brand:'Li-Ning', name:'Lin Dan LD-L01 Tee', price:1299, old:null, rating:4.5, reviews:38, badge:'new', type:'top', flex:null, balance:null, weight:null, length:null, shaft:null, string:null, material:'Polyester Microfiber', colors:['#c62828','#1a1a1a','#f5f5f5'], colorNames:['LD Red','LD Black','LD White'], sizes:['XS','S','M','L','XL','XXL'], inStock:true, limited:false,
+      desc:`The <strong>Li-Ning Lin Dan LD-L01 Tee</strong> is a signature edition performance tee from the collection of 5-time World Champion Lin Dan. Crafted for court performance with a legend's aesthetic.\n\n<ul><li>AT DRY technology for maximum moisture wicking</li><li>Stretch-comfort structure for unrestricted movement</li><li>Anti-bacterial fabric treatment</li><li>Signature Lin Dan LD logo on chest and sleeve</li></ul>`,
+      specs:[['Material','100% Polyester Microfiber'],['Technology','AT DRY moisture management'],['Fit','Regular Athletic Fit'],['Care','Machine wash cold, no bleach'],['Available Sizes','XS – XXL'],['Gender','Unisex'],['Country of Origin','China']]
+    },
+    {id:102, brand:'Yonex', name:'Tournament Polo Shirt', price:1799, old:null, rating:4.6, reviews:52, badge:null, type:'top', flex:null, balance:null, weight:null, length:null, shaft:null, string:null, material:'Dry-Fit Polyester', colors:['#ffffff','#212121','#1565c0'], colorNames:['White','Black','Royal Blue'], sizes:['S','M','L','XL','XXL'], inStock:true, limited:false,
+      desc:`The <strong>Yonex Tournament Polo Shirt</strong> is the official choice of Yonex-sponsored tournament players worldwide. Smart, breathable, and competition-ready.\n\n<ul><li>Cool Velour collar with YONEX embossed logo</li><li>Dry-fit performance fabric keeps you cool during intense rallies</li><li>Stretch side panels for mobility</li><li>Available in multiple competition-grade colorways</li></ul>`,
+      specs:[['Material','Polyester Dry-Fit'],['Collar','Cool Velour Polo Collar'],['Fit','Regular Slim'],['Care','Machine wash 30°C'],['Available Sizes','S – XXL'],['Gender','Men'],['Country of Origin','Japan']]
+    },
+    {id:103, brand:'Victor', name:'Game Shorts Pro', price:899, old:1199, rating:4.4, reviews:61, badge:'sale', type:'bottom', flex:null, balance:null, weight:null, length:null, shaft:null, string:null, material:'Quick-dry Polyester', colors:['#212121','#1565c0','#c62828'], colorNames:['Black','Navy','Red'], sizes:['XS','S','M','L','XL','XXL'], inStock:true, limited:false,
+      desc:`The <strong>Victor Game Shorts Pro</strong> are the professional's choice for court comfort. Built for maximum mobility and rapid moisture removal.\n\n<ul><li>Quick-dry 100% polyester for immediate sweat removal</li><li>Elastic waistband with inner drawstring for secure fit</li><li>Side pockets for shuttle storage</li><li>Lightweight 90g construction per pair</li></ul>`,
+      specs:[['Material','100% Polyester Quick-Dry'],['Waistband','Elastic + Internal Drawstring'],['Pockets','2 side + 1 back'],['Length','Above-knee'],['Care','Machine wash cold'],['Available Sizes','XS – XXL'],['Country of Origin','Taiwan']]
+    },
+    {id:104, brand:'Yonex', name:'Stretch Training Tee', price:899, old:null, rating:4.3, reviews:44, badge:null, type:'top', flex:null, balance:null, weight:null, length:null, shaft:null, string:null, material:'Stretch Polyester Blend', colors:['#1a1a1a','#e53935','#43a047'], colorNames:['Black','Red','Green'], sizes:['S','M','L','XL'], inStock:true, limited:false,
+      desc:`The <strong>Yonex Stretch Training Tee</strong> is designed for intensive training sessions. Its four-way stretch gives you complete freedom of movement whether you're drilling, serving, or lunging for those impossible shots.\n\n<ul><li>4-way stretch performance fabric</li><li>Sweat-wicking and quick-dry technology</li><li>Ergonomic cut reduces fabric bunching</li><li>Flatlock seams for chafe-free extended wear</li></ul>`,
+      specs:[['Material','Stretch Polyester-Spandex Blend'],['Stretch','4-Way Stretch'],['Fit','Athletic Slim'],['Seams','Flatlock anti-chafe'],['Care','Machine wash cold'],['Available Sizes','S – XL'],['Country of Origin','Japan']]
+    },
+    {id:105, brand:'Li-Ning', name:'Track Jacket Elite', price:2499, old:null, rating:4.7, reviews:29, badge:'new', type:'jacket', flex:null, balance:null, weight:null, length:null, shaft:null, string:null, material:'Polyester Tricot', colors:['#b71c1c','#0d47a1','#1b5e20'], colorNames:['Match Red','Court Blue','Court Green'], sizes:['S','M','L','XL','XXL'], inStock:true, limited:false,
+      desc:`The <strong>Li-Ning Track Jacket Elite</strong> is the warm-up jacket worn by Li-Ning athletes at major tournaments worldwide. Lightweight, stylish, and performance-optimised for pre-match preparation.\n\n<ul><li>AT DRY coating for moisture management</li><li>Full-length YKK zipper with Li-Ning branded pull</li><li>Articulated sleeves for unrestricted shoulder mobility</li><li>Embossed Li-Ning logo on chest and back</li></ul>`,
+      specs:[['Material','Polyester Tricot'],['Closure','Full-length YKK Zip'],['Pockets','2 hand pockets + 1 chest'],['Fit','Athletic Regular'],['Care','Machine wash 30°C'],['Available Sizes','S – XXL'],['Country of Origin','China']]
+    },
+    {id:106, brand:'Victor', name:'Sport Polo', price:1199, old:1599, rating:4.2, reviews:33, badge:'sale', type:'top', flex:null, balance:null, weight:null, length:null, shaft:null, string:null, material:'Smooth Dry Knit', colors:['#ffffff','#212121'], colorNames:['White','Slate Black'], sizes:['S','M','L','XL','XXL'], inStock:true, limited:false,
+      desc:`The <strong>Victor Sport Polo</strong> is classic tournament wear — clean, smart, and functional. Perfect for club-level tournaments or casual training.\n\n<ul><li>Smooth dry knit for a premium anti-static feel</li><li>2-button polo collar for adjustable comfort</li><li>Victor logo embroidered on left chest</li><li>Compatible with Victor EVO and Hypernano racket series colours</li></ul>`,
+      specs:[['Material','Smooth Dry Knit Polyester'],['Collar','2-Button Polo'],['Fit','Regular'],['Care','Machine wash cold'],['Available Sizes','S – XXL'],['Country of Origin','Taiwan']]
+    },
+    {id:107, brand:'Apacs', name:'Badminton Hoodie', price:1799, old:null, rating:4.0, reviews:18, badge:null, type:'jacket', flex:null, balance:null, weight:null, length:null, shaft:null, string:null, material:'Fleece-lined Polyester', colors:['#212121','#37474f'], colorNames:['Jet Black','Storm Grey'], sizes:['S','M','L','XL'], inStock:true, limited:false,
+      desc:`The <strong>Apacs Badminton Hoodie</strong> is perfect for warm-up sessions and cool weather training. Fleece-lined for comfort without sacrificing the lightweight feel players need.\n\n<ul><li>Fleece-lined inner for warmth without bulk</li><li>Kangaroo pocket for shuttles and phone</li><li>Half-zip collar for ventilation control</li><li>Apacs logo print on back</li></ul>`,
+      specs:[['Material','Fleece-lined Polyester'],['Closure','Half-zip'],['Pockets','Kangaroo front + zip chest'],['Fit','Regular'],['Care','Machine wash cold, inside out'],['Available Sizes','S – XL'],['Country of Origin','Malaysia']]
+    },
+    {id:108, brand:'Yonex', name:'Compression Tights', price:999, old:null, rating:4.5, reviews:27, badge:null, type:'bottom', flex:null, balance:null, weight:null, length:null, shaft:null, string:null, material:'Nylon-Spandex Compression', colors:['#1a1a1a','#1565c0'], colorNames:['Black','Blue'], sizes:['XS','S','M','L','XL'], inStock:true, limited:false,
+      desc:`The <strong>Yonex Compression Tights</strong> provide targeted compression to key muscle groups, reducing fatigue and improving blood circulation during long training sessions and tournaments.\n\n<ul><li>Graduated compression for optimal muscle support</li><li>81% Nylon / 19% Spandex for superior stretch and recovery</li><li>Moisture-wicking for dry, comfortable wear</li><li>Flat seam construction prevents irritation</li></ul>`,
+      specs:[['Material','81% Nylon, 19% Spandex'],['Compression Level','Moderate (15–20 mmHg)'],['Length','Full leg'],['Closure','Waistband elastic'],['Care','Hand wash or delicate machine cycle'],['Available Sizes','XS – XL'],['Country of Origin','Japan']]
+    },
+  ],
+
+  // ── FOOTWEAR ──
+  footwear: [
+    {id:201,brand:'Yonex',name:'SHB 65Z Court Shoe',price:5999,old:null,rating:4.8,reviews:74,badge:'new',material:'Mesh Upper + Rubber Sole',colors:['#ffffff','#212121','#1565c0'],colorNames:['White','Black','Blue'],sizes:['UK 6','UK 7','UK 8','UK 9','UK 10','UK 11'],inStock:true,limited:false,
+      desc:`The <strong>Yonex SHB 65Z</strong> is the flagship court shoe trusted by top professional players worldwide. Power Cushion+ technology delivers the finest cushioning and rebound performance ever achieved in a Yonex court shoe.\n\n<ul><li>Power Cushion+ for superior cushioning and recovery</li><li>Round Sole for 360° agility on court</li><li>Durable rubber outsole with hexagonal traction pattern</li><li>Lightweight mesh upper for breathability</li></ul>`,
+      specs:[['Upper','Breathable Mesh + Synthetic'],['Sole','Carbon Flex Rubber'],['Cushion','Power Cushion+'],['Closure','Lace-up'],['Weight','310g (UK 9)'],['Available Sizes','UK 6 – UK 11'],['Country of Origin','Japan']]
+    },
+    {id:202,brand:'Yonex',name:'Power Cushion 65 Z',price:3999,old:4999,rating:4.6,reviews:91,badge:'sale',material:'Synthetic Mesh',colors:['#e53935','#ffffff'],colorNames:['Bright Red','White'],sizes:['UK 6','UK 7','UK 8','UK 9','UK 10'],inStock:true,limited:false,
+      desc:`The <strong>Yonex Power Cushion 65 Z</strong> delivers tournament-grade performance at a mid-range price. Packed with Yonex's signature Power Cushion technology for outstanding court comfort and agility.\n\n<ul><li>Power Cushion absorbs shock and returns energy</li><li>Durable Rubber Guard protection on the toe area</li><li>Lateral Support Frame for ankle stability</li><li>Cool Air upper for heat management</li></ul>`,
+      specs:[['Upper','Synthetic Mesh'],['Sole','Durable Rubber'],['Cushion','Power Cushion'],['Closure','Lace-up'],['Weight','320g (UK 9)'],['Available Sizes','UK 6 – UK 10'],['Country of Origin','Japan']]
+    },
+    {id:203,brand:'Yonex',name:'SHB 03Z Badminton',price:4299,old:null,rating:4.5,reviews:48,badge:null,material:'Synthetic Leather',colors:['#212121','#e53935'],colorNames:['Black','Flash Red'],sizes:['UK 6','UK 7','UK 8','UK 9','UK 10','UK 11'],inStock:true,limited:false,
+      desc:`The <strong>Yonex SHB 03Z</strong> is a solid mid-tier option combining durability with Yonex court performance technology. Great for regular club play and casual competition.\n\n<ul><li>Reinforced synthetic leather upper for durability</li><li>Power Cushion for comfort and rebound</li><li>Multi-layer Ergoshape for a natural foot fit</li><li>All-court rubber compound sole</li></ul>`,
+      specs:[['Upper','Synthetic Leather'],['Sole','Rubber Compound'],['Cushion','Power Cushion'],['Closure','Lace-up'],['Weight','330g (UK 9)'],['Available Sizes','UK 6 – UK 11'],['Country of Origin','Japan']]
+    },
+    {id:204,brand:'Victor',name:'A960 Court Shoe',price:4499,old:null,rating:4.6,reviews:37,badge:null,material:'Knit Mesh Upper',colors:['#1a237e','#ffffff'],colorNames:['Deep Blue','White'],sizes:['UK 6','UK 7','UK 8','UK 9','UK 10'],inStock:true,limited:false,
+      desc:`The <strong>Victor A960</strong> delivers professional performance with a modern knit upper and innovative sole design. Used by Victor-sponsored national team players across Asia.\n\n<ul><li>VSR (Victor Shock Resistance) midsole for court impact protection</li><li>Wide toe box for natural foot spread on lunges</li><li>EVA midsole for lightweight cushioning</li><li>Anti-bacterial inner lining</li></ul>`,
+      specs:[['Upper','Knit Mesh'],['Sole','VSR Rubber'],['Cushion','EVA Midsole'],['Closure','Lace-up'],['Weight','305g (UK 9)'],['Available Sizes','UK 6 – UK 10'],['Country of Origin','Taiwan']]
+    },
+    {id:205,brand:'Victor',name:'P9200 II Shoe',price:3699,old:4200,rating:4.4,reviews:55,badge:'sale',material:'Breathable Mesh',colors:['#212121','#f57f17'],colorNames:['Black','Amber'],sizes:['UK 6','UK 7','UK 8','UK 9','UK 10','UK 11'],inStock:true,limited:false,
+      desc:`The <strong>Victor P9200 II</strong> is Victor's value flagship — an excellent all-round court shoe that balances cushioning, stability, and durability for the frequent club player.\n\n<ul><li>High-abrasion rubber toe guard for extended shoe life</li><li>Pivoting sole design for multi-directional movement</li><li>Padded collar and tongue for ankle comfort</li><li>TPU heel counter for rear-foot stability</li></ul>`,
+      specs:[['Upper','Breathable Mesh + Synthetic'],['Sole','High-Abrasion Rubber'],['Cushion','EVA + PU Midsole'],['Closure','Lace-up'],['Weight','325g (UK 9)'],['Available Sizes','UK 6 – UK 11'],['Country of Origin','Taiwan']]
+    },
+    {id:206,brand:'Li-Ning',name:'Blade X 700',price:3299,old:null,rating:4.5,reviews:29,badge:'new',material:'Carbon Mesh',colors:['#c62828','#212121'],colorNames:['Li-Ning Red','Blade Black'],sizes:['UK 6','UK 7','UK 8','UK 9','UK 10'],inStock:true,limited:false,
+      desc:`The <strong>Li-Ning Blade X 700</strong> is Li-Ning's latest court innovation — a lightweight shoe with an aggressive tread pattern designed for explosive lateral movement and quick direction changes.\n\n<ul><li>CloudFoam midsole for ultra-lightweight cushioning</li><li>Dragon Scale tread pattern for maximum grip</li><li>Carbon fibre reinforced arch for torsional rigidity</li><li>Cool breathable mesh upper in signature Li-Ning colorway</li></ul>`,
+      specs:[['Upper','Carbon Mesh'],['Sole','Dragon Scale Rubber'],['Cushion','CloudFoam Midsole'],['Closure','Lace-up'],['Weight','290g (UK 9)'],['Available Sizes','UK 6 – UK 10'],['Country of Origin','China']]
+    },
+    {id:207,brand:'Li-Ning',name:'Ranger TD Shoe',price:2899,old:null,rating:4.2,reviews:21,badge:null,material:'Mesh + Synthetic',colors:['#1565c0','#ffffff'],colorNames:['Court Blue','White'],sizes:['UK 6','UK 7','UK 8','UK 9','UK 10','UK 11'],inStock:true,limited:false,
+      desc:`The <strong>Li-Ning Ranger TD</strong> is Li-Ning's mid-range club shoe, offering reliable performance and comfort for recreational and developing competitive players.\n\n<ul><li>Shock-absorbing TPU heel unit</li><li>Reinforced toe cap for kick-serve durability</li><li>Breathable mesh upper for ventilation</li><li>Non-marking rubber outsole approved for all indoor courts</li></ul>`,
+      specs:[['Upper','Mesh + Synthetic Overlay'],['Sole','Non-Marking Rubber'],['Cushion','TPU Heel Unit'],['Closure','Lace-up'],['Weight','340g (UK 9)'],['Available Sizes','UK 6 – UK 11'],['Country of Origin','China']]
+    },
+    {id:208,brand:'Apacs',name:'Badminton Starter Shoe',price:1799,old:2500,rating:3.9,reviews:63,badge:'sale',material:'PU Leather',colors:['#212121','#ffffff','#e53935'],colorNames:['Black','White','Red'],sizes:['UK 5','UK 6','UK 7','UK 8','UK 9','UK 10'],inStock:true,limited:false,
+      desc:`The <strong>Apacs Badminton Starter Shoe</strong> is the most affordable way to get started with proper badminton footwear. Non-marking, grippy, and durable — everything a beginner needs.\n\n<ul><li>PU leather upper for easy clean and durability</li><li>Non-marking outsole approved for all gymnasium floors</li><li>Basic EVA midsole cushioning</li><li>Wide fitting for a comfortable, casual court experience</li></ul>`,
+      specs:[['Upper','PU Leather'],['Sole','Non-Marking Rubber'],['Cushion','EVA Foam'],['Closure','Lace-up'],['Weight','350g (UK 9)'],['Available Sizes','UK 5 – UK 10'],['Country of Origin','Malaysia']]
+    },
+  ],
+
+  // ── ACCESSORIES ──
+  accessories: [
+    {id:301,brand:'Yonex',name:'Mavis 600 Nylon Shuttle',price:499,old:null,rating:4.6,reviews:188,badge:'hot',material:'Nylon Feather + Cork Base',colors:['#f5f5f5'],colorNames:['White'],sizes:['Speed 77','Speed 78','Speed 79'],inStock:true,limited:false,
+      desc:`The <strong>Yonex Mavis 600</strong> is the world's most popular nylon shuttlecock, trusted for training and recreational play globally. Its durable nylon skirt provides consistent flight in various conditions.\n\n<ul><li>Nylon feather construction for extreme durability</li><li>Optimal flight path matching feather shuttles</li><li>3 speeds available (77/78/79) for different temperatures</li><li>Tube of 6 shuttlecocks</li></ul>`,
+      specs:[['Type','Nylon / Plastic'],['Base','Full Cork'],['Speed Options','77, 78, 79'],['Pack Size','6 shuttlecocks'],['Best For','Training / Recreation'],['Approval','BWF Approved for Training'],['Country of Origin','Japan']]
+    },
+    {id:302,brand:'Yonex',name:'Aerosensa 50 Feather',price:1299,old:null,rating:4.8,reviews:94,badge:null,material:'Goose Feather + Cork',colors:['#f5f5f5'],colorNames:['White'],sizes:['Speed 75','Speed 76','Speed 77'],inStock:true,limited:false,
+      desc:`The <strong>Yonex Aerosensa 50</strong> is Yonex's premium tournament feather shuttle. Constructed from superior-grade goose feathers and full cork base for the most authentic flight trajectory.\n\n<ul><li>Superior grade goose feather for precise trajectory</li><li>Full cork base for consistent feel at impact</li><li>Tight, symmetrical feather binding</li><li>Approved for BWF tournament play</li></ul>`,
+      specs:[['Type','Feather (Goose)'],['Base','Full Cork'],['Speed Options','75, 76, 77'],['Pack Size','12 shuttlecocks'],['Approval','BWF Tournament Approved'],['Best For','Competitive / Tournament'],['Country of Origin','Japan']]
+    },
+    {id:303,brand:'Victor',name:'AS-30 Feather Shuttle',price:999,old:null,rating:4.5,reviews:61,badge:null,material:'Duck Feather + Cork',colors:['#f5f5f5'],colorNames:['White'],sizes:['Speed 76','Speed 77'],inStock:true,limited:false,
+      desc:`The <strong>Victor AS-30</strong> offers excellent value in a competition-grade feather shuttle. Great for regular club and league play where you want feather performance without premium cost.\n\n<ul><li>Machine-processed duck feathers for consistent shape</li><li>Cork base for reliable smash contact</li><li>Good durability for a feather shuttle</li><li>Ideal for weekly club sessions</li></ul>`,
+      specs:[['Type','Feather (Duck)'],['Base','Cork'],['Speed Options','76, 77'],['Pack Size','12 shuttlecocks'],['Best For','Club / League Play'],['Country of Origin','Taiwan']]
+    },
+    {id:304,brand:'Yonex',name:'Airshuttle Outdoor',price:299,old:null,rating:4.1,reviews:47,badge:'new',material:'Plastic Foam',colors:['#f5f5f5'],colorNames:['White/Yellow'],sizes:['One Size'],inStock:true,limited:false,
+      desc:`The <strong>Yonex Airshuttle</strong> is engineered specifically for outdoor badminton play. Its foam skirt maintains shape in wind conditions where regular shuttles would be blown off course.\n\n<ul><li>Wind-resistant foam skirt design</li><li>Durable construction for outdoor surfaces</li><li>Can be used on grass, concrete, and sand courts</li><li>Pack of 3 shuttles</li></ul>`,
+      specs:[['Type','Plastic / Foam'],['Base','Synthetic Cork'],['Pack Size','3 shuttlecocks'],['Best For','Outdoor / Casual'],['Wind Resistance','High'],['Country of Origin','Japan']]
+    },
+    {id:305,brand:'Yonex',name:'BG80 Power String',price:399,old:null,rating:4.7,reviews:142,badge:null,material:'High-Polymer Nylon',colors:['#f5f5f5','#f59e0b','#e53935'],colorNames:['White','Gold','Red'],sizes:['One Reel'],inStock:true,limited:false,
+      desc:`The <strong>Yonex BG80 Power</strong> is one of the most popular tournament strings in the world. Its high repulsion power and crisp feel make it the go-to choice for attack-play rackets.\n\n<ul><li>High repulsion power for explosive smashes</li><li>0.68mm diameter for excellent durability</li><li>Crisp, sharp sound at impact</li><li>Recommended tension: 24–32 lbs</li></ul>`,
+      specs:[['Gauge','0.68mm'],['Material','High-Polymer Nylon'],['Tension Range','24–32 lbs'],['Reel Length','200m'],['Best For','Attack / Power Play'],['Country of Origin','Japan']]
+    },
+    {id:306,brand:'Victor',name:'VS850 String',price:299,old:null,rating:4.4,reviews:78,badge:null,material:'Nylon Multifilament',colors:['#f5f5f5','#1565c0'],colorNames:['White','Blue'],sizes:['One Reel'],inStock:true,limited:false,
+      desc:`The <strong>Victor VS850</strong> is a reliable, all-round badminton string that balances control and power. Popular with intermediate players across Asia.\n\n<ul><li>Even balance of power and control</li><li>0.70mm gauge for durability</li><li>Smooth surface coat for shuttle grip</li><li>Compatible with most racket types</li></ul>`,
+      specs:[['Gauge','0.70mm'],['Material','Nylon Multifilament'],['Tension Range','20–30 lbs'],['Reel Length','200m'],['Best For','All-round'],['Country of Origin','Taiwan']]
+    },
+    {id:307,brand:'Li-Ning',name:'No.1 Badminton String',price:349,old:null,rating:4.3,reviews:54,badge:null,material:'Polyester Monofilament',colors:['#f5f5f5','#c62828'],colorNames:['White','Red'],sizes:['One Reel'],inStock:true,limited:false,
+      desc:`The <strong>Li-Ning No.1</strong> is Li-Ning's flagship string, offering a premium playing feel with excellent shuttle control and a comfortable touch throughout long rallies.\n\n<ul><li>Polyester coating for smooth, consistent shuttle contact</li><li>High elasticity for better control on drops and clears</li><li>Recommended for control-style play</li><li>Compatible with all Li-Ning rackets</li></ul>`,
+      specs:[['Gauge','0.69mm'],['Material','Polyester Monofilament'],['Tension Range','22–30 lbs'],['Reel Length','200m'],['Best For','Control Play'],['Country of Origin','China']]
+    },
+    {id:308,brand:'Victor',name:'Overgrip 3-Pack',price:199,old:null,rating:4.5,reviews:203,badge:null,material:'PU Synthetic',colors:['#f5f5f5','#212121','#1565c0'],colorNames:['White','Black','Blue'],sizes:['One Size'],inStock:true,limited:false,
+      desc:`The <strong>Victor Overgrip 3-Pack</strong> keeps your racket handle fresh and dry during play. Easy to apply, these PU grips absorb sweat and provide a consistent, tacky feel.\n\n<ul><li>Soft PU material for comfortable grip</li><li>Moisture-absorbing to keep hands dry</li><li>Easy self-adhesive application</li><li>Pack of 3 overgrips</li></ul>`,
+      specs:[['Material','PU Synthetic'],['Length','1100mm'],['Thickness','0.6mm'],['Tackiness','Medium'],['Pack Size','3 grips'],['Country of Origin','Taiwan']]
+    },
+    {id:309,brand:'Yonex',name:'Towel Grip Replacement',price:149,old:null,rating:4.2,reviews:87,badge:null,material:'Terry Cotton',colors:['#f5f5f5','#212121'],colorNames:['White','Black'],sizes:['One Size'],inStock:true,limited:false,
+      desc:`The <strong>Yonex Towel Grip</strong> is the classic choice for players who prefer a natural, absorbent feel. Terry cotton material provides excellent sweat absorption for humid conditions.\n\n<ul><li>Terry cotton fabric for superior sweat absorption</li><li>Soft feel throughout long rallies</li><li>Standard 1100mm length fits all rackets</li><li>Washable and reusable</li></ul>`,
+      specs:[['Material','Terry Cotton'],['Length','1100mm'],['Thickness','1.8mm'],['Wash','Machine washable'],['Pack Size','1 grip'],['Country of Origin','Japan']]
+    },
+    {id:310,brand:'Li-Ning',name:'Cushion Wrap Grip',price:179,old:249,rating:4.3,reviews:66,badge:'sale',material:'PU + Gel Cushion',colors:['#f5f5f5','#c62828','#1565c0'],colorNames:['White','Red','Blue'],sizes:['One Size'],inStock:true,limited:false,
+      desc:`The <strong>Li-Ning Cushion Wrap Grip</strong> adds a gel cushion layer for shock absorption on heavy smashes and clears. Great for players with arm or wrist fatigue concerns.\n\n<ul><li>Integrated gel cushion reduces vibration impact</li><li>PU outer layer for sweat resistance</li><li>Slightly thicker profile for a fuller grip feel</li><li>Self-finishing tape included</li></ul>`,
+      specs:[['Material','PU + Gel Insert'],['Length','1100mm'],['Thickness','1.5mm'],['Best For','Shock absorption'],['Pack Size','1 grip'],['Country of Origin','China']]
+    },
+    {id:311,brand:'Victor',name:'6-Racket Tournament Bag',price:2999,old:3499,rating:4.6,reviews:41,badge:'sale',material:'Polyester 900D',colors:['#212121','#c62828'],colorNames:['Black','Victor Red'],sizes:['One Size'],inStock:true,limited:false,
+      desc:`The <strong>Victor 6-Racket Tournament Bag</strong> is designed for serious players who need to carry a full kit to tournaments. Thermo-insulated main compartment keeps rackets at optimal temperature.\n\n<ul><li>Thermo-insulated main compartment for 6 rackets</li><li>Separate shoe compartment with ventilation</li><li>Accessory pockets for shuttles, strings, and grips</li><li>Padded shoulder straps for comfortable carrying</li></ul>`,
+      specs:[['Capacity','6 Rackets'],['Material','Polyester 900D'],['Thermal','Thermo-insulated main compartment'],['Shoe Compartment','Yes, ventilated'],['Carry','Dual handle + shoulder strap'],['Dimensions','76×30×30cm'],['Country of Origin','Taiwan']]
+    },
+    {id:312,brand:'Yonex',name:'Pro Backpack 2024',price:3499,old:null,rating:4.7,reviews:38,badge:'new',material:'Polyester 1200D',colors:['#212121','#1565c0'],colorNames:['Black','Navy'],sizes:['One Size'],inStock:true,limited:false,
+      desc:`The <strong>Yonex Pro Backpack 2024</strong> is built for the modern player who needs to transition between the court and everyday life. Spacious, organised, and equipped with Yonex's signature sports ergonomics.\n\n<ul><li>Fits up to 2 rackets in padded sleeve</li><li>Laptop compartment up to 15" for school/work use</li><li>Ventilated back panel for breathability</li><li>Yonex badge and embossed logo</li></ul>`,
+      specs:[['Capacity','2 Rackets + Accessories'],['Material','Polyester 1200D'],['Laptop Slot','Yes, up to 15"'],['Volume','30L'],['Carry','Backpack + carry handle'],['Dimensions','48×32×24cm'],['Country of Origin','Japan']]
+    },
+    {id:313,brand:'Li-Ning',name:'2-Racket Cover Bag',price:999,old:null,rating:4.1,reviews:29,badge:null,material:'Nylon 600D',colors:['#c62828','#212121'],colorNames:['Red/Black','Black'],sizes:['One Size'],inStock:true,limited:false,
+      desc:`The <strong>Li-Ning 2-Racket Cover Bag</strong> is a slim, lightweight carry solution for players who need to travel with just their two match rackets and basic accessories.\n\n<ul><li>Holds 2 rackets in protective foam lining</li><li>Top handle + detachable shoulder strap</li><li>Small zip pocket for accessories</li><li>Durable 600D nylon exterior</li></ul>`,
+      specs:[['Capacity','2 Rackets'],['Material','Nylon 600D'],['Lining','Foam protective lining'],['Carry','Handle + shoulder strap'],['Dimensions','72×22×10cm'],['Country of Origin','China']]
+    },
+    {id:314,brand:'Yonex',name:'Lead Tape Weight Strip',price:99,old:null,rating:4.4,reviews:112,badge:null,material:'Lead Alloy',colors:['#9e9e9e'],colorNames:['Silver'],sizes:['One Size'],inStock:true,limited:false,
+      desc:`The <strong>Yonex Lead Tape Weight Strip</strong> lets you precisely tune your racket's balance and weight without any professional tools. Preferred by advanced players who want a custom feel.\n\n<ul><li>Self-adhesive lead tape strip</li><li>Apply to frame head for more head-heavy balance</li><li>Apply to handle for more head-light balance</li><li>1 sheet provides approx. 3g of added weight</li></ul>`,
+      specs:[['Material','Lead Alloy'],['Weight Per Strip','~3g'],['Adhesive','Pressure-sensitive'],['Length','500mm per strip'],['Pack','3 strips'],['Country of Origin','Japan']]
+    },
+    {id:315,brand:'Victor',name:'Court Marking Tape',price:149,old:null,rating:4.0,reviews:33,badge:null,material:'PVC Vinyl',colors:['#f5f5f5','#f59e0b'],colorNames:['White','Yellow'],sizes:['One Roll'],inStock:true,limited:false,
+      desc:`The <strong>Victor Court Marking Tape</strong> is a quick solution for marking temporary badminton courts on any hard surface — ideal for school PE, community halls, and outdoor setups.\n\n<ul><li>Strong adhesive for reliable court marking</li><li>Easy peel-off without surface residue</li><li>50m roll covers one full court</li><li>Multiple colours available for multi-court setups</li></ul>`,
+      specs:[['Material','PVC Vinyl'],['Width','19mm'],['Length','50m per roll'],['Surface','Indoor hard courts'],['Adhesive','Residue-free'],['Country of Origin','Taiwan']]
+    },
+    {id:316,brand:'Li-Ning',name:'Wristband Pair',price:129,old:null,rating:4.3,reviews:88,badge:null,material:'Terry Cotton',colors:['#f5f5f5','#c62828','#1565c0'],colorNames:['White','Red','Blue'],sizes:['One Size'],inStock:true,limited:false,
+      desc:`The <strong>Li-Ning Wristband Pair</strong> is an essential accessory for players who experience sweaty hands during play. Simple, effective, and comfortable for all-day court use.\n\n<ul><li>Terry cotton for maximum sweat absorption</li><li>Elasticated for secure, non-slip fit</li><li>Slim profile to avoid racket handle interference</li><li>Pack of 2 wristbands</li></ul>`,
+      specs:[['Material','Terry Cotton'],['Width','65mm'],['Elasticity','4-way stretch'],['Pack Size','2 wristbands'],['Care','Machine washable'],['Country of Origin','China']]
+    },
+  ]
+};
+
+// ═══════════════════════════════════════════
+// REVIEWS DATABASE
+// ═══════════════════════════════════════════
+const REVIEWS = [
+  {name:'Arjun M.', rating:5, date:'Mar 2026', title:'Absolute beast on court!', body:'The power transfer on smashes is insane. Completely changed my attack game. Worth every rupee if you play at an intermediate-to-advanced level.', verified:true, helpful:14},
+  {name:'Priya K.', rating:4, date:'Feb 2026', title:'Great quality, slightly heavy', body:'Build quality and feel is premium. The weight took a week to get used to but now I love it. Control is really good on cross-court drops.', verified:true, helpful:8},
+  {name:'Rohan S.', rating:5, date:'Jan 2026', title:'Best purchase I\'ve made', body:'Upgraded from a mid-range option and the difference is night and day. Shipping was super fast from Smash store. Highly recommend!', verified:true, helpful:11},
+  {name:'Deepa V.', rating:3, date:'Dec 2025', title:'Good but check details', body:'The product itself is excellent. Took a little getting used to but now I absolutely love it. Delivery was within 3 days.', verified:false, helpful:5},
+  {name:'Karthik R.', rating:5, date:'Nov 2025', title:'Worth every rupee!', body:'Fantastic quality. My performance on court has noticeably improved. Customer service at Smash store was also really helpful.', verified:true, helpful:19},
+];
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+const params = new URLSearchParams(window.location.search);
+const urlId   = parseInt(params.get('id')) || 1;
+
+// Find product across all categories
+let product = null;
+let category = 'rackets';
+let catLabel  = 'Rackets';
+let catHref   = 'category.html';
+
+for (const [k, arr] of Object.entries(PRODUCTS)) {
+  const found = arr.find(p => p.id === urlId);
+  if (found) { product = found; category = k; break; }
+}
+
+// Fallback
+if (!product) product = PRODUCTS.rackets[0];
+
+// Set category metadata
+if (category === 'apparel')     { catLabel = 'Apparel';     catHref = 'apparel.html'; }
+else if (category === 'footwear')    { catLabel = 'Footwear';    catHref = 'footwear.html'; }
+else if (category === 'accessories') { catLabel = 'Accessories'; catHref = 'accessories.html'; }
+
+// ═══════════════════════════════════════════
+// RENDER PRODUCT
+// ═══════════════════════════════════════════
+function fmt(n){ return '₹'+Number(n).toLocaleString('en-IN'); }
+
+function starsSVG(rating){
+  let h='';
+  for(let i=0;i<5;i++){
+    const filled = i < Math.floor(rating);
+    const half   = !filled && (i < rating);
+    h+=`<svg viewBox="0 0 24 24" fill="${filled?'#f59e0b':half?'url(#half)':'none'}" stroke="#f59e0b" stroke-width="1.5"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>`;
+  }
+  return h;
+}
+
+function getProductImg(cat) {
+  let src='racket.png';
+  if(cat==='footwear') src='shoes.png';
+  if(cat==='apparel') src='apparel.png';
+  if(cat==='accessories') src='shuttle.png';
+  return `<img src="${src}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;opacity:0.9" alt="Product Image">`;
+}
+
+function getThumbImg(cat, index) {
+  let src='racket.png';
+  if(cat==='footwear') src='shoes.png';
+  if(cat==='apparel') src='apparel.png';
+  if(cat==='accessories') src='shuttle.png';
+  
+  // Use detail side shots for thumbs
+  if(index === 1 && cat==='rackets') src='racket_detail.png';
+  
+  return `<img src="${src}" style="width:100%;height:100%;object-fit:cover;border-radius:4px" alt="Thumb">`;
+}
+
+function renderProduct(p){
+  // Page title
+  document.title = `${p.name} — ${p.brand} — Smash Badminton Store`;
+
+  // Breadcrumb
+  document.getElementById('breadcrumbCat').textContent = catLabel;
+  document.getElementById('breadcrumbCat').href = catHref;
+  document.getElementById('breadcrumbName').textContent = p.name;
+
+  // Gallery
+  const isApparel = category === 'apparel';
+  document.getElementById('mainSvg').innerHTML = getProductImg(category);
+
+  // Badges
+  const badgeHTML = [
+    p.badge ? `<span class="g-badge g-badge-${p.badge}">${p.badge}</span>` : '',
+    p.limited ? `<span class="g-badge g-badge-limited">Limited</span>` : '',
+  ].join('');
+  document.getElementById('galleryBadges').innerHTML = badgeHTML;
+
+  // Thumbs (3 angles)
+  document.getElementById('galleryThumbs').innerHTML = [1,2,3].map((_, i) =>
+    `<div class="g-thumb ${isApparel ? 'apparel' : ''} ${i===0?'active':''}" onclick="setThumb(this)" style="padding:4px">${getThumbImg(category, i)}</div>`
+  ).join('');
+
+  // Info
+  document.getElementById('pdCategoryLabel').textContent = catLabel;
+  document.getElementById('pdBrand').textContent = p.brand;
+  document.getElementById('pdName').textContent = p.name;
+  document.getElementById('pdStars').innerHTML = starsSVG(p.rating);
+  document.getElementById('pdRatingNum').textContent = p.rating;
+  document.getElementById('pdReviewCnt').textContent = `${p.reviews} reviews`;
+  document.getElementById('reviewCountTab').textContent = `(${p.reviews})`;
+
+  // Price
+  document.getElementById('pdPrice').textContent = fmt(p.price);
+  if(p.old){
+    const disc = Math.round((p.old - p.price) / p.old * 100);
+    const saving = p.old - p.price;
+    document.getElementById('pdOldPrice').style.display = '';
+    document.getElementById('pdOldPrice').textContent = fmt(p.old);
+    document.getElementById('pdDisc').style.display = '';
+    document.getElementById('pdDisc').textContent = `−${disc}%`;
+    document.getElementById('pdSaving').style.display = '';
+    document.getElementById('pdSaving').textContent = `You save ${fmt(saving)}!`;
+  }
+  document.getElementById('pdEmi').innerHTML = `EMI starting from <strong>${fmt(Math.ceil(p.price/12))}/month</strong>`;
+
+  // OOS
+  if(!p.inStock){
+    document.getElementById('oosBanner').style.display = 'flex';
+    document.getElementById('btnAddCart').textContent = 'Notify Me When Available';
+  }
+
+  // Variants block
+  let varHtml = '';
+  if(p.colors && p.colors.length){
+    varHtml += `<div class="variant-section">
+      <div class="variant-label">Colour: <span id="selectedColor">${p.colorNames[0]}</span></div>
+      <div class="color-swatches">${p.colors.map((c,i) =>
+        `<div class="cswatch ${i===0?'active':''}" style="background:${c}" title="${p.colorNames[i]}" onclick="selectColor(this,'${p.colorNames[i]}')"></div>`
+      ).join('')}</div>
+    </div>`;
+  }
+  if(p.sizes && p.sizes.length){
+    varHtml += `<div class="variant-section">
+      <div class="variant-label">Size: <span id="selectedSize">${p.sizes[2]||p.sizes[0]}</span></div>
+      <div class="variant-pills">${p.sizes.map((s,i) =>
+        `<button class="vpill ${i===2||p.sizes.length<3&&i===0?'active':''}" onclick="selectSize(this,'${s}')">${s}</button>`
+      ).join('')}</div>
+    </div>`;
+  }
+  document.getElementById('variantsBlock').innerHTML = varHtml;
+
+  // Description
+  const descLines = p.desc.split('\n\n');
+  let descHtml = '';
+  for(const line of descLines){
+    if(line.trim().startsWith('<ul>')) descHtml += `<div class="desc-h">Key Features</div>${line}`;
+    else descHtml += `<p>${line}</p>`;
+  }
+  document.getElementById('descBody').innerHTML = descHtml;
+
+  // Specs
+  document.getElementById('specsTable').innerHTML = p.specs.map(([k,v])=>
+    `<tr><td>${k}</td><td>${v}</td></tr>`
+  ).join('');
+
+  // Reviews
+  const allRev = REVIEWS;
+  document.getElementById('revBigNum').textContent = p.rating;
+  document.getElementById('revBigStars').innerHTML = starsSVG(p.rating);
+  document.getElementById('revTotal').textContent = `Based on ${p.reviews} verified reviews`;
+
+  // Rating bars
+  const bars = [5,4,3,2,1];
+  const widths = [65,20,10,3,2];
+  document.getElementById('ratingBars').innerHTML = bars.map((n,i)=>
+    `<div class="rating-bar-row"><span class="rating-bar-label">${n}</span>
+    <div class="rating-bar-track"><div class="rating-bar-fill" style="width:${widths[i]}%"></div></div>
+    </div>`
+  ).join('');
+
+  document.getElementById('reviewsList').innerHTML = allRev.map(r=>
+    `<div class="review-card">
+      <div class="review-header">
+        <div class="reviewer-avatar">${r.name[0]}</div>
+        <div><div class="reviewer-name">${r.name}</div><div class="reviewer-date">${r.date}</div></div>
+        ${r.verified?'<span class="verified-review" style="margin-left:auto">✓ Verified Purchase</span>':''}
+      </div>
+      <div class="review-stars-small">${starsSVG(r.rating)}</div>
+      <div class="review-title">${r.title}</div>
+      <div class="review-body">${r.body}</div>
+      <div class="review-helpful">Helpful? <button onclick="likeReview(this,${r.helpful})">👍 ${r.helpful}</button></div>
+    </div>`
+  ).join('');
+
+  // Related products
+  const allProd = PRODUCTS[category] || PRODUCTS.rackets;
+  const related = allProd.filter(x => x.id !== p.id).slice(0, 4);
+  document.getElementById('relatedGrid').innerHTML = related.map(r=>{
+    const rSvg = category==='apparel' ? SHIRT_SVG : RACKET_SVG(0.7);
+    return `<div class="rec-card" onclick="window.location='product.html?id=${r.id}'">
+      <div class="rec-img">${rSvg}</div>
+      <div class="rec-body">
+        <div class="rec-brand">${r.brand}</div>
+        <div class="rec-name">${r.name}</div>
+        <div class="rec-price">${fmt(r.price)}${r.old?`<span class="rec-old">${fmt(r.old)}</span>`:''}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════
+// INTERACTIONS
+// ═══════════════════════════════════════════
+let wishlisted = false;
+
+function toggleWishlist(){
+  wishlisted = !wishlisted;
+  const gw = document.getElementById('galleryWish');
+  const wi = document.getElementById('wishBtnIcon');
+  const wl = document.getElementById('wishBtnLabel');
+  if(wishlisted){
+    gw.classList.add('loved');
+    gw.innerHTML = `<svg viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="1.5"><path d="M12 21C12 21 3 14 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 13-9 13z"/></svg>`;
+    wi.innerHTML = `<svg viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="1.5"><path d="M12 21C12 21 3 14 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 13-9 13z"/></svg>`;
+    wl.textContent = 'Saved!';
+    showToast(`${product.name} saved to wishlist ❤️`);
+  } else {
+    gw.classList.remove('loved');
+    gw.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21C12 21 3 14 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 13-9 13z"/></svg>`;
+    wi.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21C12 21 3 14 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 13-9 13z"/></svg>`;
+    wl.textContent = 'Wishlist';
+    showToast('Removed from wishlist');
+  }
+}
+
+function setThumb(el){
+  document.querySelectorAll('.g-thumb').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function selectColor(el, name){
+  document.querySelectorAll('.cswatch').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('selectedColor').textContent = name;
+}
+
+function selectSize(el, size){
+  document.querySelectorAll('.vpill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('selectedSize').textContent = size;
+}
+
+function changeQty(delta){
+  const inp = document.getElementById('qtyInput');
+  let v = parseInt(inp.value) + delta;
+  v = Math.max(1, Math.min(10, v));
+  inp.value = v;
+}
+
+function addToCartAction(){
+  if(!product.inStock){ showToast('You\'ll be notified when back in stock!'); return; }
+  const qty = parseInt(document.getElementById('qtyInput').value) || 1;
+  addToCartCount();
+  showToast(`${product.name} × ${qty} added to cart 🛒`);
+  // Animate button
+  const btn = document.getElementById('btnAddCart');
+  btn.textContent = '✓ Added!';
+  btn.style.background = 'var(--success)';
+  btn.style.color = '#000';
+  setTimeout(()=>{
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:16px;height:16px"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> Add to Cart`;
+    btn.style.background = '';
+    btn.style.color = '';
+  }, 2000);
+}
+
+function buyNow(){
+  addToCartCount();
+  window.location.href = 'checkout.html';
+}
+
+function switchTab(id, btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('pane-'+id).classList.add('active');
+}
+
+function likeReview(btn, base){
+  const n = parseInt(btn.textContent.replace(/\D/g,'')) + 1;
+  btn.textContent = `👍 ${n}`;
+  btn.style.borderColor = 'var(--text)';
+  btn.style.color = 'var(--text)';
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+renderProduct(product);
+</script>
+</body>
+</html>

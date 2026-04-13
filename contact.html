@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — Smash Badminton Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .contact-page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 32px 80px
+    }
+
+    .contact-hero {
+      margin-bottom: 56px;
+      animation: fadeUp .5s ease both
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start
+    }
+
+    .channel-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 32px
+    }
+
+    .channel-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 20px 22px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .channel-card:hover {
+      border-color: var(--border-strong);
+      transform: translateX(4px)
+    }
+
+    .channel-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0
+    }
+
+    .channel-icon svg {
+      width: 20px;
+      height: 20px;
+      color: var(--text-muted)
+    }
+
+    .channel-info {
+      flex: 1
+    }
+
+    .channel-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 2px
+    }
+
+    .channel-desc {
+      font-size: 12px;
+      color: var(--text-muted)
+    }
+
+    .channel-availability {
+      font-size: 11px;
+      color: var(--success);
+      margin-top: 2px
+    }
+
+    .channel-arrow {
+      font-size: 18px;
+      color: var(--text-faint)
+    }
+
+    .contact-form-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px;
+      animation: fadeUp .5s ease both .1s
+    }
+
+    .form-box-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 26px;
+      letter-spacing: .06em;
+      color: var(--text);
+      margin-bottom: 20px
+    }
+
+    .contact-submit {
+      width: 100%;
+      padding: 13px;
+      background: var(--text);
+      color: var(--bg);
+      border: none;
+      border-radius: 3px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s
+    }
+
+    .contact-submit:hover {
+      opacity: .85;
+      transform: translateY(-1px)
+    }
+
+    .info-section {
+      margin-top: 40px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border)
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px
+    }
+
+    .info-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 20px;
+      text-align: center
+    }
+
+    .info-icon {
+      font-size: 28px;
+      margin-bottom: 10px
+    }
+
+    .info-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 6px
+    }
+
+    .info-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6
+    }
+
+    @media(max-width:900px) {
+      .contact-grid {
+        grid-template-columns: 1fr
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    @media(max-width:768px) {
+      .contact-page {
+        padding: 40px 16px 60px
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-header"><span class="mobile-nav-logo">Smash</span><button class="mobile-close"
+        onclick="closeMobileNav()">×</button></div>
+    <a class="mobile-link" href="index.html">Home</a><a class="mobile-link" href="collection.html">Shop</a>
+  </div>
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="theme-toggle" onclick="toggleTheme()"><span class="mode-icon" id="modeIcon">🌙</span>
+        <div class="toggle-track">
+          <div class="toggle-knob"></div>
+        </div><span class="toggle-label" id="modeLabel">Dark mode</span>
+      </div>
+    </div>
+    <div class="topbar-right"><a href="#">Help</a><span class="topbar-sep">|</span><a href="login.html">Sign In</a>
+    </div>
+  </div>
+  <nav class="navbar">
+    <div class="nav-main">
+      <a class="nav-logo" href="index.html"><span class="logo-word">Smash</span><span class="logo-tagline">Badminton
+          Store</span></a>
+      <div class="nav-links"><a class="nav-link" href="index.html">New &amp; Featured</a><a class="nav-link"
+          href="category.html">Rackets</a><a class="nav-link" href="category.html">Footwear</a><a class="nav-link"
+          href="category.html">Accessories</a></div>
+      <div class="nav-right"><button class="icon-btn" title="Cart"><svg viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.5">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <path d="M16 10a4 4 0 0 1-8 0" />
+          </svg></button><button class="hamburger"
+          onclick="openMobileNav()"><span></span><span></span><span></span></button></div>
+    </div>
+  </nav>
+  <div class="breadcrumb-bar">
+    <div class="breadcrumb-inner"><a href="index.html">Home</a><span>›</span><span style="color:var(--text)">Contact
+        Us</span></div>
+  </div>
+  <div class="contact-page">
+    <div class="contact-hero">
+      <div
+        style="font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,6vw,72px);letter-spacing:.04em;color:var(--text);line-height:1;margin-bottom:12px">
+        GET IN TOUCH</div>
+      <div style="font-size:15px;color:var(--text-muted);max-width:500px;line-height:1.6">Our badminton experts are here
+        to help — whether you need advice on gear, help with an order, or just want to talk smash.</div>
+    </div>
+    <div class="contact-grid">
+      <div>
+        <div class="channel-cards">
+          <div class="channel-card" onclick="showToast('Opening WhatsApp…')">
+            <div class="channel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg></div>
+            <div class="channel-info">
+              <div class="channel-title">WhatsApp Chat</div>
+              <a href="https://wa.me/917592058888"><div class="channel-desc">+91 7592058888</div></a>
+              <div class="channel-availability">● Available now · Typically replies in 50 min</div>
+            </div>
+            <div class="channel-arrow">›</div>
+          </div>
+          <div class="channel-card" onclick="showToast('Opening email client…')">
+            <div class="channel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg></div>
+            <div class="channel-info">
+              <div class="channel-title">Email Support</div>
+              <a href="mailto:smashsportsworld@gmail.com"><div class="channel-desc">smashsportsworld@gmail.com</div></a>
+              <div class="channel-availability">Response within 24 hours</div>
+            </div>
+            <div class="channel-arrow">›</div>
+          </div>
+          <div class="channel-card" onclick="showToast('Calling +91 44 2345 6789…')">
+            <div class="channel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.5 2 2 0 0 1 3.6 1.32h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16z" />
+              </svg></div>
+            <div class="channel-info">
+              <div class="channel-title">Phone Support</div>
+              <a href="tel:+918089004284"><div class="channel-desc">+91 8089004284</div></a>
+              <div class="channel-availability">Mon – Sat · 9 AM – 6 PM IST</div>
+            </div>
+            <div class="channel-arrow">›</div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form-box">
+        <div class="form-box-title">Send Us a Message</div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">Your Name</label><input class="form-input" type="text"
+                placeholder="Arjun Krishnan"></div>
+            <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email"
+                placeholder="arjun@email.com"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Subject</label>
+            <select class="form-select">
+              <option>Order issue</option>
+              <option>Return / Refund</option>
+              <option>Product question</option>
+              <option>Delivery problem</option>
+              <option>Partnership / B2B</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Order ID (if applicable)</label><input class="form-input"
+              type="text" placeholder="e.g. SMH-2026-04871"></div>
+          <div class="form-group"><label class="form-label">Message</label><textarea class="form-input" rows="5"
+              style="resize:vertical;height:auto" placeholder="Describe your issue or question in detail…"></textarea>
+          </div>
+          <button class="contact-submit" onclick="submitContact()">Send Message</button>
+        </div>
+      </div>
+    </div>
+    <div class="info-section">
+      <div class="info-grid">
+        <a href="https://share.google/4xPyiK1SEdnHXLW14">
+          <div class="info-card">
+            <div class="info-icon">
+              <style>
+                .info-icon img {
+                  width: 10%;
+                  height: 18%;
+                  object-fit: cover;
+                }
+              </style><img src="./placeholder.png" alt="">
+            </div>
+            <div class="info-title">Our Address</div>
+            <div class="info-text">Smash Badminton Store<br>Musliyarangadi, KONDOTTY, Nediyiruppu, <br>Kerala 673638
+            </div>
+          </div>
+        </a>
+        <div class="info-card">
+          <div class="info-icon">
+            <style>
+              .info-icon img {
+                width: 10%;
+                height: 18%;
+                object-fit: cover;
+              }
+            </style><img src="./shop.png" alt="">
+          </div>
+          <div class="info-title">Business Hours</div>
+          <div class="info-text">Monday – Friday: 9 AM – 7 PM<br>Saturday: 10 AM – 5 PM<br>Sunday: Closed</div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">
+            <style>
+              .info-icon img {
+                width: 10%;
+                height: 18%;
+                object-fit: cover;
+              }
+            </style><img src="./qr-code.png" alt="">
+          </div>
+          <div class="info-title">Quick Links</div>
+          <div class="info-text"><a href="ordertracking.html"
+              style="color:var(--text-muted);text-decoration:none;display:block;margin-bottom:4px;transition:color .2s"
+              onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text-muted)'">Track Your
+              Order</a><a href="faq.html"
+              style="color:var(--text-muted);text-decoration:none;display:block;margin-bottom:4px;transition:color .2s">FAQs</a><a
+              href="returns.html"
+              style="color:var(--text-muted);text-decoration:none;display:block;transition:color .2s">Return Policy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">Smash</div>
+          <p class="footer-desc">India's premier destination for professional badminton equipment. From Kerala to the
+            court.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Shop</div>
+          <a class="footer-link" href="category.html">Rackets</a>
+          <a class="footer-link" href="footwear.html">Footwear</a>
+          <a class="footer-link" href="accessories.html">Shuttlecocks</a>
+          <a class="footer-link" href="accessories.html">Bags</a>
+          <a class="footer-link" href="apparel.html">Apparel</a>
+        </div>
+        <div>
+          <div class="footer-col-title">Support</div>
+          <a class="footer-link" href="faq.html">FAQ</a>
+          <a class="footer-link" href="shipping.html">Shipping policy</a>
+          <a class="footer-link" href="returns.html">Returns</a>
+          <a class="footer-link" href="#">Size guide</a>
+          <a class="footer-link" href="contact.html">Contact us</a>
+        </div>
+        <div>
+          <div class="footer-col-title">Company</div>
+          <a class="footer-link" href="#">About us</a>
+          <a class="footer-link" href="#">Blog</a>
+          <a class="footer-link" href="privacy.html">Privacy policy</a>
+          <a class="footer-link" href="terms.html">Terms</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">© 2026 Smash Badminton. All rights reserved.</span>
+        <div class="footer-links-row">
+          <a class="footer-link" href="https://www.instagram.com/smashsportsofficial/" target="_blank" style="margin:0">Instagram</a>
+          <a class="footer-link" href="#" style="margin:0">YouTube</a>
+          <a class="footer-link" href="https://wa.me/917592058888" target="_blank" style="margin:0">WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+  <script>
+    function submitContact() { showToast('Message sent! We\'ll reply within 24 hours.'); }
+
+  </script>
+  <script src="main.js"></script>
+</body>
+
+</html>

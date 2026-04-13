@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smash — Badminton Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="searchOverlay" onclick="handleSearchOverlayClick(event)">
+  <div class="search-overlay-box">
+    <div class="search-overlay-bar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input id="searchOverlayInput" type="text" placeholder="Search rackets, shoes, shuttles…" oninput="handleSearch(this.value)" onkeydown="handleSearchKey(event)">
+      <button class="search-close-btn" onclick="closeSearch()">Cancel</button>
+    </div>
+    <div class="search-results" id="searchResults">
+      <div class="search-suggestions">
+        <div class="search-suggestions-title">Trending Searches</div>
+        <div class="search-pills">
+          <span class="search-pill" onclick="doSearch('Yonex')">Yonex</span>
+          <span class="search-pill" onclick="doSearch('Badminton Shoes')">Badminton Shoes</span>
+          <span class="search-pill" onclick="doSearch('Shuttlecock')">Shuttlecock</span>
+          <span class="search-pill" onclick="doSearch('Victor')">Victor Racket</span>
+          <span class="search-pill" onclick="doSearch('Li-Ning')">Li-Ning</span>
+          <span class="search-pill" onclick="doSearch('Bag')">Racket Bag</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WISHLIST OVERLAY + PANEL -->
+<div class="wishlist-overlay" id="wishlistOverlay" onclick="closeWishlist()"></div>
+<div class="wishlist-panel" id="wishlistPanel">
+  <div class="wishlist-header">
+    <div class="wishlist-title">Wishlist (<span id="wishlistCount">0</span>)</div>
+    <button class="wishlist-close" onclick="closeWishlist()">×</button>
+  </div>
+  <div class="wishlist-body" id="wishlistBody">
+    <div class="wishlist-empty">
+      <div class="wishlist-empty-icon">🏸</div>
+      <div class="wishlist-empty-text">Your wishlist is empty.<br>Save products you love!</div>
+    </div>
+  </div>
+  <div class="wishlist-footer" id="wishlistFooter" style="display:none">
+    <button class="wishlist-add-cart" onclick="addAllToCart()">Add All to Cart</button>
+    <button class="wishlist-clear" onclick="clearWishlist()">Clear</button>
+  </div>
+</div>
+
+<!-- MOBILE OVERLAY NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <div class="mobile-nav-header">
+    <span class="mobile-nav-logo">Smash</span>
+    <button class="mobile-close" onclick="closeMobileNav()">×</button>
+  </div>
+  <a class="mobile-link" href="index.html">New &amp; Featured</a>
+  <a class="mobile-link" href="category.html">Rackets</a>
+  <a class="mobile-link" href="footwear.html">Footwear</a>
+  <a class="mobile-link" href="apparel.html">Apparel</a>
+  <a class="mobile-link" href="accessories.html">Accessories</a>
+  <a class="mobile-link" href="brands.html">Brands</a>
+  <div class="mobile-actions">
+    <a href="login.html" class="mobile-btn mobile-btn-ghost">Sign in</a>
+    <a href="register.html" class="mobile-btn mobile-btn-primary">Create account</a>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="theme-toggle" onclick="toggleTheme()">
+      <span class="mode-icon" id="modeIcon">🌙</span>
+      <div class="toggle-track"><div class="toggle-knob"></div></div>
+      <span class="toggle-label" id="modeLabel">Dark mode</span>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <!-- FIX 1: Help → contact.html -->
+    <a href="contact.html">Help</a>
+    <span class="topbar-sep">|</span>
+    <a href="register.html">Sign Up</a>
+    <span class="topbar-sep">|</span>
+    <a href="login.html">Log In</a>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-main">
+    <a class="nav-logo" href="index.html">
+      <span class="logo-word">Smash</span>
+      <span class="logo-tagline">Badminton Store</span>
+    </a>
+    <!-- FIX 6: All links wired to their pages -->
+    <div class="nav-links">
+      <a class="nav-link active" href="index.html">New &amp; Featured</a>
+      <a class="nav-link" href="category.html">Rackets</a>
+      <a class="nav-link" href="footwear.html">Footwear</a>
+      <a class="nav-link" href="apparel.html">Apparel</a>
+      <a class="nav-link" href="accessories.html">Accessories</a>
+      <a class="nav-link" href="brands.html">Brands</a>
+    </div>
+    <div class="nav-right">
+      <a class="nav-store-btn" href="stores.html" title="Our Stores">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9,22 9,12 15,12 15,22"/>
+        </svg>
+        <span>My Store</span>
+      </a>
+      <!-- FIX 2: Opens full search overlay -->
+      <div class="search-bar" onclick="openSearch()" style="cursor:pointer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input class="search-input" type="text" placeholder="Search rackets, shoes…" readonly style="cursor:pointer">
+      </div>
+      <!-- FIX 3: Wishlist button opens side panel -->
+      <button class="icon-btn" title="Wishlist" onclick="openWishlist()" style="position:relative">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21C12 21 3 14 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 13-9 13z"/></svg>
+        <span class="wishlist-nav-badge" id="wishlistBadge"></span>
+      </button>
+      <button class="icon-btn" title="Cart" style="position:relative" onclick="window.location.href='cart.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+      <button class="hamburger" id="hamburger" onclick="openMobileNav()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- PROMO BANNER -->
+<div class="promo-banner">
+  <p>Free delivery on orders above ₹999 · Easy returns within 30 days · <a href="collection.html">Shop now →</a></p>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      New season 2026 — now live
+    </div>
+    <h1 class="hero-title">SMASH<br><em>THE</em><br>LIMITS</h1>
+    <p class="hero-sub">Professional-grade badminton equipment trusted by state champions, club players, and weekend warriors alike.</p>
+    <div class="hero-actions">
+      <!-- FIX 5: Goes to collection.html -->
+      <a class="btn-primary" href="collection.html">Shop collection</a>
+      <a class="btn-ghost" href="collection.html">View lookbook</a>
+    </div>
+    <!-- FIX 7: All 3 stats always visible on mobile -->
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num">2400+</div><div class="stat-label">Products</div></div>
+      <div class="stat-item"><div class="stat-num">18</div><div class="stat-label">Brands</div></div>
+      <div class="stat-item"><div class="stat-num">48hr</div><div class="stat-label">Delivery</div></div>
+    </div>
+  </div>
+
+  <!-- FIX 4: Anime badminton video instead of SVG racket -->
+  <div class="hero-visual">
+    <div class="hero-video-wrap">
+      <!--
+        HOW TO USE THIS VIDEO SECTION:
+        ─────────────────────────────────────────────────────────
+        OPTION A — YouTube video (default, works immediately):
+        Replace "VIDEO_ID_HERE" with your YouTube video ID.
+        e.g. youtube.com/watch?v=ABC123 → use "ABC123"
+
+        OPTION B — Your own video file:
+        Comment out the <iframe> and uncomment the <video> tag below.
+        Place your .mp4 file in the same folder as index.html.
+        ─────────────────────────────────────────────────────────
+      -->
+
+      <!-- OPTION A: YouTube embed (replace VIDEO_ID_HERE with your video ID) -->
+      <iframe
+        src="./collection.html"
+        title="Badminton anime video"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+
+      <!--
+      OPTION B: Local video file
+      <video autoplay muted loop playsinline>
+        <source src="badminton-anime.mp4" type="video/mp4">
+      </video>
+      -->
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- CATEGORIES -->
+<div class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Shop by category</div>
+      <div class="section-sub">Everything you need on the court</div>
+    </div>
+    <a class="see-all" href="collection.html">Browse all →</a>
+  </div>
+
+  <!-- FIX 8: Category cards with manual image upload -->
+  <div class="cat-grid">
+
+    <a class="cat-card" href="category.html" onclick="handleCatClick(event,'rackets')">
+      <div class="cat-img-wrap" id="wrap-rackets">
+        <div class="cat-upload-icon" id="icon-rackets">
+          <svg viewBox="0 0 48 48" fill="none"><ellipse cx="24" cy="16" rx="16" ry="13" fill="none" stroke="currentColor" stroke-width="2.5" opacity=".8"/><line x1="24" y1="4" x2="24" y2="29" stroke="currentColor" stroke-width="1.2" opacity=".3"/><line x1="9" y1="14" x2="39" y2="14" stroke="currentColor" stroke-width="1.2" opacity=".3"/><rect x="21" y="28" width="6" height="16" rx="2" fill="currentColor" opacity=".6"/><ellipse cx="24" cy="45" rx="4" ry="2.5" fill="currentColor" opacity=".4"/></svg>
+          <span>Add image</span>
+        </div>
+      </div>
+      <input type="file" accept="image/*" class="cat-img-input" id="upload-rackets" onchange="setCatImage('rackets',this)">
+      <div class="cat-name">Rackets</div><div class="cat-count">184 products</div>
+    </a>
+
+    <a class="cat-card" href="footwear.html" onclick="handleCatClick(event,'footwear')">
+      <div class="cat-img-wrap" id="wrap-footwear">
+        <div class="cat-upload-icon" id="icon-footwear">
+          <svg viewBox="0 0 48 48" fill="none"><path d="M8 34C8 28 12 24 20 22C28 20 36 22 40 28L40 36C40 38 38 40 36 40L12 40C10 40 8 38 8 36Z" fill="none" stroke="currentColor" stroke-width="2.5" opacity=".8"/><path d="M16 40L14 44M32 40L34 44" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".5"/></svg>
+          <span>Add image</span>
+        </div>
+      </div>
+      <input type="file" accept="image/*" class="cat-img-input" id="upload-footwear" onchange="setCatImage('footwear',this)">
+      <div class="cat-name">Footwear</div><div class="cat-count">96 products</div>
+    </a>
+
+    <a class="cat-card" href="accessories.html" onclick="handleCatClick(event,'shuttles')">
+      <div class="cat-img-wrap" id="wrap-shuttles">
+        <div class="cat-upload-icon" id="icon-shuttles">
+          <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="10" fill="none" stroke="currentColor" stroke-width="2.5" opacity=".8"/><path d="M14 20L8 14M34 20L40 14M24 14L24 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".4"/></svg>
+          <span>Add image</span>
+        </div>
+      </div>
+      <input type="file" accept="image/*" class="cat-img-input" id="upload-shuttles" onchange="setCatImage('shuttles',this)">
+      <div class="cat-name">Shuttlecocks</div><div class="cat-count">42 products</div>
+    </a>
+
+    <a class="cat-card" href="accessories.html" onclick="handleCatClick(event,'bags')">
+      <div class="cat-img-wrap" id="wrap-bags">
+        <div class="cat-upload-icon" id="icon-bags">
+          <svg viewBox="0 0 48 48" fill="none"><rect x="10" y="12" width="28" height="26" rx="5" fill="none" stroke="currentColor" stroke-width="2.5" opacity=".8"/><path d="M18 12L18 8M30 12L30 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".4"/><rect x="16" y="20" width="16" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".3"/></svg>
+          <span>Add image</span>
+        </div>
+      </div>
+      <input type="file" accept="image/*" class="cat-img-input" id="upload-bags" onchange="setCatImage('bags',this)">
+      <div class="cat-name">Bags</div><div class="cat-count">58 products</div>
+    </a>
+
+    <a class="cat-card" href="apparel.html" onclick="handleCatClick(event,'apparel')">
+      <div class="cat-img-wrap" id="wrap-apparel">
+        <div class="cat-upload-icon" id="icon-apparel">
+          <svg viewBox="0 0 48 48" fill="none"><path d="M16 8L32 8L36 16L36 36C36 38 34 40 32 40L16 40C14 40 12 38 12 36L12 16Z" fill="none" stroke="currentColor" stroke-width="2.5" opacity=".8"/><line x1="12" y1="20" x2="36" y2="20" stroke="currentColor" stroke-width="1" opacity=".3"/></svg>
+          <span>Add image</span>
+        </div>
+      </div>
+      <input type="file" accept="image/*" class="cat-img-input" id="upload-apparel" onchange="setCatImage('apparel',this)">
+      <div class="cat-name">Apparel</div><div class="cat-count">120 products</div>
+    </a>
+
+  </div>
+  <p style="font-size:11px;color:var(--text-faint);margin-top:10px;text-align:center;">
+    📷 Click any category picture to upload your own image from device
+  </p>
+</div>
+
+<div class="divider"></div>
+
+<!-- BRANDS -->
+<div class="section" style="padding-top:36px;padding-bottom:36px">
+  <div class="brands-row">
+    <!-- FIX 6: All brand links go to brands.html -->
+    <a class="brand-item" href="brands.html">YONEX</a>
+    <a class="brand-item" href="brands.html">LI-NING</a>
+    <a class="brand-item" href="brands.html">VICTOR</a>
+    <a class="brand-item" href="brands.html">CARLTON</a>
+    <a class="brand-item" href="brands.html">APACS</a>
+    <a class="brand-item" href="brands.html">RSL</a>
+    <a class="brand-item" href="brands.html">MAXBOLT</a>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- FEATURED PRODUCTS -->
+<div class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Featured rackets</div>
+      <div class="section-sub">Handpicked for power, precision, and play</div>
+    </div>
+    <a class="see-all" href="collection.html">See all →</a>
+  </div>
+  <div class="product-grid" id="productGrid"></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SPLIT BANNER -->
+<div class="section" style="padding-top:0;padding-bottom:0">
+  <div class="split-banner">
+    <div class="banner-panel">
+      <div class="banner-label">New arrivals</div>
+      <div class="banner-title">ATTACK<br>SERIES</div>
+      <div class="banner-desc">Head-heavy monsters built for rear-court destruction. Every smash lands harder.</div>
+      <a class="banner-link" href="category.html">Shop attack <span class="banner-arrow">→</span></a>
+      <div class="banner-num">01</div>
+    </div>
+    <div class="banner-panel">
+      <div class="banner-label">Staff picks</div>
+      <div class="banner-title">SPEED<br>SERIES</div>
+      <div class="banner-desc">Lightning-fast all-court rackets for players who live at the net and everywhere else.</div>
+      <a class="banner-link" href="category.html">Shop speed <span class="banner-arrow">→</span></a>
+      <div class="banner-num">02</div>
+    </div>
+  </div>
+</div>
+<div class="divider" style="margin-top:0"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Smash</div>
+        <p class="footer-desc">India's premier destination for professional badminton equipment. From Kerala to the court.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Shop</div>
+        <a class="footer-link" href="category.html">Rackets</a>
+        <a class="footer-link" href="footwear.html">Footwear</a>
+        <a class="footer-link" href="accessories.html">Shuttlecocks</a>
+        <a class="footer-link" href="accessories.html">Bags</a>
+        <a class="footer-link" href="apparel.html">Apparel</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Support</div>
+        <a class="footer-link" href="faq.html">FAQ</a>
+        <a class="footer-link" href="shipping-policy.html">Shipping policy</a>
+        <a class="footer-link" href="returns-policy.html">Returns</a>
+        <a class="footer-link" href="#">Size guide</a>
+        <a class="footer-link" href="contact.html">Contact us</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <a class="footer-link" href="#">About us</a>
+        <a class="footer-link" href="#">Blog</a>
+        <a class="footer-link" href="privacy-policy.html">Privacy policy</a>
+        <a class="footer-link" href="terms.html">Terms</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Smash Badminton. All rights reserved.</span>
+      <div class="footer-links-row">
+        <a class="footer-link" href="https://www.instagram.com/smashsportsofficial/" target="_blank" style="margin:0">Instagram</a>
+        <a class="footer-link" href="#" style="margin:0">YouTube</a>
+        <a class="footer-link" href="https://wa.me/917592058888" target="_blank" style="margin:0">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="main.js"></script>
+<script src="index.js"></script>
+<script>
+/* ════════════════════════════════════
+   ALL PRODUCTS DATA — for search
+════════════════════════════════════ */
+const allProductsData = [
+  { name:'Astrox 88D Pro',    brand:'Yonex',   price:'₹12,799', page:'category.html'    },
+  { name:'Nanoflare 1000Z',   brand:'Yonex',   price:'₹18,499', page:'category.html'    },
+  { name:'Axforce 90 Max',    brand:'Li-Ning', price:'₹11,200', page:'category.html'    },
+  { name:'Thruster K Falcon', brand:'Victor',  price:'₹9,800',  page:'category.html'    },
+  { name:'Arcsaber 11 Pro',   brand:'Yonex',   price:'₹15,999', page:'category.html'    },
+  { name:'Vapour Trail 90',   brand:'Carlton', price:'₹7,500',  page:'category.html'    },
+  { name:'Auraspeed 100X',    brand:'Victor',  price:'₹13,200', page:'category.html'    },
+  { name:'Ziggler Light 68',  brand:'Apacs',   price:'₹4,299',  page:'category.html'    },
+  { name:'Astrox 99 Pro',     brand:'Yonex',   price:'₹8,999',  page:'category.html'    },
+  { name:'Duora 10 LCW',      brand:'Yonex',   price:'₹12,800', page:'category.html'    },
+  { name:'Bladex 900',        brand:'Li-Ning', price:'₹9,999',  page:'category.html'    },
+  { name:'Jetspeed S12',      brand:'Victor',  price:'₹14,200', page:'category.html'    },
+  { name:'SHB 65Z Shoes',     brand:'Yonex',   price:'₹5,999',  page:'footwear.html'    },
+  { name:'Badminton Court Shoes', brand:'Victor', price:'₹4,499', page:'footwear.html'  },
+  { name:'Power Cushion Shoes',brand:'Yonex',  price:'₹3,999',  page:'footwear.html'    },
+  { name:'Training T-Shirt',  brand:'Li-Ning', price:'₹1,299',  page:'apparel.html'     },
+  { name:'Tournament Shorts', brand:'Yonex',   price:'₹999',    page:'apparel.html'     },
+  { name:'Track Jacket',      brand:'Victor',  price:'₹2,499',  page:'apparel.html'     },
+  { name:'Mavis 600 Shuttle', brand:'Yonex',   price:'₹499',    page:'accessories.html' },
+  { name:'Aerosensa 50',      brand:'Yonex',   price:'₹699',    page:'accessories.html' },
+  { name:'Racket Bag 6-Pack', brand:'Victor',  price:'₹2,999',  page:'accessories.html' },
+  { name:'BG 80 String',      brand:'Yonex',   price:'₹399',    page:'accessories.html' },
+  { name:'Overgrip 3-Pack',   brand:'Victor',  price:'₹199',    page:'accessories.html' },
+];
+
+/* ── FIX 2: SEARCH ── */
+function openSearch() {
+  document.getElementById('searchOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => document.getElementById('searchOverlayInput').focus(), 60);
+}
+function closeSearch() {
+  document.getElementById('searchOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('searchOverlayInput').value = '';
+  resetSearchResults();
+}
+function handleSearchOverlayClick(e) {
+  if (e.target === document.getElementById('searchOverlay')) closeSearch();
+}
+function handleSearchKey(e) {
+  if (e.key === 'Escape') closeSearch();
+  if (e.key === 'Enter') {
+    const q = e.target.value.trim();
+    if (q) { closeSearch(); window.location.href = 'collection.html?q=' + encodeURIComponent(q); }
+  }
+}
+function doSearch(query) {
+  document.getElementById('searchOverlayInput').value = query;
+  handleSearch(query);
+}
+function handleSearch(query) {
+  const q = query.trim().toLowerCase();
+  const resultsEl = document.getElementById('searchResults');
+  if (!q) { resetSearchResults(); return; }
+
+  const matches = allProductsData.filter(p =>
+    p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q)
+  );
+
+  if (!matches.length) {
+    resultsEl.innerHTML = `<div class="search-no-results">No results for "<strong>${query}</strong>"<br><span style="font-size:12px;color:var(--text-faint)">Try: Yonex, Racket, Shoes, Shuttle</span></div>`;
+    return;
+  }
+
+  const imgTag = `<img src="racket.png" style="width:100%;height:100%;object-fit:cover;border-radius:4px" alt="Product">`;
+
+  resultsEl.innerHTML = matches.slice(0,8).map(p => `
+    <div class="search-result-item" onclick="window.location.href='${p.page}'">
+      <div class="search-result-img" style="padding:0;overflow:hidden">${imgTag}</div>
+      <div class="search-result-info">
+        <div class="search-result-name">${hl(p.name, q)}</div>
+        <div class="search-result-brand">${p.brand}</div>
+      </div>
+      <div class="search-result-price">${p.price}</div>
+    </div>
+  `).join('') + (matches.length > 8 ? `<div style="padding:12px 20px;font-size:12px;color:var(--text-muted);text-align:center;cursor:pointer" onclick="window.location.href='collection.html'">See all ${matches.length} results →</div>` : '');
+}
+function hl(text, q) {
+  const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+  return text.replace(re, '<strong>$1</strong>');
+}
+function resetSearchResults() {
+  document.getElementById('searchResults').innerHTML = `
+    <div class="search-suggestions">
+      <div class="search-suggestions-title">Trending Searches</div>
+      <div class="search-pills">
+        <span class="search-pill" onclick="doSearch('Yonex')">Yonex</span>
+        <span class="search-pill" onclick="doSearch('Badminton Shoes')">Badminton Shoes</span>
+        <span class="search-pill" onclick="doSearch('Shuttlecock')">Shuttlecock</span>
+        <span class="search-pill" onclick="doSearch('Victor')">Victor Racket</span>
+        <span class="search-pill" onclick="doSearch('Li-Ning')">Li-Ning</span>
+        <span class="search-pill" onclick="doSearch('Bag')">Racket Bag</span>
+      </div>
+    </div>`;
+}
+
+/* ── FIX 3: WISHLIST ── */
+let wishlist = JSON.parse(localStorage.getItem('smash-wishlist') || '[]');
+
+function openWishlist() {
+  document.getElementById('wishlistPanel').classList.add('open');
+  document.getElementById('wishlistOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderWishlist();
+}
+function closeWishlist() {
+  document.getElementById('wishlistPanel').classList.remove('open');
+  document.getElementById('wishlistOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function saveWishlist() {
+  localStorage.setItem('smash-wishlist', JSON.stringify(wishlist));
+  updateWishlistBadge();
+}
+function updateWishlistBadge() {
+  const b = document.getElementById('wishlistBadge');
+  if (wishlist.length > 0) { b.textContent = wishlist.length; b.classList.add('show'); }
+  else { b.classList.remove('show'); }
+  document.getElementById('wishlistCount').textContent = wishlist.length;
+}
+function renderWishlist() {
+  const body = document.getElementById('wishlistBody');
+  const footer = document.getElementById('wishlistFooter');
+  document.getElementById('wishlistCount').textContent = wishlist.length;
+
+  if (!wishlist.length) {
+    body.innerHTML = `<div class="wishlist-empty"><div class="wishlist-empty-icon">🏸</div><div class="wishlist-empty-text">Your wishlist is empty.<br>Save products you love!</div></div>`;
+    footer.style.display = 'none'; return;
+  }
+  footer.style.display = 'flex';
+  const imgTag = `<img src="racket.png" style="width:100%;height:100%;object-fit:cover;border-radius:4px" alt="Product">`;
+  body.innerHTML = wishlist.map((item, i) => `
+    <div class="wishlist-item">
+      <div class="wishlist-item-img" style="padding:0;overflow:hidden">${imgTag}</div>
+      <div class="wishlist-item-info">
+        <div class="wishlist-item-brand">${item.brand || ''}</div>
+        <div class="wishlist-item-name">${item.name}</div>
+        <div class="wishlist-item-price">${item.price || ''}</div>
+      </div>
+      <button class="wishlist-item-remove" onclick="removeFromWishlist(${i})" title="Remove">×</button>
+    </div>
+  `).join('');
+}
+function removeFromWishlist(i) {
+  wishlist.splice(i, 1);
+  saveWishlist(); renderWishlist();
+}
+function clearWishlist() {
+  wishlist = []; saveWishlist(); renderWishlist();
+  showToast('Wishlist cleared');
+}
+function addAllToCart() {
+  wishlist.forEach(() => addToCartCount());
+  showToast(wishlist.length + ' items added to cart!');
+  closeWishlist();
+}
+/* Override from index.js so wishlist button on cards works properly */
+function wishlistItem(name) {
+  const found = allProductsData.find(p => p.name === name);
+  const item = found || { name, brand: '', price: '' };
+  const idx = wishlist.findIndex(w => w.name === name);
+  if (idx > -1) {
+    wishlist.splice(idx, 1);
+    saveWishlist();
+    showToast(name + ' removed from wishlist');
+  } else {
+    wishlist.push(item);
+    saveWishlist();
+    showToast(name + ' saved to wishlist ♥');
+  }
+}
+
+/* ── FIX 8: CATEGORY IMAGE UPLOAD ── */
+function handleCatClick(e, catId) {
+  /* Only go to link if NOT clicking the image area */
+  if (e.target.closest('.cat-img-wrap')) {
+    e.preventDefault();
+    document.getElementById('upload-' + catId).click();
+  }
+}
+function setCatImage(catId, input) {
+  if (!input.files || !input.files[0]) return;
+  const url = URL.createObjectURL(input.files[0]);
+  const wrap = document.getElementById('wrap-' + catId);
+  const icon = document.getElementById('icon-' + catId);
+  icon.innerHTML = `<img src="${url}" alt="${catId}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block">`;
+  wrap.style.borderStyle = 'solid';
+  showToast('Image updated! 📷');
+}
+
+/* Init */
+updateWishlistBadge();
+</script>
+</body>
+</html>
+

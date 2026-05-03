@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Order History — Smash Badminton Store</title>
@@ -55,6 +55,12 @@
 @media(max-width:900px){.account-layout{grid-template-columns:1fr}.account-sidebar{position:static}}
 @media(max-width:768px){.account-layout{padding:24px 16px 60px}.search-orders{display:none}.filter-bar{gap:6px}.order-card-header{padding:12px 14px}.order-items-row{padding:12px 14px}.order-card-footer{padding:10px 14px}}
 </style>
+
+  <meta name="description" content="India's premier destination for professional badminton equipment. Shop rackets, shuttlecocks, and more from Kerala to the court.">
+  <meta property="og:title" content="Order History — Smash Badminton Store">
+  <meta property="og:description" content="India's premier destination for professional badminton equipment. Shop rackets, shuttlecocks, and more from Kerala to the court.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Smash Badminton">
 </head>
 <body>
 <div class="mobile-nav" id="mobileNav">
@@ -64,13 +70,13 @@
   <a class="mobile-link" href="login.html">Sign Out</a>
 </div>
 <div class="topbar">
-  <div class="topbar-left"><div class="theme-toggle" onclick="toggleTheme()"><span class="mode-icon" id="modeIcon">🌙</span><div class="toggle-track"><div class="toggle-knob"></div></div><span class="toggle-label" id="modeLabel">Dark mode</span></div></div>
+  <div class="topbar-left"></div>
   <div class="topbar-right"><a href="#">Help</a><span class="topbar-sep">|</span><a href="login.html">Sign Out</a></div>
 </div>
 <nav class="navbar">
   <div class="nav-main">
     <a class="nav-logo" href="index.html"><span class="logo-word">Smash</span><span class="logo-tagline">Badminton Store</span></a>
-    <div class="nav-links"><a class="nav-link" href="index.html">New &amp; Featured</a><a class="nav-link" href="category.html">Rackets</a><a class="nav-link" href="footwear.html">Footwear</a><a class="nav-link" href="accessories.html">Accessories</a></div>
+    <div class="nav-links"><a class="nav-link" href="index.html">New &amp; Featured</a><a class="nav-link" href="category.html">Rackets</a><a class="nav-link" href="accessories.html">Accessories</a></div>
     <div class="nav-right"><button class="icon-btn" title="Cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button><button class="hamburger" onclick="openMobileNav()"><span></span><span></span><span></span></button></div>
   </div>
 </nav>
@@ -114,10 +120,8 @@
       <div>
         <div class="footer-col-title">Shop</div>
         <a class="footer-link" href="category.html">Rackets</a>
-        <a class="footer-link" href="footwear.html">Footwear</a>
         <a class="footer-link" href="accessories.html">Shuttlecocks</a>
         <a class="footer-link" href="accessories.html">Bags</a>
-        <a class="footer-link" href="apparel.html">Apparel</a>
       </div>
       <div>
         <div class="footer-col-title">Support</div>
@@ -189,3 +193,4 @@ renderOrders();
 </script>
 </body>
 </html>
+

@@ -1,26 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Order Confirmed — Smash Badminton Store</title>
+<title>Order Confirmed â€” Smash Badminton Store</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 
 <style>
-  :root{--transition:.35s cubic-bezier(.4,0,.2,1)}
-  [data-theme="dark"]{
-    --bg:#000;--bg2:#0a0a0a;--bg3:#111;--bg4:#1a1a1a;--surface:#141414;
-    --border:rgba(255,255,255,.08);--border-strong:rgba(255,255,255,.18);
-    --text:#fff;--text-muted:rgba(255,255,255,.5);--text-faint:rgba(255,255,255,.25);
-    --promo-bg:#0f0f0f;--promo-text:rgba(255,255,255,.55);
-    --toggle-bg:#222;--toggle-knob:#fff;
-    --nav-shadow:0 1px 0 rgba(255,255,255,.06);
-    --success:#4ade80;--success-bg:rgba(74,222,128,.08);
-    --card-hover:#141414;
-  }
-  [data-theme="light"]{
+  :root{
+    --transition:.35s cubic-bezier(.4,0,.2,1);
     --bg:#fff;--bg2:#fafafa;--bg3:#f4f4f4;--bg4:#ececec;--surface:#f8f8f8;
     --border:rgba(0,0,0,.07);--border-strong:rgba(0,0,0,.15);
     --text:#0a0a0a;--text-muted:rgba(0,0,0,.45);--text-faint:rgba(0,0,0,.2);
@@ -38,11 +28,6 @@
   /* TOPBAR */
   .topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 32px;height:36px;
     display:flex;align-items:center;justify-content:space-between}
-  .theme-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
-  .toggle-track{width:38px;height:20px;border-radius:10px;background:var(--toggle-bg);position:relative;border:1px solid var(--border-strong);flex-shrink:0}
-  .toggle-knob{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--toggle-knob);transition:transform var(--transition)}
-  [data-theme="light"] .toggle-knob{transform:translateX(18px)}
-  .toggle-label{font-size:11px;color:var(--text-muted);font-weight:400;letter-spacing:.03em}
   .topbar-right{display:flex;align-items:center;gap:20px}
   .topbar-right a{font-size:11px;color:var(--text-muted);text-decoration:none;transition:color .2s}
   .topbar-right a:hover{color:var(--text)}
@@ -64,7 +49,7 @@
   .steps-bar{border-bottom:1px solid var(--border);background:var(--bg)}
   .steps-inner{max-width:1400px;margin:0 auto;padding:0 32px;height:56px;display:flex;align-items:center;gap:0}
   .step{display:flex;align-items:center;gap:10px;padding:0 24px 0 0;position:relative}
-  .step:not(:last-child)::after{content:'›';position:absolute;right:8px;color:var(--text-faint);font-size:16px}
+  .step:not(:last-child)::after{content:'â€º';position:absolute;right:8px;color:var(--text-faint);font-size:16px}
   .step-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;border:1.5px solid var(--border-strong);color:var(--text-faint);flex-shrink:0}
   .step.done .step-num{background:var(--success);color:#000;border-color:var(--success)}
   .step-label{font-size:13px;color:var(--text-faint);font-weight:400;white-space:nowrap}
@@ -195,16 +180,18 @@
     .confirm-actions .btn-primary,.confirm-actions .btn-ghost{text-align:center}
   }
 </style>
+
+  <meta name="description" content="India's premier destination for professional badminton equipment. Shop rackets, shuttlecocks, and more from Kerala to the court.">
+  <meta property="og:title" content="Order Confirmed â€” Smash Badminton Store">
+  <meta property="og:description" content="India's premier destination for professional badminton equipment. Shop rackets, shuttlecocks, and more from Kerala to the court.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Smash Badminton">
 </head>
 <body>
 
 <!-- TOPBAR -->
 <div class="topbar">
-  <div class="theme-toggle" onclick="toggleTheme()">
-    <span id="modeIcon">🌙</span>
-    <div class="toggle-track"><div class="toggle-knob"></div></div>
-    <span class="toggle-label" id="modeLabel">Dark mode</span>
-  </div>
+  <div class="topbar-left"></div>
   <div class="topbar-right">
     <a href="contact.html">Help</a><span class="topbar-sep">|</span>
     <a href="login.html">My Account</a>
@@ -229,9 +216,9 @@
 <!-- STEPS -->
 <div class="steps-bar">
   <div class="steps-inner">
-    <div class="step done"><div class="step-num">✓</div><span class="step-label">Cart</span></div>
-    <div class="step done"><div class="step-num">✓</div><span class="step-label">Checkout</span></div>
-    <div class="step done"><div class="step-num">✓</div><span class="step-label">Confirmation</span></div>
+    <div class="step done"><div class="step-num">âœ“</div><span class="step-label">Cart</span></div>
+    <div class="step done"><div class="step-num">âœ“</div><span class="step-label">Checkout</span></div>
+    <div class="step done"><div class="step-num">âœ“</div><span class="step-label">Confirmation</span></div>
   </div>
 </div>
 
@@ -246,7 +233,7 @@
       </svg>
     </div>
     <div class="confirm-title">Order Confirmed!</div>
-    <div class="confirm-sub">Thank you, Arjun. Your rackets are on their way 🏸</div>
+    <div class="confirm-sub">Thank you, Arjun. Your rackets are on their way ðŸ¸</div>
     <div class="confirm-email">A confirmation has been sent to <strong>arjun@email.com</strong></div>
     <div class="order-id-badge">
       <div>
@@ -269,7 +256,7 @@
         </div>
         <div class="tl-content">
           <div class="tl-title">Order Placed <span class="tl-badge">Done</span></div>
-          <div class="tl-date">Apr 11, 2026 · 3:45 PM</div>
+          <div class="tl-date">Apr 11, 2026 Â· 3:45 PM</div>
         </div>
       </div>
       <div class="tl-step">
@@ -278,7 +265,7 @@
         </div>
         <div class="tl-content">
           <div class="tl-title" style="color:var(--text)">Processing & Packing <span class="tl-badge" style="background:rgba(255,255,255,.08);color:var(--text-muted);border-color:var(--border-strong)">In Progress</span></div>
-          <div class="tl-date">Estimated: Apr 11–12, 2026</div>
+          <div class="tl-date">Estimated: Apr 11â€“12, 2026</div>
         </div>
       </div>
       <div class="tl-step">
@@ -296,7 +283,7 @@
         </div>
         <div class="tl-content">
           <div class="tl-title">Delivered</div>
-          <div class="tl-date">Estimated: Apr 14–16, 2026</div>
+          <div class="tl-date">Estimated: Apr 14â€“16, 2026</div>
         </div>
       </div>
     </div>
@@ -312,9 +299,9 @@
       <div class="order-info">
         <div class="order-brand">Yonex</div>
         <div class="order-name">Astrox 88D Pro</div>
-        <div class="order-meta">Stiff Flex · Head Heavy · Qty: 1</div>
+        <div class="order-meta">Stiff Flex Â· Head Heavy Â· Qty: 1</div>
       </div>
-      <div class="order-price">₹12,799</div>
+      <div class="order-price">â‚¹12,799</div>
     </div>
     <div class="order-item">
       <div class="order-img">
@@ -323,9 +310,9 @@
       <div class="order-info">
         <div class="order-brand">Li-Ning</div>
         <div class="order-name">Axforce 90 Max</div>
-        <div class="order-meta">Extra Stiff · Attack · Qty: 2</div>
+        <div class="order-meta">Extra Stiff Â· Attack Â· Qty: 2</div>
       </div>
-      <div class="order-price">₹22,400</div>
+      <div class="order-price">â‚¹22,400</div>
     </div>
   </div>
 
@@ -339,19 +326,19 @@
     <div class="info-card">
       <div class="info-card-title">Payment</div>
       <div class="info-card-main">Paid via UPI</div>
-      <div class="info-card-sub">Google Pay · arjun@okaxis<br>Transaction ID: GPY24081112<br>Apr 11, 2026 · 3:45 PM</div>
+      <div class="info-card-sub">Google Pay Â· arjun@okaxis<br>Transaction ID: GPY24081112<br>Apr 11, 2026 Â· 3:45 PM</div>
     </div>
   </div>
 
   <!-- TOTAL -->
   <div class="total-card">
-    <div class="total-row"><span class="l">Subtotal</span><span class="v">₹35,199</span></div>
-    <div class="total-row"><span class="l">Discount</span><span class="v green">−₹2,500</span></div>
-    <div class="total-row"><span class="l">Coupon (SMASH20)</span><span class="v green">−₹500</span></div>
+    <div class="total-row"><span class="l">Subtotal</span><span class="v">â‚¹35,199</span></div>
+    <div class="total-row"><span class="l">Discount</span><span class="v green">âˆ’â‚¹2,500</span></div>
+    <div class="total-row"><span class="l">Coupon (SMASH20)</span><span class="v green">âˆ’â‚¹500</span></div>
     <div class="total-row"><span class="l">Delivery</span><span class="v green">FREE</span></div>
-    <div class="total-row"><span class="l">GST (18%)</span><span class="v">₹2,880</span></div>
+    <div class="total-row"><span class="l">GST (18%)</span><span class="v">â‚¹2,880</span></div>
     <div class="total-divider"></div>
-    <div class="total-final"><span>Total Paid</span><span>₹35,079</span></div>
+    <div class="total-final"><span>Total Paid</span><span>â‚¹35,079</span></div>
   </div>
 
   <!-- ACTIONS -->
@@ -367,15 +354,15 @@
     <div class="rec-grid">
       <div class="rec-card" onclick="showToast('Added to cart')">
         <div class="rec-img"><svg viewBox="0 0 100 220" fill="none"><ellipse cx="50" cy="55" rx="34" ry="44" fill="none" stroke="currentColor" stroke-width="4.5"/><rect x="44" y="97" width="12" height="70" rx="3" fill="currentColor" opacity=".6"/><ellipse cx="50" cy="190" rx="7" ry="4.5" fill="currentColor" opacity=".35"/></svg></div>
-        <div class="rec-body"><div class="rec-brand">Yonex</div><div class="rec-name">Mavis 600 Shuttlecock (6 pack)</div><div class="rec-price">₹499</div></div>
+        <div class="rec-body"><div class="rec-brand">Yonex</div><div class="rec-name">Mavis 600 Shuttlecock (6 pack)</div><div class="rec-price">â‚¹499</div></div>
       </div>
       <div class="rec-card" onclick="showToast('Added to cart')">
         <div class="rec-img"><svg viewBox="0 0 100 220" fill="none"><ellipse cx="50" cy="55" rx="34" ry="44" fill="none" stroke="currentColor" stroke-width="4.5"/><rect x="44" y="97" width="12" height="70" rx="3" fill="currentColor" opacity=".6"/><ellipse cx="50" cy="190" rx="7" ry="4.5" fill="currentColor" opacity=".35"/></svg></div>
-        <div class="rec-body"><div class="rec-brand">Yonex</div><div class="rec-name">BG80 String — Set of 3</div><div class="rec-price">₹1,199</div></div>
+        <div class="rec-body"><div class="rec-brand">Yonex</div><div class="rec-name">BG80 String â€” Set of 3</div><div class="rec-price">â‚¹1,199</div></div>
       </div>
       <div class="rec-card" onclick="showToast('Added to cart')">
         <div class="rec-img"><svg viewBox="0 0 100 220" fill="none"><ellipse cx="50" cy="55" rx="34" ry="44" fill="none" stroke="currentColor" stroke-width="4.5"/><rect x="44" y="97" width="12" height="70" rx="3" fill="currentColor" opacity=".6"/><ellipse cx="50" cy="190" rx="7" ry="4.5" fill="currentColor" opacity=".35"/></svg></div>
-        <div class="rec-body"><div class="rec-brand">Victor</div><div class="rec-name">Overgrip Pack (10 rolls)</div><div class="rec-price">₹350</div></div>
+        <div class="rec-body"><div class="rec-brand">Victor</div><div class="rec-name">Overgrip Pack (10 rolls)</div><div class="rec-price">â‚¹350</div></div>
       </div>
     </div>
   </div>
@@ -393,10 +380,8 @@
       <div>
         <div class="footer-col-title">Shop</div>
         <a class="footer-link" href="category.html">Rackets</a>
-        <a class="footer-link" href="footwear.html">Footwear</a>
         <a class="footer-link" href="accessories.html">Shuttlecocks</a>
         <a class="footer-link" href="accessories.html">Bags</a>
-        <a class="footer-link" href="apparel.html">Apparel</a>
       </div>
       <div>
         <div class="footer-col-title">Support</div>
@@ -415,7 +400,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span class="footer-copy">© 2026 Smash Badminton. All rights reserved.</span>
+      <span class="footer-copy">Â© 2026 Smash Badminton. All rights reserved.</span>
       <div class="footer-links-row">
         <a class="footer-link" href="https://www.instagram.com/smashsportsofficial/" target="_blank" style="margin:0">Instagram</a>
         <a class="footer-link" href="#" style="margin:0">YouTube</a>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>All Collections — Smash Badminton Store</title>
+<title>All Collections â€” Smash Badminton Store</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
@@ -44,20 +44,24 @@
     .card-actions { opacity:1; transform:translateY(0); }
   }
 </style>
+
+  <meta name="description" content="India's premier destination for professional badminton equipment. Shop rackets, shuttlecocks, and more from Kerala to the court.">
+  <meta property="og:title" content="All Collections â€” Smash Badminton Store">
+  <meta property="og:description" content="India's premier destination for professional badminton equipment. Shop rackets, shuttlecocks, and more from Kerala to the court.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Smash Badminton">
 </head>
 <body>
 
 <div class="mobile-nav" id="mobileNav">
-  <div class="mobile-nav-header"><span class="mobile-nav-logo">Smash</span><button class="mobile-close" onclick="closeMobileNav()">×</button></div>
+  <div class="mobile-nav-header"><span class="mobile-nav-logo">Smash</span><button class="mobile-close" onclick="closeMobileNav()">Ã—</button></div>
   <a class="mobile-link" href="index.html">Home</a>
   <a class="mobile-link" href="category.html">Rackets</a>
-  <a class="mobile-link" href="footwear.html">Footwear</a>
-  <a class="mobile-link" href="apparel.html">Apparel</a>
   <a class="mobile-link" href="accessories.html">Accessories</a>
 </div>
 <div class="topbar">
-  <div class="topbar-left"><div class="theme-toggle" onclick="toggleTheme()"><span class="mode-icon" id="modeIcon">🌙</span><div class="toggle-track"><div class="toggle-knob"></div></div><span class="toggle-label" id="modeLabel">Dark mode</span></div></div>
-  <div class="topbar-right"><a href="contact.html">Help</a><span class="topbar-sep">|</span><a href="login.html">Log In</a></div>
+  <div class="topbar-left"></div>
+  <div class="topbar-right"><a href="contact.html">Help</a><span class="topbar-sep">|</span><a href="register.html">Sign Up</a><span class="topbar-sep">|</span><a href="login.html">Log In</a></div>
 </div>
 <nav class="navbar">
   <div class="nav-main">
@@ -65,8 +69,6 @@
     <div class="nav-links">
       <a class="nav-link" href="index.html">New &amp; Featured</a>
       <a class="nav-link" href="category.html">Rackets</a>
-      <a class="nav-link" href="footwear.html">Footwear</a>
-      <a class="nav-link" href="apparel.html">Apparel</a>
       <a class="nav-link" href="accessories.html">Accessories</a>
       <a class="nav-link" href="brands.html">Brands</a>
     </div>
@@ -76,7 +78,7 @@
   <div class="search-overlay-box">
     <div class="search-overlay-bar">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input id="searchOverlayInput" type="text" placeholder="Search rackets, shoes, shuttles…" oninput="handleSearch(this.value)" onkeydown="handleSearchKey(event)">
+      <input id="searchOverlayInput" type="text" placeholder="Search rackets, shoes, shuttlesâ€¦" oninput="handleSearch(this.value)" onkeydown="handleSearchKey(event)">
       <button class="search-close-btn" onclick="closeSearch()">Cancel</button>
     </div>
     <div class="search-results" id="searchResults">
@@ -98,7 +100,7 @@
  <!-- FIX 2: Opens full search overlay -->
       <div class="search-bar" onclick="openSearch()" style="cursor:pointer">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input class="search-input" type="text" placeholder="Search rackets, shoes…" readonly style="cursor:pointer">
+        <input class="search-input" type="text" placeholder="Search rackets, shoesâ€¦" readonly style="cursor:pointer">
       </div>
       <button class="icon-btn" title="Cart" style="position:relative" onclick="window.location.href='cart.html'">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
@@ -108,12 +110,10 @@
     </div>
   </div>
 </nav>
-<div class="promo-banner"><p>Free delivery on orders above ₹999 · Easy returns within 30 days</p></div>
-
 <div class="page-wrap">
   <div class="collection-hero">
     <div class="collection-hero-title">All Collections</div>
-    <div class="collection-hero-sub">Explore our full range of professional badminton gear — rackets, footwear, apparel, accessories and more.</div>
+    <div class="collection-hero-sub">Explore our full range of professional badminton gear â€” rackets, footwear, apparel, accessories and more.</div>
   </div>
 
   <div class="collection-tabs">
@@ -141,10 +141,8 @@
       <div>
         <div class="footer-col-title">Shop</div>
         <a class="footer-link" href="category.html">Rackets</a>
-        <a class="footer-link" href="footwear.html">Footwear</a>
         <a class="footer-link" href="accessories.html">Shuttlecocks</a>
         <a class="footer-link" href="accessories.html">Bags</a>
-        <a class="footer-link" href="apparel.html">Apparel</a>
       </div>
       <div>
         <div class="footer-col-title">Support</div>
@@ -163,7 +161,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span class="footer-copy">© 2026 Smash Badminton. All rights reserved.</span>
+      <span class="footer-copy">Â© 2026 Smash Badminton. All rights reserved.</span>
       <div class="footer-links-row">
         <a class="footer-link" href="https://www.instagram.com/smashsportsofficial/" target="_blank" style="margin:0">Instagram</a>
         <a class="footer-link" href="#" style="margin:0">YouTube</a>
@@ -177,30 +175,30 @@
 <script src="main.js"></script>
 <script>
 const allItems = [
-  { name:'Astrox 88D Pro',    brand:'Yonex',   price:'₹12,799', old:'₹14,999', rating:92, badge:'sale', cat:'rackets' },
-  { name:'Nanoflare 1000Z',   brand:'Yonex',   price:'₹18,499', old:null,      rating:95, badge:'new',  cat:'rackets' },
-  { name:'Axforce 90 Max',    brand:'Li-Ning', price:'₹11,200', old:'₹13,000', rating:88, badge:'hot',  cat:'rackets' },
-  { name:'Thruster K Falcon', brand:'Victor',  price:'₹9,800',  old:null,      rating:85, badge:null,   cat:'rackets' },
-  { name:'Arcsaber 11 Pro',   brand:'Yonex',   price:'₹15,999', old:null,      rating:91, badge:'new',  cat:'rackets' },
-  { name:'Vapour Trail 90',   brand:'Carlton', price:'₹7,500',  old:'₹8,999',  rating:80, badge:'sale', cat:'rackets' },
-  { name:'Auraspeed 100X',    brand:'Victor',  price:'₹13,200', old:null,      rating:89, badge:null,   cat:'rackets' },
-  { name:'Ziggler Light 68',  brand:'Apacs',   price:'₹4,299',  old:'₹5,500',  rating:76, badge:'sale', cat:'rackets' },
-  { name:'SHB 65Z Court',     brand:'Yonex',   price:'₹5,999',  old:null,      rating:88, badge:'new',  cat:'footwear' },
-  { name:'Power Cushion 65',  brand:'Yonex',   price:'₹3,999',  old:'₹4,999',  rating:84, badge:'sale', cat:'footwear' },
-  { name:'Victor Shoes A960', brand:'Victor',  price:'₹4,499',  old:null,      rating:82, badge:null,   cat:'footwear' },
-  { name:'Blade X Shoes',     brand:'Li-Ning', price:'₹3,299',  old:null,      rating:80, badge:'new',  cat:'footwear' },
-  { name:'Training Tee',      brand:'Yonex',   price:'₹899',    old:null,      rating:78, badge:'new',  cat:'apparel'  },
-  { name:'Sport Shorts',      brand:'Li-Ning', price:'₹699',    old:'₹999',    rating:75, badge:'sale', cat:'apparel'  },
-  { name:'Track Jacket',      brand:'Victor',  price:'₹2,199',  old:null,      rating:80, badge:null,   cat:'apparel'  },
-  { name:'Tournament Polo',   brand:'Yonex',   price:'₹1,299',  old:null,      rating:82, badge:'new',  cat:'apparel'  },
-  { name:'Mavis 600 Shuttle', brand:'Yonex',   price:'₹499',    old:null,      rating:90, badge:'hot',  cat:'accessories' },
-  { name:'BG 80 String Set',  brand:'Yonex',   price:'₹399',    old:null,      rating:88, badge:null,   cat:'accessories' },
-  { name:'Racket Bag 6R',     brand:'Victor',  price:'₹2,999',  old:'₹3,499',  rating:85, badge:'sale', cat:'accessories' },
-  { name:'Overgrip 3-Pack',   brand:'Victor',  price:'₹199',    old:null,      rating:80, badge:null,   cat:'accessories' },
+  { name:'Astrox 88D Pro',    brand:'Yonex',   price:'â‚¹12,799', old:'â‚¹14,999', rating:92, badge:'sale', cat:'rackets' },
+  { name:'Nanoflare 1000Z',   brand:'Yonex',   price:'â‚¹18,499', old:null,      rating:95, badge:'new',  cat:'rackets' },
+  { name:'Axforce 90 Max',    brand:'Li-Ning', price:'â‚¹11,200', old:'â‚¹13,000', rating:88, badge:'hot',  cat:'rackets' },
+  { name:'Thruster K Falcon', brand:'Victor',  price:'â‚¹9,800',  old:null,      rating:85, badge:null,   cat:'rackets' },
+  { name:'Arcsaber 11 Pro',   brand:'Yonex',   price:'â‚¹15,999', old:null,      rating:91, badge:'new',  cat:'rackets' },
+  { name:'Vapour Trail 90',   brand:'Carlton', price:'â‚¹7,500',  old:'â‚¹8,999',  rating:80, badge:'sale', cat:'rackets' },
+  { name:'Auraspeed 100X',    brand:'Victor',  price:'â‚¹13,200', old:null,      rating:89, badge:null,   cat:'rackets' },
+  { name:'Ziggler Light 68',  brand:'Apacs',   price:'â‚¹4,299',  old:'â‚¹5,500',  rating:76, badge:'sale', cat:'rackets' },
+  { name:'SHB 65Z Court',     brand:'Yonex',   price:'â‚¹5,999',  old:null,      rating:88, badge:'new',  cat:'footwear' },
+  { name:'Power Cushion 65',  brand:'Yonex',   price:'â‚¹3,999',  old:'â‚¹4,999',  rating:84, badge:'sale', cat:'footwear' },
+  { name:'Victor Shoes A960', brand:'Victor',  price:'â‚¹4,499',  old:null,      rating:82, badge:null,   cat:'footwear' },
+  { name:'Blade X Shoes',     brand:'Li-Ning', price:'â‚¹3,299',  old:null,      rating:80, badge:'new',  cat:'footwear' },
+  { name:'Training Tee',      brand:'Yonex',   price:'â‚¹899',    old:null,      rating:78, badge:'new',  cat:'apparel'  },
+  { name:'Sport Shorts',      brand:'Li-Ning', price:'â‚¹699',    old:'â‚¹999',    rating:75, badge:'sale', cat:'apparel'  },
+  { name:'Track Jacket',      brand:'Victor',  price:'â‚¹2,199',  old:null,      rating:80, badge:null,   cat:'apparel'  },
+  { name:'Tournament Polo',   brand:'Yonex',   price:'â‚¹1,299',  old:null,      rating:82, badge:'new',  cat:'apparel'  },
+  { name:'Mavis 600 Shuttle', brand:'Yonex',   price:'â‚¹499',    old:null,      rating:90, badge:'hot',  cat:'accessories' },
+  { name:'BG 80 String Set',  brand:'Yonex',   price:'â‚¹399',    old:null,      rating:88, badge:null,   cat:'accessories' },
+  { name:'Racket Bag 6R',     brand:'Victor',  price:'â‚¹2,999',  old:'â‚¹3,499',  rating:85, badge:'sale', cat:'accessories' },
+  { name:'Overgrip 3-Pack',   brand:'Victor',  price:'â‚¹199',    old:null,      rating:80, badge:null,   cat:'accessories' },
 ];
   const svg = `<img src="racket.png" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px" alt="Product">`;
 let activeFilter = 'all';
-/* ── FIX 2: SEARCH ── */
+/* â”€â”€ FIX 2: SEARCH â”€â”€ */
 function openSearch() {
   document.getElementById('searchOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -251,7 +249,7 @@ function handleSearch(query) {
       </div>
       <div class="search-result-price">${p.price}</div>
     </div>
-  `).join('') + (matches.length > 8 ? `<div style="padding:12px 20px;font-size:12px;color:var(--text-muted);text-align:center;cursor:pointer" onclick="window.location.href='collection.html'">See all ${matches.length} results →</div>` : '');
+  `).join('') + (matches.length > 8 ? `<div style="padding:12px 20px;font-size:12px;color:var(--text-muted);text-align:center;cursor:pointer" onclick="window.location.href='collection.html'">See all ${matches.length} results â†’</div>` : '');
 }
 function hl(text, q) {
   const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');

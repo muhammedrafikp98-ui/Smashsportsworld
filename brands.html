@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,20 +35,24 @@
   .card-price{font-size:13px;font-weight:500;color:var(--text)}
   @media(max-width:768px){.page-wrap{padding:0 16px 60px}.brands-grid{grid-template-columns:repeat(2,1fr);gap:10px}.products-row{grid-template-columns:repeat(2,1fr);gap:1px}.card-actions{opacity:1;transform:translateY(0)}}
 </style>
+
+  <meta name="description" content="India's premier destination for professional badminton equipment. Shop rackets, shuttlecocks, and more from Kerala to the court.">
+  <meta property="og:title" content="Brands — Smash Badminton Store">
+  <meta property="og:description" content="India's premier destination for professional badminton equipment. Shop rackets, shuttlecocks, and more from Kerala to the court.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Smash Badminton">
 </head>
 <body>
 <div class="mobile-nav" id="mobileNav">
   <div class="mobile-nav-header"><span class="mobile-nav-logo">Smash</span><button class="mobile-close" onclick="closeMobileNav()">×</button></div>
   <a class="mobile-link" href="index.html">Home</a>
   <a class="mobile-link" href="category.html">Rackets</a>
-  <a class="mobile-link" href="footwear.html">Footwear</a>
-  <a class="mobile-link" href="apparel.html">Apparel</a>
   <a class="mobile-link" href="accessories.html">Accessories</a>
   <a class="mobile-link" href="brands.html">Brands</a>
 </div>
 <div class="topbar">
-  <div class="topbar-left"><div class="theme-toggle" onclick="toggleTheme()"><span class="mode-icon" id="modeIcon">🌙</span><div class="toggle-track"><div class="toggle-knob"></div></div><span class="toggle-label" id="modeLabel">Dark mode</span></div></div>
-  <div class="topbar-right"><a href="contact.html">Help</a><span class="topbar-sep">|</span><a href="login.html">Log In</a></div>
+  <div class="topbar-left"></div>
+  <div class="topbar-right"><a href="contact.html">Help</a><span class="topbar-sep">|</span><a href="register.html">Sign Up</a><span class="topbar-sep">|</span><a href="login.html">Log In</a></div>
 </div>
 <nav class="navbar">
   <div class="nav-main">
@@ -56,12 +60,22 @@
     <div class="nav-links">
       <a class="nav-link" href="index.html">New &amp; Featured</a>
       <a class="nav-link" href="category.html">Rackets</a>
-      <a class="nav-link" href="footwear.html">Footwear</a>
-      <a class="nav-link" href="apparel.html">Apparel</a>
       <a class="nav-link" href="accessories.html">Accessories</a>
       <a class="nav-link active" href="brands.html">Brands</a>
     </div>
     <div class="nav-right">
+      <a class="nav-store-btn" href="stores.html" title="Our Stores">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9,22 9,12 15,12 15,22"/>
+        </svg>
+        <span>My Store</span>
+      </a>
+      <div class="search-bar" style="cursor:pointer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input class="search-input" type="text" placeholder="Search…" readonly style="cursor:pointer">
+      </div>
+      <button class="icon-btn" title="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21C12 21 3 14 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 13-9 13z"/></svg></button>
       <button class="icon-btn" style="position:relative" onclick="window.location.href='cart.html'">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
         <span class="cart-badge" id="cartBadge">0</span>
@@ -70,7 +84,6 @@
     </div>
   </div>
 </nav>
-<div class="promo-banner"><p>Free delivery on orders above ₹999 · All brands are 100% authentic</p></div>
 <div class="breadcrumb-bar"><div class="breadcrumb-inner"><a href="index.html">Home</a><span>›</span><span style="color:var(--text)">Brands</span></div></div>
 
 <div class="page-wrap">
@@ -139,10 +152,8 @@
       <div>
         <div class="footer-col-title">Shop</div>
         <a class="footer-link" href="category.html">Rackets</a>
-        <a class="footer-link" href="footwear.html">Footwear</a>
         <a class="footer-link" href="accessories.html">Shuttlecocks</a>
         <a class="footer-link" href="accessories.html">Bags</a>
-        <a class="footer-link" href="apparel.html">Apparel</a>
       </div>
       <div>
         <div class="footer-col-title">Support</div>

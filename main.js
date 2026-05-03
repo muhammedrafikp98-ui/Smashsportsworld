@@ -3,29 +3,6 @@
    Include on every page: <script src="js/main.js"></script>
    ============================================================ */
 
-/* ── THEME TOGGLE ── */
-function toggleTheme() {
-  const html = document.documentElement;
-  const isDark = html.getAttribute('data-theme') === 'dark';
-  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-  const icon  = document.getElementById('modeIcon');
-  const label = document.getElementById('modeLabel');
-  if (icon)  icon.textContent  = isDark ? '☀️' : '🌙';
-  if (label) label.textContent = isDark ? 'Light mode' : 'Dark mode';
-  localStorage.setItem('smash-theme', isDark ? 'light' : 'dark');
-}
-
-/* Restore saved theme on load */
-(function () {
-  const saved = localStorage.getItem('smash-theme');
-  if (saved) {
-    document.documentElement.setAttribute('data-theme', saved);
-    const icon  = document.getElementById('modeIcon');
-    const label = document.getElementById('modeLabel');
-    if (icon)  icon.textContent  = saved === 'light' ? '☀️' : '🌙';
-    if (label) label.textContent = saved === 'light' ? 'Light mode' : 'Dark mode';
-  }
-})();
 
 /* ── TOAST ── */
 function showToast(msg) {

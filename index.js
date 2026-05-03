@@ -29,7 +29,7 @@ function renderProducts() {
         <button class="card-wishlist" onclick="event.stopPropagation();wishlistItem('${p.name}')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21C12 21 3 14 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 13-9 13z"/></svg>
         </button>
-        <img src="images/products/racket.png" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px" alt="${p.name}">
+        <img src="racket.png" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px" alt="${p.name}">
         <div class="card-actions">
           <button class="card-add-btn" onclick="event.stopPropagation();addItem('${p.name}')">Add to cart</button>
         </div>
